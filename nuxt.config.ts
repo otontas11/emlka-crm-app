@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  // Modules
+  modules: ['@nuxtjs/tailwindcss'],
+
   // Directory structure
   dir: {
     pages: 'pages',
@@ -20,5 +23,11 @@ export default defineNuxtConfig({
         { name: 'description', content: 'Gayrimenkul yönetiminde yeni nesil çözüm' }
       ]
     }
+  },
+
+  // Tailwind CSS
+  tailwindcss: {
+    cssPath: '~/assets/css/tailwind.css',
+    configPath: 'tailwind.config'
   }
 })
