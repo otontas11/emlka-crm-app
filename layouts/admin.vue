@@ -1,172 +1,104 @@
+<script setup>
+const { user: authUser, logout, isAdmin } = useAuth()
+
+if (process.client && !isAdmin.value) {
+  navigateTo('/danisman')
+}
+
+const navigation = ref([
+  { name: 'Dashboard', icon: '📊', path: '/admin', badge: null },
+  { name: 'Danışmanlar', icon: '👥', path: '/admin/danismanlar', badge: '5' },
+  { name: 'Ofis İşlemleri', icon: '💼', path: '/admin/islemler', badge: null },
+  { name: 'Nöbet Yönetimi', icon: '📅', path: '/admin/nobetler', badge: null },
+  { name: 'Raporlar', icon: '📈', path: '/admin/raporlar', badge: null },
+  { name: 'Finans', icon: '💰', path: '/admin/finans', badge: null },
+])
+
+const user = computed(() => ({
+  name: authUser.value?.name || 'Admin',
+  role: 'Broker & Admin',
+  avatar: authUser.value?.name?.split(' ').map(n => n[0]).join('') || 'A',
+  stats: { danismanlar: 5, aktifIslem: 12, aylikCiro: 450000 }
+}))
+
+const sidebarOpen = ref(true)
+</script>
+
 <template>
-  <div class="admin-layout">
-    <header class="admin-header">
-      <div class="header-content">
-        <h1>Admin Panel</h1>
-        <nav class="admin-nav">
-          <NuxtLink to="/admin">Dashboard</NuxtLink>
-          <NuxtLink to="/admin/properties">Gayrimenkuller</NuxtLink>
-          <NuxtLink to="/admin/users">Kullanıcılar</NuxtLink>
-          <NuxtLink to="/admin/settings">Ayarlar</NuxtLink>
-          <NuxtLink to="/" class="exit-admin">Kullanıcı Paneline Dön</NuxtLink>
-        </nav>
-      </div>
-    </header>
-
-    <div class="admin-container">
-      <aside class="admin-sidebar">
-        <div class="sidebar-content">
-          <h3>Menü</h3>
-          <ul>
-            <li><NuxtLink to="/admin">📊 Dashboard</NuxtLink></li>
-            <li><NuxtLink to="/admin/properties">🏢 Gayrimenkuller</NuxtLink></li>
-            <li><NuxtLink to="/admin/customers">👥 Müşteriler</NuxtLink></li>
-            <li><NuxtLink to="/admin/leads">📋 Potansiyel Müşteriler</NuxtLink></li>
-            <li><NuxtLink to="/admin/users">👤 Kullanıcılar</NuxtLink></li>
-            <li><NuxtLink to="/admin/reports">📈 Raporlar</NuxtLink></li>
-            <li><NuxtLink to="/admin/settings">⚙️ Ayarlar</NuxtLink></li>
-          </ul>
+  <div class="min-h-screen bg-gray-50">
+    <aside class="fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-b from-dark-900 to-dark-800 border-r border-dark-700 transition-transform duration-300" :class="{ '-translate-x-full': !sidebarOpen }">
+      <div class="flex items-center gap-3 px-6 py-5 border-b border-dark-700">
+        <div class="w-10 h-10 bg-gradient-to-br from-warning-500 to-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-lg">E</div>
+        <div>
+          <h1 class="text-lg font-bold text-white">Emlak CRM</h1>
+          <p class="text-xs text-gray-400">Broker Paneli</p>
         </div>
-      </aside>
+      </div>
 
-      <main class="admin-main">
-        <slot />
-      </main>
+      <div class="px-4 py-5 border-b border-dark-700">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 bg-gradient-to-br from-warning-500 to-orange-500 rounded-full flex items-center justify-center text-white font-bold">{{ user.avatar }}</div>
+          <div class="flex-1 min-w-0">
+            <h3 class="font-semibold text-white truncate">{{ user.name }}</h3>
+            <p class="text-xs text-gray-400 truncate">{{ user.role }}</p>
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-2">
+          <div class="text-center p-2 bg-dark-700/50 rounded-lg">
+            <div class="text-lg font-bold text-warning-400">{{ user.stats.danismanlar }}</div>
+            <div class="text-xs text-gray-400">Danışman</div>
+          </div>
+          <div class="text-center p-2 bg-dark-700/50 rounded-lg">
+            <div class="text-lg font-bold text-success-400">{{ user.stats.aktifIslem }}</div>
+            <div class="text-xs text-gray-400">İşlem</div>
+          </div>
+          <div class="text-center p-2 bg-dark-700/50 rounded-lg">
+            <div class="text-lg font-bold text-primary-400">{{ Math.floor(user.stats.aylikCiro / 1000) }}K</div>
+            <div class="text-xs text-gray-400">Ciro</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="p-4 space-y-1 overflow-y-auto h-[calc(100vh-360px)]">
+        <div class="mb-4">
+          <p class="text-xs font-semibold text-gray-500 uppercase mb-2 px-4">Broker Yönetimi</p>
+          <NuxtLink v-for="item in navigation" :key="item.path" :to="item.path" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-dark-700 hover:text-white transition-all duration-200 group" active-class="bg-warning-500/20 text-warning-400 font-medium">
+            <span class="text-xl">{{ item.icon }}</span>
+            <span class="flex-1">{{ item.name }}</span>
+            <span v-if="item.badge" class="badge bg-warning-500/20 text-warning-300">{{ item.badge }}</span>
+          </NuxtLink>
+        </div>
+        <div>
+          <p class="text-xs font-semibold text-gray-500 uppercase mb-2 px-4">Danışman Paneli</p>
+          <NuxtLink to="/danisman" class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:bg-dark-700 hover:text-white transition-all duration-200">
+            <span class="text-xl">🏠</span>
+            <span>Danışman Dashboard</span>
+          </NuxtLink>
+        </div>
+      </nav>
+
+      <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-dark-700 bg-dark-900">
+        <button @click="logout" class="btn btn-ghost w-full justify-start text-danger-400 hover:text-danger-300">
+          <span class="text-xl">🚪</span>
+          <span>Çıkış Yap</span>
+        </button>
+      </div>
+    </aside>
+
+    <div class="lg:pl-72">
+      <header class="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
+        <div class="flex items-center justify-between px-6 py-4">
+          <div class="flex items-center gap-4">
+            <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden btn btn-ghost btn-sm"><span class="text-xl">☰</span></button>
+            <div>
+              <h2 class="text-xl font-bold text-dark-900">Broker Panel</h2>
+              <p class="text-sm text-gray-500">Ofis yönetim sistemi</p>
+            </div>
+          </div>
+          <button class="btn btn-primary btn-sm"><span>+ Yeni İşlem</span></button>
+        </div>
+      </header>
+      <main class="p-6"><slot /></main>
     </div>
-
-    <footer class="admin-footer">
-      <p>&copy; 2025 Emlak CRM - Admin Panel</p>
-    </footer>
   </div>
 </template>
-
-<style scoped>
-.admin-layout {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  background: #f5f5f5;
-}
-
-.admin-header {
-  background: #1a1a2e;
-  color: white;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.header-content h1 {
-  margin: 0 0 1rem 0;
-  font-size: 1.5rem;
-}
-
-.admin-nav {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-}
-
-.admin-nav a {
-  color: #fff;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: background 0.3s;
-}
-
-.admin-nav a:hover,
-.admin-nav a.router-link-active {
-  background: rgba(255,255,255,0.1);
-}
-
-.admin-nav .exit-admin {
-  margin-left: auto;
-  background: #e74c3c;
-}
-
-.admin-nav .exit-admin:hover {
-  background: #c0392b;
-}
-
-.admin-container {
-  display: flex;
-  flex: 1;
-  gap: 1.5rem;
-  padding: 1.5rem;
-}
-
-.admin-sidebar {
-  width: 250px;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  height: fit-content;
-}
-
-.sidebar-content h3 {
-  margin: 0 0 1rem 0;
-  color: #1a1a2e;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 0.5rem;
-}
-
-.sidebar-content ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar-content li {
-  margin: 0.5rem 0;
-}
-
-.sidebar-content a {
-  display: block;
-  padding: 0.75rem 1rem;
-  color: #333;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: all 0.3s;
-}
-
-.sidebar-content a:hover,
-.sidebar-content a.router-link-active {
-  background: #3498db;
-  color: white;
-}
-
-.admin-main {
-  flex: 1;
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.admin-footer {
-  background: #1a1a2e;
-  color: white;
-  text-align: center;
-  padding: 1rem;
-  margin-top: auto;
-}
-
-.admin-footer p {
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  .admin-container {
-    flex-direction: column;
-  }
-
-  .admin-sidebar {
-    width: 100%;
-  }
-
-  .admin-nav {
-    flex-direction: column;
-  }
-}
-</style>

@@ -1,169 +1,119 @@
 <script setup>
 definePageMeta({
-  layout: 'default'
+  layout: false,
+  middleware: 'guest'
 })
+
+const email = ref('')
+const password = ref('')
+const loading = ref(false)
+const error = ref('')
+
+const users = {
+  'admin@emlakcrm.com': { password: 'admin123', role: 'admin', name: 'Ahmet Yılmaz' },
+  'danisman@emlakcrm.com': { password: 'danisman123', role: 'danisman', name: 'Mehmet Demir' }
+}
+
+const handleLogin = async () => {
+  error.value = ''
+  loading.value = true
+
+  try {
+    if (!email.value || !password.value) {
+      error.value = 'Email ve şifre gerekli'
+      loading.value = false
+      return
+    }
+
+    const user = users[email.value.toLowerCase()]
+    if (!user || user.password !== password.value) {
+      error.value = 'Hatalı email veya şifre'
+      loading.value = false
+      return
+    }
+
+    localStorage.setItem('auth', JSON.stringify({ email: email.value, name: user.name, role: user.role }))
+    await navigateTo('/danisman')
+  } catch (err) {
+    error.value = 'Bir hata oluştu'
+    loading.value = false
+  }
+}
+
+const showDemo = ref(false)
 </script>
 
 <template>
-  <div class="home-page">
-    <section class="hero">
-      <h1>Emlak CRM'e Hoş Geldiniz</h1>
-      <p class="subtitle">Gayrimenkul yönetiminde yeni nesil çözüm</p>
-      <div class="cta-buttons">
-        <NuxtLink to="/app/properties" class="btn btn-primary">Gayrimenkulleri İncele</NuxtLink>
-        <NuxtLink to="/admin" class="btn btn-secondary">Admin Panel</NuxtLink>
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-600 via-secondary-600 to-purple-700 p-6">
+    <div class="absolute inset-0 bg-pattern opacity-10"></div>
+    <div class="relative w-full max-w-md">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-3xl shadow-hard mb-4">
+          <div class="w-16 h-16 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-2xl flex items-center justify-center text-white font-bold text-3xl">E</div>
+        </div>
+        <h1 class="text-4xl font-display font-bold text-white mb-2">Emlak CRM</h1>
+        <p class="text-lg text-primary-100">Gayrimenkul Yönetim Sistemi</p>
       </div>
-    </section>
 
-    <section class="features">
-      <h2>Özellikler</h2>
-      <div class="feature-grid">
-        <div class="feature-card">
-          <div class="icon">🏢</div>
-          <h3>Gayrimenkul Yönetimi</h3>
-          <p>Tüm gayrimenkullerinizi tek platformda yönetin</p>
+      <div class="card bg-white shadow-hard">
+        <h2 class="text-2xl font-bold text-dark-900 mb-6 text-center">Giriş Yapın</h2>
+
+        <div v-if="error" class="mb-4 p-4 bg-danger-50 border border-danger-200 rounded-lg">
+          <p class="text-sm text-danger-700 flex items-center gap-2">
+            <span>⚠️</span><span>{{ error }}</span>
+          </p>
         </div>
-        <div class="feature-card">
-          <div class="icon">👥</div>
-          <h3>Müşteri Takibi</h3>
-          <p>Müşteri ilişkilerinizi güçlendirin</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">📊</div>
-          <h3>Detaylı Raporlar</h3>
-          <p>İş süreçlerinizi analiz edin</p>
-        </div>
-        <div class="feature-card">
-          <div class="icon">📱</div>
-          <h3>Mobil Uyumlu</h3>
-          <p>Her yerden erişim sağlayın</p>
+
+        <form @submit.prevent="handleLogin" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Email Adresi</label>
+            <input v-model="email" type="email" placeholder="ornek@emlakcrm.com" class="input" required />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Şifre</label>
+            <input v-model="password" type="password" placeholder="••••••••" class="input" required />
+          </div>
+
+          <button type="submit" :disabled="loading" class="btn btn-primary w-full btn-lg">
+            <span v-if="!loading">🚀</span><span v-else>⏳</span>
+            <span>{{ loading ? 'Giriş Yapılıyor...' : 'Giriş Yap' }}</span>
+          </button>
+        </form>
+
+        <div class="mt-6 pt-6 border-t border-gray-200">
+          <button @click="showDemo = !showDemo" class="btn btn-ghost btn-sm w-full">
+            <span>ℹ️</span>
+            <span>{{ showDemo ? 'Demo Bilgilerini Gizle' : 'Demo Bilgilerini Göster' }}</span>
+          </button>
+
+          <div v-if="showDemo" class="mt-4 space-y-3">
+            <div class="p-4 bg-gradient-to-br from-primary-50 to-secondary-50 rounded-lg border border-primary-200">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xl">👨‍💼</span>
+                <h4 class="font-semibold text-dark-900">Admin & Danışman</h4>
+              </div>
+              <div class="text-sm space-y-1 text-gray-700">
+                <p><strong>Email:</strong> admin@emlakcrm.com</p>
+                <p><strong>Şifre:</strong> admin123</p>
+                <p class="text-xs text-gray-600 mt-2">✅ Hem danışman hem admin sayfalarına erişebilir</p>
+              </div>
+            </div>
+
+            <div class="p-4 bg-gradient-to-br from-success-50 to-teal-50 rounded-lg border border-success-200">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xl">👤</span>
+                <h4 class="font-semibold text-dark-900">Sadece Danışman</h4>
+              </div>
+              <div class="text-sm space-y-1 text-gray-700">
+                <p><strong>Email:</strong> danisman@emlakcrm.com</p>
+                <p><strong>Şifre:</strong> danisman123</p>
+                <p class="text-xs text-gray-600 mt-2">✅ Sadece danışman sayfalarına erişebilir</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
   </div>
 </template>
-
-<style scoped>
-.home-page {
-  width: 100%;
-}
-
-.hero {
-  text-align: center;
-  padding: 4rem 2rem;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
-  border-radius: 12px;
-  margin-bottom: 3rem;
-}
-
-.hero h1 {
-  font-size: 3rem;
-  margin: 0 0 1rem 0;
-  color: #2c3e50;
-  font-weight: 700;
-}
-
-.subtitle {
-  font-size: 1.3rem;
-  color: #7f8c8d;
-  margin: 0 0 2rem 0;
-}
-
-.cta-buttons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.btn {
-  padding: 1rem 2rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s;
-  display: inline-block;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-}
-
-.btn-secondary {
-  background: white;
-  color: #667eea;
-  border: 2px solid #667eea;
-}
-
-.btn-secondary:hover {
-  background: #667eea;
-  color: white;
-  transform: translateY(-2px);
-}
-
-.features {
-  padding: 2rem 0;
-}
-
-.features h2 {
-  text-align: center;
-  font-size: 2.5rem;
-  margin: 0 0 3rem 0;
-  color: #2c3e50;
-}
-
-.feature-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-}
-
-.feature-card {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.feature-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-}
-
-.icon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
-
-.feature-card h3 {
-  color: #2c3e50;
-  margin: 0 0 0.5rem 0;
-}
-
-.feature-card p {
-  color: #7f8c8d;
-  margin: 0;
-}
-
-@media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2rem;
-  }
-
-  .subtitle {
-    font-size: 1.1rem;
-  }
-
-  .features h2 {
-    font-size: 2rem;
-  }
-}
-</style>

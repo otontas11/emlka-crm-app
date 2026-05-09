@@ -1,250 +1,72 @@
 <script setup>
-definePageMeta({
-  layout: 'admin'
-})
+definePageMeta({ layout: 'admin', middleware: 'auth' })
 
 const stats = ref([
-  { title: 'Toplam Gayrimenkul', value: '234', icon: '🏢', color: '#3498db' },
-  { title: 'Aktif Müşteri', value: '156', icon: '👥', color: '#2ecc71' },
-  { title: 'Bekleyen Lead', value: '42', icon: '📋', color: '#f39c12' },
-  { title: 'Aylık Satış', value: '12', icon: '💰', color: '#e74c3c' }
+  { title: 'Toplam Danışman', value: '5', subtitle: '2 yeni', icon: '👥', color: 'from-blue-500 to-blue-600' },
+  { title: 'Aktif İşlem', value: '12', subtitle: '3 bu hafta', icon: '💼', color: 'from-purple-500 to-purple-600' },
+  { title: 'Aylık Ciro', value: '450K', subtitle: '+15% artış', icon: '💰', color: 'from-success-500 to-success-600' },
+  { title: 'Toplam Portföy', value: '48', subtitle: '32 aktif', icon: '🏢', color: 'from-orange-500 to-orange-600' },
 ])
 
-const recentActivities = ref([
-  { action: 'Yeni gayrimenkul eklendi', time: '5 dakika önce', type: 'property' },
-  { action: 'Müşteri bilgileri güncellendi', time: '15 dakika önce', type: 'customer' },
-  { action: 'Yeni lead kaydedildi', time: '1 saat önce', type: 'lead' },
-  { action: 'Satış tamamlandı', time: '2 saat önce', type: 'sale' }
+const danismanlar = ref([
+  { id: 1, name: 'Ahmet Yılmaz', avatar: 'AY', satis: 3, kiralama: 5, ciro: 125000, hedef: 80 },
+  { id: 2, name: 'Mehmet Demir', avatar: 'MD', satis: 2, kiralama: 4, ciro: 98000, hedef: 65 },
+  { id: 3, name: 'Ayşe Kaya', avatar: 'AK', satis: 4, kiralama: 3, ciro: 156000, hedef: 95 },
 ])
+
+const formatPrice = (price) => new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 0 }).format(price)
 </script>
 
 <template>
-  <div class="dashboard">
-    <div class="dashboard-header">
-      <h1>Dashboard</h1>
-      <p>Genel Bakış ve İstatistikler</p>
-    </div>
-
-    <div class="stats-grid">
-      <div
-        v-for="(stat, index) in stats"
-        :key="index"
-        class="stat-card"
-        :style="{ borderLeft: `4px solid ${stat.color}` }"
-      >
-        <div class="stat-icon">{{ stat.icon }}</div>
-        <div class="stat-content">
-          <h3>{{ stat.value }}</h3>
-          <p>{{ stat.title }}</p>
-        </div>
+  <div class="space-y-6">
+    <div class="card bg-gradient-to-br from-warning-500 to-orange-600 text-white">
+      <h1 class="text-3xl font-bold mb-2">Broker Dashboard</h1>
+      <p class="mb-6">Ofis performansı ve danışman takibi</p>
+      <div class="flex gap-3">
+        <button class="btn bg-white text-warning-600">📊 Detaylı Rapor</button>
+        <button class="btn bg-white/20 text-white">➕ Yeni Danışman</button>
       </div>
     </div>
 
-    <div class="dashboard-content">
-      <div class="activity-section">
-        <h2>Son Aktiviteler</h2>
-        <div class="activity-list">
-          <div
-            v-for="(activity, index) in recentActivities"
-            :key="index"
-            class="activity-item"
-          >
-            <div class="activity-dot"></div>
-            <div class="activity-details">
-              <p class="activity-action">{{ activity.action }}</p>
-              <p class="activity-time">{{ activity.time }}</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div v-for="stat in stats" :key="stat.title" class="stat-card" :class="stat.color">
+        <div class="flex items-start justify-between mb-4">
+          <div class="text-4xl">{{ stat.icon }}</div>
+          <span class="badge bg-white/20 text-white text-xs">{{ stat.subtitle }}</span>
+        </div>
+        <div class="text-4xl font-bold mb-1">{{ stat.value }}</div>
+        <div class="text-sm opacity-90">{{ stat.title }}</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="text-xl font-bold mb-6">Danışman Performansı</h3>
+      <div class="space-y-4">
+        <div v-for="d in danismanlar" :key="d.id" class="p-4 bg-gray-50 rounded-lg">
+          <div class="flex items-center justify-between mb-3">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">{{ d.avatar }}</div>
+              <div>
+                <h4 class="font-semibold">{{ d.name }}</h4>
+                <p class="text-sm text-gray-600">{{ d.satis }} satış, {{ d.kiralama }} kiralama</p>
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-lg font-bold text-primary-600">{{ formatPrice(d.ciro) }}</div>
+              <div class="text-xs text-gray-500">Ciro</div>
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="quick-actions">
-        <h2>Hızlı İşlemler</h2>
-        <div class="action-buttons">
-          <NuxtLink to="/admin/properties/new" class="action-btn">
-            <span class="action-icon">➕</span>
-            <span>Yeni Gayrimenkul</span>
-          </NuxtLink>
-          <NuxtLink to="/admin/customers/new" class="action-btn">
-            <span class="action-icon">👤</span>
-            <span>Yeni Müşteri</span>
-          </NuxtLink>
-          <NuxtLink to="/admin/leads/new" class="action-btn">
-            <span class="action-icon">📝</span>
-            <span>Yeni Lead</span>
-          </NuxtLink>
-          <NuxtLink to="/admin/reports" class="action-btn">
-            <span class="action-icon">📊</span>
-            <span>Raporlar</span>
-          </NuxtLink>
+          <div class="space-y-1">
+            <div class="flex justify-between text-sm">
+              <span>Hedef</span>
+              <span class="font-semibold" :class="d.hedef >= 80 ? 'text-success-600' : 'text-warning-600'">%{{ d.hedef }}</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="h-2 rounded-full bg-gradient-to-r from-success-500 to-success-600" :style="{ width: `${d.hedef}%` }"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.dashboard {
-  width: 100%;
-}
-
-.dashboard-header {
-  margin-bottom: 2rem;
-}
-
-.dashboard-header h1 {
-  margin: 0 0 0.5rem 0;
-  color: #2c3e50;
-  font-size: 2rem;
-}
-
-.dashboard-header p {
-  margin: 0;
-  color: #7f8c8d;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.stat-card {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  transition: transform 0.3s;
-}
-
-.stat-card:hover {
-  transform: translateY(-3px);
-}
-
-.stat-icon {
-  font-size: 2.5rem;
-}
-
-.stat-content h3 {
-  margin: 0;
-  font-size: 2rem;
-  color: #2c3e50;
-}
-
-.stat-content p {
-  margin: 0.25rem 0 0 0;
-  color: #7f8c8d;
-  font-size: 0.9rem;
-}
-
-.dashboard-content {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 1.5rem;
-}
-
-.activity-section,
-.quick-actions {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.activity-section h2,
-.quick-actions h2 {
-  margin: 0 0 1.5rem 0;
-  color: #2c3e50;
-  font-size: 1.3rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #3498db;
-}
-
-.activity-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.activity-item {
-  display: flex;
-  gap: 1rem;
-  padding: 0.75rem;
-  border-radius: 6px;
-  transition: background 0.3s;
-}
-
-.activity-item:hover {
-  background: #f8f9fa;
-}
-
-.activity-dot {
-  width: 10px;
-  height: 10px;
-  background: #3498db;
-  border-radius: 50%;
-  margin-top: 0.4rem;
-  flex-shrink: 0;
-}
-
-.activity-details {
-  flex: 1;
-}
-
-.activity-action {
-  margin: 0 0 0.25rem 0;
-  color: #2c3e50;
-  font-weight: 500;
-}
-
-.activity-time {
-  margin: 0;
-  color: #95a5a6;
-  font-size: 0.85rem;
-}
-
-.action-buttons {
-  display: grid;
-  gap: 1rem;
-}
-
-.action-btn {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
-  background: #f8f9fa;
-  border: 2px solid transparent;
-  border-radius: 6px;
-  text-decoration: none;
-  color: #2c3e50;
-  font-weight: 500;
-  transition: all 0.3s;
-}
-
-.action-btn:hover {
-  background: white;
-  border-color: #3498db;
-  transform: translateX(5px);
-}
-
-.action-icon {
-  font-size: 1.5rem;
-}
-
-@media (max-width: 968px) {
-  .dashboard-content {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 768px) {
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-}
-</style>

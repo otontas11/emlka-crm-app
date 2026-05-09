@@ -1,16 +1,28 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  // Admin route'larını koruma
-  if (to.path.startsWith('/admin')) {
-    // TODO: Gerçek auth kontrolü eklenecek
-    const isAuthenticated = true // Simdilik bypass
-    const isAdmin = true // Simdilik bypass
+  if (process.client) {
+    const authData = localStorage.getItem('auth')
 
-    if (!isAuthenticated) {
-      return navigateTo('/login')
+    if (!authData) {
+      // Giriş yapmamış, ana sayfaya yönlendir
+      return navigateTo('/')
     }
 
-    if (!isAdmin) {
-      return navigateTo('/')
+    const user = JSON.parse(authData)
+
+    // Admin route'ları - sadece admin erişebilir
+    if (to.path.startsWith('/admin')) {
+      if (user.role !== 'admin') {
+        // Admin değilse danışman sayfasına yönlendir
+        return navigateTo('/danisman')
+      }
+    }
+
+    // Danışman route'ları - hem admin hem danışman erişebilir
+    if (to.path.startsWith('/danisman')) {
+      if (user.role !== 'admin' && user.role !== 'danisman') {
+        // Ne admin ne danışman ise ana sayfaya yönlendir
+        return navigateTo('/')
+      }
     }
   }
 })

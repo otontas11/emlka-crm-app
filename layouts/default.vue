@@ -1,190 +1,128 @@
 <template>
-  <div class="user-layout">
-    <header class="user-header">
-      <div class="header-content">
-        <div class="logo">
-          <h1>Emlak CRM</h1>
+  <div class="min-h-screen flex flex-col bg-gray-50">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="flex items-center justify-between h-16">
+          <!-- Logo -->
+          <NuxtLink to="/" class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
+              E
+            </div>
+            <span class="text-xl font-display font-bold text-dark-900">Emlak CRM</span>
+          </NuxtLink>
+
+          <!-- Navigation -->
+          <nav class="hidden md:flex items-center gap-1">
+            <NuxtLink to="/" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary-600 transition-all duration-200 font-medium" active-class="bg-primary-100 text-primary-700">
+              Ana Sayfa
+            </NuxtLink>
+            <NuxtLink to="/app/properties" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary-600 transition-all duration-200 font-medium" active-class="bg-primary-100 text-primary-700">
+              Gayrimenkuller
+            </NuxtLink>
+            <NuxtLink to="/hakkimizda" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary-600 transition-all duration-200 font-medium" active-class="bg-primary-100 text-primary-700">
+              Hakkımızda
+            </NuxtLink>
+            <NuxtLink to="/iletisim" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary-600 transition-all duration-200 font-medium" active-class="bg-primary-100 text-primary-700">
+              İletişim
+            </NuxtLink>
+          </nav>
+
+          <!-- CTA -->
+          <div class="flex items-center gap-3">
+            <NuxtLink to="/danisman" class="btn btn-outline btn-sm">
+              Danışman Girişi
+            </NuxtLink>
+            <NuxtLink to="/admin" class="btn btn-primary btn-sm">
+              Broker Girişi
+            </NuxtLink>
+          </div>
         </div>
-        <nav class="user-nav">
-          <NuxtLink to="/">Ana Sayfa</NuxtLink>
-          <NuxtLink to="/app/properties">Gayrimenkuller</NuxtLink>
-          <NuxtLink to="/app/favorites">Favorilerim</NuxtLink>
-          <NuxtLink to="/app/profile">Profilim</NuxtLink>
-          <NuxtLink to="/admin" class="admin-link">Admin Panel</NuxtLink>
-        </nav>
       </div>
     </header>
 
-    <main class="user-main">
+    <!-- Main Content -->
+    <main class="flex-1">
       <slot />
     </main>
 
-    <footer class="user-footer">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>Hakkımızda</h3>
-          <p>Emlak CRM ile gayrimenkul yönetimini kolaylaştırın.</p>
+    <!-- Footer -->
+    <footer class="bg-dark-900 text-white mt-auto">
+      <div class="max-w-7xl mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+          <!-- Brand -->
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
+                E
+              </div>
+              <span class="text-xl font-display font-bold">Emlak CRM</span>
+            </div>
+            <p class="text-gray-400 text-sm">
+              Gayrimenkul sektöründe çalışan danışmanlar ve ofisler için profesyonel CRM sistemi.
+            </p>
+          </div>
+
+          <!-- Quick Links -->
+          <div>
+            <h3 class="font-bold text-lg mb-4">Hızlı Linkler</h3>
+            <ul class="space-y-2">
+              <li><NuxtLink to="/" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">Ana Sayfa</NuxtLink></li>
+              <li><NuxtLink to="/app/properties" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">Gayrimenkuller</NuxtLink></li>
+              <li><NuxtLink to="/hakkimizda" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">Hakkımızda</NuxtLink></li>
+              <li><NuxtLink to="/iletisim" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">İletişim</NuxtLink></li>
+            </ul>
+          </div>
+
+          <!-- Services -->
+          <div>
+            <h3 class="font-bold text-lg mb-4">Hizmetler</h3>
+            <ul class="space-y-2 text-gray-400 text-sm">
+              <li>Müşteri Yönetimi</li>
+              <li>Portföy Takibi</li>
+              <li>Hatırlatma Sistemi</li>
+              <li>Ofis Yönetimi</li>
+            </ul>
+          </div>
+
+          <!-- Contact -->
+          <div>
+            <h3 class="font-bold text-lg mb-4">İletişim</h3>
+            <ul class="space-y-3 text-gray-400 text-sm">
+              <li class="flex items-center gap-2">
+                <span>📧</span>
+                <span>info@emlakcrm.com</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span>📱</span>
+                <span>+90 (212) 123 45 67</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span>📍</span>
+                <span>İstanbul, Türkiye</span>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="footer-section">
-          <h3>İletişim</h3>
-          <p>Email: info@emlakcrm.com</p>
-          <p>Tel: +90 (212) 123 45 67</p>
+
+        <!-- Bottom -->
+        <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p class="text-gray-400 text-sm">
+            &copy; 2025 Emlak CRM. Tüm hakları saklıdır.
+          </p>
+          <div class="flex items-center gap-4">
+            <a href="#" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">
+              <span class="text-xl">📘</span>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">
+              <span class="text-xl">📷</span>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">
+              <span class="text-xl">💼</span>
+            </a>
+          </div>
         </div>
-        <div class="footer-section">
-          <h3>Hızlı Linkler</h3>
-          <ul>
-            <li><NuxtLink to="/">Ana Sayfa</NuxtLink></li>
-            <li><NuxtLink to="/app/properties">Gayrimenkuller</NuxtLink></li>
-            <li><NuxtLink to="/app/contact">İletişim</NuxtLink></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2025 Emlak CRM. Tüm hakları saklıdır.</p>
       </div>
     </footer>
   </div>
 </template>
-
-<style scoped>
-.user-layout {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.user-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 1rem 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.header-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo h1 {
-  margin: 0;
-  font-size: 1.8rem;
-  font-weight: 700;
-}
-
-.user-nav {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-}
-
-.user-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  transition: all 0.3s;
-}
-
-.user-nav a:hover,
-.user-nav a.router-link-active {
-  background: rgba(255,255,255,0.2);
-}
-
-.user-nav .admin-link {
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.3);
-}
-
-.user-nav .admin-link:hover {
-  background: rgba(255,255,255,0.25);
-}
-
-.user-main {
-  flex: 1;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.user-footer {
-  background: #2c3e50;
-  color: white;
-  margin-top: auto;
-}
-
-.footer-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3rem 2rem;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-}
-
-.footer-section h3 {
-  margin: 0 0 1rem 0;
-  color: #3498db;
-}
-
-.footer-section p {
-  margin: 0.5rem 0;
-  color: #ecf0f1;
-}
-
-.footer-section ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-section li {
-  margin: 0.5rem 0;
-}
-
-.footer-section a {
-  color: #ecf0f1;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.footer-section a:hover {
-  color: #3498db;
-}
-
-.footer-bottom {
-  background: #1a252f;
-  text-align: center;
-  padding: 1rem;
-}
-
-.footer-bottom p {
-  margin: 0;
-  color: #95a5a6;
-}
-
-@media (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .user-nav {
-    flex-wrap: wrap;
-    gap: 1rem;
-    justify-content: center;
-  }
-
-  .footer-content {
-    grid-template-columns: 1fr;
-  }
-}
-</style>

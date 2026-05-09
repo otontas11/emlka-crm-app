@@ -1,6 +1,7 @@
 <script setup>
 definePageMeta({
-  layout: 'danisman'
+  layout: 'danisman',
+  middleware: 'auth'
 })
 
 // Mock Data

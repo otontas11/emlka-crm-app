@@ -1,4 +1,6 @@
 <script setup>
+const { user: authUser, logout, isAdmin } = useAuth()
+
 const navigation = ref([
   { name: 'Dashboard', icon: '📊', path: '/danisman', badge: null },
   { name: 'Müşteriler', icon: '👥', path: '/danisman/musteriler', badge: '12' },
@@ -9,18 +11,24 @@ const navigation = ref([
   { name: 'Hedefler', icon: '🎯', path: '/danisman/hedefler', badge: null },
 ])
 
-const user = ref({
-  name: 'Ahmet Yılmaz',
-  role: 'Gayrimenkul Danışmanı',
-  avatar: 'AY',
-  stats: {
-    aktifMusteri: 24,
-    aktifPortfoy: 18,
-    aylikHedef: 75,
+const user = computed(() => {
+  return {
+    name: authUser.value?.name || 'Kullanıcı',
+    role: authUser.value?.role === 'admin' ? 'Admin & Danışman' : 'Gayrimenkul Danışmanı',
+    avatar: authUser.value?.name?.split(' ').map(n => n[0]).join('') || 'U',
+    stats: {
+      aktifMusteri: 24,
+      aktifPortfoy: 18,
+      aylikHedef: 75,
+    }
   }
 })
 
 const sidebarOpen = ref(true)
+
+const handleLogout = () => {
+  logout()
+}
 </script>
 
 <template>
@@ -90,12 +98,12 @@ const sidebarOpen = ref(true)
       </nav>
 
       <!-- Bottom Actions -->
-      <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white">
-        <button class="btn btn-ghost w-full justify-start">
-          <span class="text-xl">⚙️</span>
-          <span>Ayarlar</span>
-        </button>
-        <button class="btn btn-ghost w-full justify-start text-danger-600">
+      <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white space-y-1">
+        <NuxtLink v-if="isAdmin" to="/admin" class="btn btn-outline w-full justify-start border-warning-300 text-warning-600 hover:bg-warning-50">
+          <span class="text-xl">👑</span>
+          <span>Broker Paneli</span>
+        </NuxtLink>
+        <button @click="handleLogout" class="btn btn-ghost w-full justify-start text-danger-600">
           <span class="text-xl">🚪</span>
           <span>Çıkış Yap</span>
         </button>
