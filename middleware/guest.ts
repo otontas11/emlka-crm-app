@@ -1,12 +1,12 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  // Eğer giriş yapmışsa, rolüne göre dashboard'a yönlendir
+  // Eğer giriş yapmışsa, yetkisine göre dashboard'a yönlendir
   const authCookie = useCookie('auth')
 
   if (authCookie.value) {
     const user = authCookie.value
-    if (user.role === 'admin') {
+    if (user.is_company_admin) {
       return navigateTo('/admin')
-    } else {
+    } else if (user.is_consultant) {
       return navigateTo('/danisman')
     }
   }

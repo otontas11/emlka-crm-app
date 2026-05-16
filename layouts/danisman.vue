@@ -1,25 +1,22 @@
 <script setup>
-const { user: authUser, logout, isAdmin } = useAuth()
+const { user: authUser, logout, isCompanyAdmin } = useAuth()
 
 const navigation = ref([
   { name: 'Dashboard', icon: '📊', path: '/danisman', badge: null },
   { name: 'Müşteriler', icon: '👥', path: '/danisman/musteriler', badge: '12' },
-  { name: 'Portföyler', icon: '🏢', path: '/danisman/portfoyler', badge: '8' },
   { name: 'Görevler', icon: '✅', path: '/danisman/gorevler', badge: '5' },
-  { name: 'Hatırlatmalar', icon: '🔔', path: '/danisman/hatirlatmalar', badge: '3' },
-  { name: 'Belgeler', icon: '📄', path: '/danisman/belgeler', badge: null },
-  { name: 'Hedefler', icon: '🎯', path: '/danisman/hedefler', badge: null },
+  { name: 'Raporlar', icon: '📈', path: '/danisman/raporlar', badge: null },
 ])
 
 const user = computed(() => {
   return {
     name: authUser.value?.name || 'Kullanıcı',
-    role: authUser.value?.role === 'admin' ? 'Admin & Danışman' : 'Gayrimenkul Danışmanı',
+    role: authUser.value?.is_company_admin ? 'Broker & Danışman' : 'Gayrimenkul Danışmanı',
     avatar: authUser.value?.name?.split(' ').map(n => n[0]).join('') || 'U',
     stats: {
-      aktifMusteri: 24,
-      aktifPortfoy: 18,
-      aylikHedef: 75,
+      bugunAranacak: 12,
+      gecikenArama: 5,
+      bekleyenGorev: 8,
     }
   }
 })
@@ -63,16 +60,16 @@ const handleLogout = () => {
         <!-- Quick Stats -->
         <div class="grid grid-cols-3 gap-2">
           <div class="text-center p-2 bg-gray-50 rounded-lg">
-            <div class="text-lg font-bold text-primary-600">{{ user.stats.aktifMusteri }}</div>
-            <div class="text-xs text-gray-600">Müşteri</div>
+            <div class="text-lg font-bold text-primary-600">{{ user.stats.bugunAranacak }}</div>
+            <div class="text-xs text-gray-600">Bugün</div>
           </div>
           <div class="text-center p-2 bg-gray-50 rounded-lg">
-            <div class="text-lg font-bold text-success-600">{{ user.stats.aktifPortfoy }}</div>
-            <div class="text-xs text-gray-600">Portföy</div>
+            <div class="text-lg font-bold text-danger-600">{{ user.stats.gecikenArama }}</div>
+            <div class="text-xs text-gray-600">Geciken</div>
           </div>
           <div class="text-center p-2 bg-gray-50 rounded-lg">
-            <div class="text-lg font-bold text-warning-600">{{ user.stats.aylikHedef }}%</div>
-            <div class="text-xs text-gray-600">Hedef</div>
+            <div class="text-lg font-bold text-warning-600">{{ user.stats.bekleyenGorev }}</div>
+            <div class="text-xs text-gray-600">Görev</div>
           </div>
         </div>
       </div>
@@ -99,7 +96,7 @@ const handleLogout = () => {
 
       <!-- Bottom Actions -->
       <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200 bg-white space-y-1">
-        <NuxtLink v-if="isAdmin" to="/admin" class="btn btn-outline w-full justify-start border-warning-300 text-warning-600 hover:bg-warning-50">
+        <NuxtLink v-if="isCompanyAdmin" to="/admin" class="btn btn-outline w-full justify-start border-warning-300 text-warning-600 hover:bg-warning-50">
           <span class="text-xl">👑</span>
           <span>Broker Paneli</span>
         </NuxtLink>

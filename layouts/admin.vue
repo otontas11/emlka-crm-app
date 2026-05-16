@@ -1,24 +1,21 @@
 <script setup>
-const { user: authUser, logout, isAdmin } = useAuth()
+const { user: authUser, logout, isCompanyAdmin } = useAuth()
 
-if (!isAdmin.value) {
+if (!isCompanyAdmin.value) {
   navigateTo('/danisman')
 }
 
 const navigation = ref([
   { name: 'Dashboard', icon: '📊', path: '/admin', badge: null },
   { name: 'Danışmanlar', icon: '👥', path: '/admin/danismanlar', badge: '5' },
-  { name: 'Ofis İşlemleri', icon: '💼', path: '/admin/islemler', badge: null },
-  { name: 'Nöbet Yönetimi', icon: '📅', path: '/admin/nobetler', badge: null },
-  { name: 'Raporlar', icon: '📈', path: '/admin/raporlar', badge: null },
-  { name: 'Finans', icon: '💰', path: '/admin/finans', badge: null },
+  { name: 'Şirket Ayarları', icon: '⚙️', path: '/admin/ayarlar', badge: null },
 ])
 
 const user = computed(() => ({
   name: authUser.value?.name || 'Admin',
-  role: 'Broker & Admin',
+  role: authUser.value?.is_consultant ? 'Broker & Danışman' : 'Broker',
   avatar: authUser.value?.name?.split(' ').map(n => n[0]).join('') || 'A',
-  stats: { danismanlar: 5, aktifIslem: 12, aylikCiro: 450000 }
+  stats: { danismanlar: 5, bugunAranacak: 12, gecikenArama: 5 }
 }))
 
 const sidebarOpen = ref(true)
@@ -49,12 +46,12 @@ const sidebarOpen = ref(true)
             <div class="text-xs text-gray-400">Danışman</div>
           </div>
           <div class="text-center p-2 bg-dark-700/50 rounded-lg">
-            <div class="text-lg font-bold text-success-400">{{ user.stats.aktifIslem }}</div>
-            <div class="text-xs text-gray-400">İşlem</div>
+            <div class="text-lg font-bold text-primary-400">{{ user.stats.bugunAranacak }}</div>
+            <div class="text-xs text-gray-400">Bugün</div>
           </div>
           <div class="text-center p-2 bg-dark-700/50 rounded-lg">
-            <div class="text-lg font-bold text-primary-400">{{ Math.floor(user.stats.aylikCiro / 1000) }}K</div>
-            <div class="text-xs text-gray-400">Ciro</div>
+            <div class="text-lg font-bold text-danger-400">{{ user.stats.gecikenArama }}</div>
+            <div class="text-xs text-gray-400">Geciken</div>
           </div>
         </div>
       </div>

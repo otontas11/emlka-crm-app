@@ -2,24 +2,21 @@ export default defineNuxtRouteMiddleware((to, from) => {
   const authCookie = useCookie('auth')
 
   if (!authCookie.value) {
-    // Giriş yapmamış, ana sayfaya yönlendir
     return navigateTo('/')
   }
 
   const user = authCookie.value
 
-  // Admin route'ları - sadece admin erişebilir
+  // Admin/Broker route'ları - sadece company admin erişebilir
   if (to.path.startsWith('/admin')) {
-    if (user.role !== 'admin') {
-      // Admin değilse danışman sayfasına yönlendir
+    if (!user.is_company_admin) {
       return navigateTo('/danisman')
     }
   }
 
-  // Danışman route'ları - hem admin hem danışman erişebilir
+  // Danışman route'ları - consultant yetkisi olanlar erişebilir
   if (to.path.startsWith('/danisman')) {
-    if (user.role !== 'admin' && user.role !== 'danisman') {
-      // Ne admin ne danışman ise ana sayfaya yönlendir
+    if (!user.is_consultant) {
       return navigateTo('/')
     }
   }

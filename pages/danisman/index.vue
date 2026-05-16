@@ -146,48 +146,6 @@
           </div>
         </div>
 
-        <!-- Aktif İşlemler -->
-        <div class="card slide-up" style="animation-delay: 0.2s">
-          <div class="flex items-center justify-between mb-6">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 bg-success-100 rounded-lg flex items-center justify-center">
-                <span class="text-xl">💼</span>
-              </div>
-              <div>
-                <h3 class="text-lg font-bold text-dark-900">Aktif İşlemler</h3>
-                <p class="text-sm text-gray-500">Devam eden satış süreçleri</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="space-y-4">
-            <div
-              v-for="islem in aktifIslemler"
-              :key="islem.id"
-              class="p-4 bg-gray-50 rounded-lg hover:shadow-md transition-all duration-200"
-            >
-              <div class="flex items-center justify-between mb-3">
-                <div>
-                  <h4 class="font-semibold text-dark-900">{{ islem.title }}</h4>
-                  <p class="text-sm text-gray-600">{{ islem.customer }}</p>
-                </div>
-                <span class="badge badge-success">{{ islem.stage }}</span>
-              </div>
-              <div class="space-y-2">
-                <div class="flex items-center justify-between text-sm">
-                  <span class="text-gray-600">İlerleme</span>
-                  <span class="font-semibold text-primary-600">%{{ islem.progress }}</span>
-                </div>
-                <div class="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    class="bg-gradient-to-r from-success-500 to-primary-500 h-2 rounded-full transition-all duration-500"
-                    :style="{ width: `${islem.progress}%` }"
-                  ></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <!-- Right Column -->
@@ -258,48 +216,6 @@
           </div>
         </div>
 
-        <!-- Aylık Hedef -->
-        <div class="card slide-up bg-gradient-to-br from-success-500 to-primary-500 text-white" style="animation-delay: 0.25s">
-          <div class="flex items-center gap-3 mb-6">
-            <span class="text-2xl">🎯</span>
-            <div>
-              <h3 class="text-lg font-bold">Aylık Hedefler</h3>
-              <p class="text-sm text-white/80">Mayıs 2025</p>
-            </div>
-          </div>
-
-          <div class="space-y-4">
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-sm font-medium">Satış</span>
-                <span class="text-sm">{{ aylikHedef.satis.gerceklesen }} / {{ aylikHedef.satis.hedef }}</span>
-              </div>
-              <div class="w-full bg-white/20 rounded-full h-2">
-                <div class="bg-white h-2 rounded-full" :style="{ width: `${aylikHedef.satis.oran}%` }"></div>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-sm font-medium">Kiralama</span>
-                <span class="text-sm">{{ aylikHedef.kiralama.gerceklesen }} / {{ aylikHedef.kiralama.hedef }}</span>
-              </div>
-              <div class="w-full bg-white/20 rounded-full h-2">
-                <div class="bg-white h-2 rounded-full" :style="{ width: `${aylikHedef.kiralama.oran}%` }"></div>
-              </div>
-            </div>
-
-            <div>
-              <div class="flex items-center justify-between mb-2">
-                <span class="text-sm font-medium">Portföy Alma</span>
-                <span class="text-sm">{{ aylikHedef.portfoy.gerceklesen }} / {{ aylikHedef.portfoy.hedef }}</span>
-              </div>
-              <div class="w-full bg-white/20 rounded-full h-2">
-                <div class="bg-white h-2 rounded-full" :style="{ width: `${aylikHedef.portfoy.oran}%` }"></div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -331,20 +247,20 @@ const stats = ref([
     changeType: 'danger'
   },
   {
-    title: 'Malik Raporları',
+    title: 'Yaklaşan Görevler',
     value: '8',
-    subtitle: 'rapor verilecek',
-    icon: '📊',
-    color: 'from-purple-500 to-pink-500',
-    change: 'Bugün',
-    changeType: 'warning'
+    subtitle: 'görev',
+    icon: '✅',
+    color: 'from-success-500 to-success-600',
+    change: 'Bu hafta',
+    changeType: 'success'
   },
   {
-    title: 'Yaklaşan Yetkiler',
+    title: 'Özel Günler',
     value: '3',
-    subtitle: 'yetki bitiyor',
-    icon: '⚠️',
-    color: 'from-yellow-500 to-orange-500',
+    subtitle: 'yaklaşan',
+    icon: '🎉',
+    color: 'from-purple-500 to-pink-500',
     change: '7 gün içinde',
     changeType: 'warning'
   },
@@ -367,11 +283,6 @@ const yaklasanOzelGunler = ref([
   { id: 3, name: 'Hasan Çelik', event: 'İş Yeri Açılışı', date: '18 Mayıs', days: 9, type: 'business' },
 ])
 
-const aktifIslemler = ref([
-  { id: 1, title: 'Kadıköy Lüks Daire', stage: 'Teklif Alındı', customer: 'Mehmet D.', progress: 60 },
-  { id: 2, title: 'Bostancı Villa', stage: 'Portföy Gösterildi', customer: 'Ayşe K.', progress: 30 },
-  { id: 3, title: 'Maltepe Ofis', stage: 'Kapora Alındı', customer: 'Ali Y.', progress: 80 },
-])
 
 const gunlukGorevler = ref([
   { id: 1, task: 'Portföy fotoğrafları çek - Kadıköy', time: '10:00', done: false },
@@ -379,9 +290,4 @@ const gunlukGorevler = ref([
   { id: 3, task: 'Ofis toplantısı', time: '16:00', done: true },
 ])
 
-const aylikHedef = ref({
-  satis: { hedef: 3, gerceklesen: 1, oran: 33 },
-  kiralama: { hedef: 5, gerceklesen: 3, oran: 60 },
-  portfoy: { hedef: 10, gerceklesen: 7, oran: 70 },
-})
 </script>

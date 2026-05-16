@@ -7,16 +7,10 @@ export const useAuth = () => {
   const user = useState('user', () => authCookie.value || null)
 
   const isAuthenticated = computed(() => !!user.value)
-  const isAdmin = computed(() => user.value?.role === 'admin')
-  const isDanisman = computed(() => user.value?.role === 'danisman' || user.value?.role === 'admin')
+  const isCompanyAdmin = computed(() => user.value?.is_company_admin === true)
+  const isConsultant = computed(() => user.value?.is_consultant === true)
 
-  const login = async (email: string, password: string, role: string, name: string) => {
-    const userData = {
-      email,
-      name,
-      role
-    }
-
+  const login = async (email: string, password: string, userData: any) => {
     user.value = userData
     authCookie.value = userData
   }
@@ -36,8 +30,8 @@ export const useAuth = () => {
   return {
     user,
     isAuthenticated,
-    isAdmin,
-    isDanisman,
+    isCompanyAdmin,
+    isConsultant,
     login,
     logout,
     checkAuth

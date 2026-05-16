@@ -86,8 +86,18 @@ const error = ref('')
 const showDemo = ref(false)
 
 const users = {
-  'admin@emlakcrm.com': { password: 'admin123', role: 'admin', name: 'Ahmet Yılmaz' },
-  'danisman@emlakcrm.com': { password: 'danisman123', role: 'danisman', name: 'Mehmet Demir' }
+  'admin@emlakcrm.com': {
+    password: 'admin123',
+    name: 'Ahmet Yılmaz',
+    is_company_admin: true,
+    is_consultant: true
+  },
+  'danisman@emlakcrm.com': {
+    password: 'danisman123',
+    name: 'Mehmet Demir',
+    is_company_admin: false,
+    is_consultant: true
+  }
 }
 
 const authCookie = useCookie('auth', {
@@ -114,12 +124,17 @@ const handleLogin = async () => {
     }
 
     // Cookie'ye yaz
-    authCookie.value = { email: email.value, name: user.name, role: user.role }
+    authCookie.value = {
+      email: email.value,
+      name: user.name,
+      is_company_admin: user.is_company_admin,
+      is_consultant: user.is_consultant
+    }
 
-    // Rolüne göre yönlendir
-    if (user.role === 'admin') {
+    // Yetkiye göre yönlendir
+    if (user.is_company_admin) {
       await navigateTo('/admin')
-    } else {
+    } else if (user.is_consultant) {
       await navigateTo('/danisman')
     }
   } catch (err) {
