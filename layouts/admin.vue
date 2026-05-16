@@ -18,7 +18,38 @@ const user = computed(() => ({
   stats: { danismanlar: 5, bugunAranacak: 12, gecikenArama: 5 }
 }))
 
-const sidebarOpen = ref(true)
+// Mobilde kapalı, desktop'ta açık başlasın
+const sidebarOpen = ref(false)
+
+// Desktop'ta otomatik aç
+onMounted(() => {
+  if (window.innerWidth >= 1024) {
+    sidebarOpen.value = true
+  }
+
+  // Ekran boyutu değiştiğinde sidebar'ı kapat (mobil geçişte)
+  const handleResize = () => {
+    if (window.innerWidth < 1024) {
+      sidebarOpen.value = false
+    }
+  }
+
+  window.addEventListener('resize', handleResize)
+
+  // Cleanup
+  return () => window.removeEventListener('resize', handleResize)
+})
+
+// Mobilde sidebar açıkken body scroll'unu engelle
+watch(sidebarOpen, (isOpen) => {
+  if (typeof window === 'undefined') return
+
+  if (isOpen && window.innerWidth < 1024) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+  }
+})
 </script>
 
 <template>
@@ -30,7 +61,7 @@ const sidebarOpen = ref(true)
       class="fixed inset-0 bg-black/50 z-40 lg:hidden"
     ></div>
 
-    <aside class="fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-b from-dark-900 to-dark-800 border-r border-dark-700 transition-transform duration-300" :class="{ '-translate-x-full lg:translate-x-0': !sidebarOpen }">
+    <aside class="fixed inset-y-0 left-0 z-50 w-80 sm:w-72 bg-gradient-to-b from-dark-900 to-dark-800 border-r border-dark-700 transition-transform duration-300 shadow-2xl" :class="{ '-translate-x-full lg:translate-x-0': !sidebarOpen }">
       <div class="flex items-center gap-3 px-6 py-5 border-b border-dark-700">
         <div class="w-10 h-10 bg-gradient-to-br from-warning-500 to-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-lg">E</div>
         <div>
@@ -93,8 +124,14 @@ const sidebarOpen = ref(true)
       <header class="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
         <div class="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
           <div class="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-            <button @click="sidebarOpen = !sidebarOpen" class="btn btn-ghost btn-sm flex-shrink-0">
-              <span class="text-xl">☰</span>
+            <button
+              @click="sidebarOpen = !sidebarOpen"
+              class="btn btn-ghost btn-sm flex-shrink-0 hover:bg-warning-50"
+              aria-label="Menü"
+            >
+              <svg class="w-6 h-6 text-dark-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
             </button>
             <div class="min-w-0">
               <h2 class="text-lg sm:text-xl font-bold text-dark-900 truncate">Broker Panel</h2>

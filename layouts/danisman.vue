@@ -21,7 +21,38 @@ const user = computed(() => {
   }
 })
 
-const sidebarOpen = ref(true)
+// Mobilde kapalı, desktop'ta açık başlasın
+const sidebarOpen = ref(false)
+
+// Desktop'ta otomatik aç
+onMounted(() => {
+  if (window.innerWidth >= 1024) {
+    sidebarOpen.value = true
+  }
+
+  // Ekran boyutu değiştiğinde sidebar'ı kapat (mobil geçişte)
+  const handleResize = () => {
+    if (window.innerWidth < 1024) {
+      sidebarOpen.value = false
+    }
+  }
+
+  window.addEventListener('resize', handleResize)
+
+  // Cleanup
+  return () => window.removeEventListener('resize', handleResize)
+})
+
+// Mobilde sidebar açıkken body scroll'unu engelle
+watch(sidebarOpen, (isOpen) => {
+  if (typeof window === 'undefined') return
+
+  if (isOpen && window.innerWidth < 1024) {
+    document.body.style.overflow = 'hidden'
+  } else {
+    document.body.style.overflow = ''
+  }
+})
 
 const handleLogout = () => {
   logout()
@@ -39,7 +70,7 @@ const handleLogout = () => {
 
     <!-- Sidebar -->
     <aside
-      class="fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-200 transition-transform duration-300"
+      class="fixed inset-y-0 left-0 z-50 w-80 sm:w-72 bg-white border-r border-gray-200 transition-transform duration-300 shadow-2xl"
       :class="{ '-translate-x-full lg:translate-x-0': !sidebarOpen }"
     >
       <!-- Logo & Brand -->
@@ -122,9 +153,12 @@ const handleLogout = () => {
           <div class="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
             <button
               @click="sidebarOpen = !sidebarOpen"
-              class="btn btn-ghost btn-sm flex-shrink-0"
+              class="btn btn-ghost btn-sm flex-shrink-0 hover:bg-primary-50"
+              aria-label="Menü"
             >
-              <span class="text-xl">☰</span>
+              <svg class="w-6 h-6 text-dark-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+              </svg>
             </button>
             <div class="min-w-0">
               <h2 class="text-lg sm:text-xl font-bold text-dark-900 truncate">Hoş Geldiniz</h2>
