@@ -90,14 +90,14 @@ const aylikHedef = ref({
         <h1 class="text-3xl font-display font-bold mb-2">Günaydın, Ahmet! 👋</h1>
         <p class="text-primary-100 mb-6">Bugün 12 müşterinizi aramanız ve 8 malik raporunu göndermeniz gerekiyor.</p>
         <div class="flex gap-3">
-          <button class="btn bg-white text-primary-600 hover:bg-gray-50">
+          <NuxtLink to="/danisman/gorevler" class="btn bg-white text-primary-600 hover:bg-gray-50">
             <span>🎯</span>
             <span>Görevlere Başla</span>
-          </button>
-          <button class="btn bg-white/20 hover:bg-white/30 text-white border-white/30">
+          </NuxtLink>
+          <NuxtLink to="/danisman/raporlar" class="btn bg-white/20 hover:bg-white/30 text-white border-white/30">
             <span>📊</span>
             <span>Haftalık Rapor</span>
-          </button>
+          </NuxtLink>
         </div>
       </div>
     </div>

@@ -33,7 +33,13 @@ const handleLogin = async () => {
     }
 
     localStorage.setItem('auth', JSON.stringify({ email: email.value, name: user.name, role: user.role }))
-    await navigateTo('/danisman')
+
+    // Rolüne göre yönlendir
+    if (user.role === 'admin') {
+      await navigateTo('/admin')
+    } else {
+      await navigateTo('/danisman')
+    }
   } catch (err) {
     error.value = 'Bir hata oluştu'
     loading.value = false

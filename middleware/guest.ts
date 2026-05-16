@@ -1,9 +1,14 @@
 export default defineNuxtRouteMiddleware((to, from) => {
-  // Eğer giriş yapmışsa, dashboard'a yönlendir
+  // Eğer giriş yapmışsa, rolüne göre dashboard'a yönlendir
   if (process.client) {
     const auth = localStorage.getItem('auth')
     if (auth) {
-      return navigateTo('/danisman')
+      const user = JSON.parse(auth)
+      if (user.role === 'admin') {
+        return navigateTo('/admin')
+      } else {
+        return navigateTo('/danisman')
+      }
     }
   }
 })
