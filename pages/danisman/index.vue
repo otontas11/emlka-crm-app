@@ -1,85 +1,3 @@
-<script setup>
-definePageMeta({
-  layout: 'danisman',
-  middleware: 'auth'
-})
-
-// Mock Data
-const stats = ref([
-  {
-    title: 'Bugün Aranacak',
-    value: '12',
-    subtitle: 'müşteri',
-    icon: '📞',
-    color: 'from-blue-500 to-blue-600',
-    change: '+3 yeni',
-    changeType: 'success'
-  },
-  {
-    title: 'Geciken Aramalar',
-    value: '5',
-    subtitle: 'müşteri',
-    icon: '⏰',
-    color: 'from-orange-500 to-red-500',
-    change: '2 gün geçti',
-    changeType: 'danger'
-  },
-  {
-    title: 'Malik Raporları',
-    value: '8',
-    subtitle: 'rapor verilecek',
-    icon: '📊',
-    color: 'from-purple-500 to-pink-500',
-    change: 'Bugün',
-    changeType: 'warning'
-  },
-  {
-    title: 'Yaklaşan Yetkiler',
-    value: '3',
-    subtitle: 'yetki bitiyor',
-    icon: '⚠️',
-    color: 'from-yellow-500 to-orange-500',
-    change: '7 gün içinde',
-    changeType: 'warning'
-  },
-])
-
-const bugunAranacaklar = ref([
-  { id: 1, name: 'Mehmet Demir', phone: '0532 123 4567', lastCall: '15 gün önce', type: 'Alıcı', priority: 'high' },
-  { id: 2, name: 'Ayşe Kaya', phone: '0542 987 6543', lastCall: '10 gün önce', type: 'Yatırımcı', priority: 'medium' },
-  { id: 3, name: 'Fatma Şahin', phone: '0555 456 7890', lastCall: '20 gün önce', type: 'Satıcı', priority: 'high' },
-])
-
-const gecikenAramalar = ref([
-  { id: 1, name: 'Ali Yılmaz', phone: '0533 222 3333', lastCall: '25 gün önce', gecikme: '5 gün' },
-  { id: 2, name: 'Zeynep Arslan', phone: '0544 333 4444', lastCall: '32 gün önce', gecikme: '12 gün' },
-])
-
-const yaklasanOzelGunler = ref([
-  { id: 1, name: 'Can Özdemir', event: 'Doğum Günü', date: '12 Mayıs', days: 3, type: 'birthday' },
-  { id: 2, name: 'Elif Koç - Eşi', event: 'Evlilik Yıldönümü', date: '15 Mayıs', days: 6, type: 'anniversary' },
-  { id: 3, name: 'Hasan Çelik', event: 'İş Yeri Açılışı', date: '18 Mayıs', days: 9, type: 'business' },
-])
-
-const aktifIslemler = ref([
-  { id: 1, title: 'Kadıköy Lüks Daire', stage: 'Teklif Alındı', customer: 'Mehmet D.', progress: 60 },
-  { id: 2, title: 'Bostancı Villa', stage: 'Portföy Gösterildi', customer: 'Ayşe K.', progress: 30 },
-  { id: 3, title: 'Maltepe Ofis', stage: 'Kapora Alındı', customer: 'Ali Y.', progress: 80 },
-])
-
-const gunlukGorevler = ref([
-  { id: 1, task: 'Portföy fotoğrafları çek - Kadıköy', time: '10:00', done: false },
-  { id: 2, task: 'Malik bilgilendirme - Bostancı Villa', time: '14:00', done: false },
-  { id: 3, task: 'Ofis toplantısı', time: '16:00', done: true },
-])
-
-const aylikHedef = ref({
-  satis: { hedef: 3, gerceklesen: 1, oran: 33 },
-  kiralama: { hedef: 5, gerceklesen: 3, oran: 60 },
-  portfoy: { hedef: 10, gerceklesen: 7, oran: 70 },
-})
-</script>
-
 <template>
   <div class="space-y-6 fade-in">
     <!-- Welcome Banner -->
@@ -386,3 +304,84 @@ const aylikHedef = ref({
     </div>
   </div>
 </template>
+<script setup>
+definePageMeta({
+  layout: 'danisman',
+  middleware: 'auth'
+})
+
+// Mock Data
+const stats = ref([
+  {
+    title: 'Bugün Aranacak',
+    value: '12',
+    subtitle: 'müşteri',
+    icon: '📞',
+    color: 'from-blue-500 to-blue-600',
+    change: '+3 yeni',
+    changeType: 'success'
+  },
+  {
+    title: 'Geciken Aramalar',
+    value: '5',
+    subtitle: 'müşteri',
+    icon: '⏰',
+    color: 'from-orange-500 to-red-500',
+    change: '2 gün geçti',
+    changeType: 'danger'
+  },
+  {
+    title: 'Malik Raporları',
+    value: '8',
+    subtitle: 'rapor verilecek',
+    icon: '📊',
+    color: 'from-purple-500 to-pink-500',
+    change: 'Bugün',
+    changeType: 'warning'
+  },
+  {
+    title: 'Yaklaşan Yetkiler',
+    value: '3',
+    subtitle: 'yetki bitiyor',
+    icon: '⚠️',
+    color: 'from-yellow-500 to-orange-500',
+    change: '7 gün içinde',
+    changeType: 'warning'
+  },
+])
+
+const bugunAranacaklar = ref([
+  { id: 1, name: 'Mehmet Demir', phone: '0532 123 4567', lastCall: '15 gün önce', type: 'Alıcı', priority: 'high' },
+  { id: 2, name: 'Ayşe Kaya', phone: '0542 987 6543', lastCall: '10 gün önce', type: 'Yatırımcı', priority: 'medium' },
+  { id: 3, name: 'Fatma Şahin', phone: '0555 456 7890', lastCall: '20 gün önce', type: 'Satıcı', priority: 'high' },
+])
+
+const gecikenAramalar = ref([
+  { id: 1, name: 'Ali Yılmaz', phone: '0533 222 3333', lastCall: '25 gün önce', gecikme: '5 gün' },
+  { id: 2, name: 'Zeynep Arslan', phone: '0544 333 4444', lastCall: '32 gün önce', gecikme: '12 gün' },
+])
+
+const yaklasanOzelGunler = ref([
+  { id: 1, name: 'Can Özdemir', event: 'Doğum Günü', date: '12 Mayıs', days: 3, type: 'birthday' },
+  { id: 2, name: 'Elif Koç - Eşi', event: 'Evlilik Yıldönümü', date: '15 Mayıs', days: 6, type: 'anniversary' },
+  { id: 3, name: 'Hasan Çelik', event: 'İş Yeri Açılışı', date: '18 Mayıs', days: 9, type: 'business' },
+])
+
+const aktifIslemler = ref([
+  { id: 1, title: 'Kadıköy Lüks Daire', stage: 'Teklif Alındı', customer: 'Mehmet D.', progress: 60 },
+  { id: 2, title: 'Bostancı Villa', stage: 'Portföy Gösterildi', customer: 'Ayşe K.', progress: 30 },
+  { id: 3, title: 'Maltepe Ofis', stage: 'Kapora Alındı', customer: 'Ali Y.', progress: 80 },
+])
+
+const gunlukGorevler = ref([
+  { id: 1, task: 'Portföy fotoğrafları çek - Kadıköy', time: '10:00', done: false },
+  { id: 2, task: 'Malik bilgilendirme - Bostancı Villa', time: '14:00', done: false },
+  { id: 3, task: 'Ofis toplantısı', time: '16:00', done: true },
+])
+
+const aylikHedef = ref({
+  satis: { hedef: 3, gerceklesen: 1, oran: 33 },
+  kiralama: { hedef: 5, gerceklesen: 3, oran: 60 },
+  portfoy: { hedef: 10, gerceklesen: 7, oran: 70 },
+})
+</script>
