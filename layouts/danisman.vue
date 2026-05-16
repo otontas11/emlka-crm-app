@@ -30,10 +30,17 @@ const handleLogout = () => {
 
 <template>
   <div class="min-h-screen bg-gray-50">
+    <!-- Mobile Overlay -->
+    <div
+      v-if="sidebarOpen"
+      @click="sidebarOpen = false"
+      class="fixed inset-0 bg-black/50 z-40 lg:hidden"
+    ></div>
+
     <!-- Sidebar -->
     <aside
       class="fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-200 transition-transform duration-300"
-      :class="{ '-translate-x-full': !sidebarOpen }"
+      :class="{ '-translate-x-full lg:translate-x-0': !sidebarOpen }"
     >
       <!-- Logo & Brand -->
       <div class="flex items-center gap-3 px-6 py-5 border-b border-gray-200">
@@ -108,40 +115,41 @@ const handleLogout = () => {
     </aside>
 
     <!-- Main Content -->
-    <div class="lg:pl-72 transition-all duration-300">
+    <div class="lg:pl-72 transition-all duration-300 min-h-screen">
       <!-- Top Header -->
       <header class="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-        <div class="flex items-center justify-between px-6 py-4">
-          <div class="flex items-center gap-4">
+        <div class="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
+          <div class="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
             <button
               @click="sidebarOpen = !sidebarOpen"
-              class="lg:hidden btn btn-ghost btn-sm"
+              class="btn btn-ghost btn-sm flex-shrink-0"
             >
               <span class="text-xl">☰</span>
             </button>
-            <div>
-              <h2 class="text-xl font-bold text-dark-900">Hoş Geldiniz</h2>
-              <p class="text-sm text-gray-500">Bugün iş için harika bir gün</p>
+            <div class="min-w-0">
+              <h2 class="text-lg sm:text-xl font-bold text-dark-900 truncate">Hoş Geldiniz</h2>
+              <p class="text-xs sm:text-sm text-gray-500 hidden sm:block">Bugün iş için harika bir gün</p>
             </div>
           </div>
 
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
             <!-- Notifications -->
             <button class="relative btn btn-ghost btn-sm">
-              <span class="text-xl">🔔</span>
+              <span class="text-lg sm:text-xl">🔔</span>
               <span class="absolute top-1 right-1 w-2 h-2 bg-danger-500 rounded-full"></span>
             </button>
 
             <!-- Quick Actions -->
-            <button class="btn btn-primary btn-sm">
-              <span>+ Yeni</span>
-            </button>
+            <NuxtLink to="/danisman/musteriler" class="btn btn-primary btn-sm">
+              <span class="hidden sm:inline">+ Yeni</span>
+              <span class="sm:hidden">+</span>
+            </NuxtLink>
           </div>
         </div>
       </header>
 
       <!-- Page Content -->
-      <main class="p-6">
+      <main class="p-4 sm:p-6">
         <slot />
       </main>
     </div>

@@ -1,17 +1,17 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-600 via-secondary-600 to-purple-700 p-6">
+  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-600 via-secondary-600 to-purple-700 p-4 sm:p-6">
     <div class="absolute inset-0 bg-pattern opacity-10"></div>
     <div class="relative w-full max-w-md">
-      <div class="text-center mb-8">
-        <div class="inline-flex items-center justify-center w-20 h-20 bg-white rounded-3xl shadow-hard mb-4">
-          <div class="w-16 h-16 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-2xl flex items-center justify-center text-white font-bold text-3xl">E</div>
+      <div class="text-center mb-6 sm:mb-8">
+        <div class="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-white rounded-2xl sm:rounded-3xl shadow-hard mb-3 sm:mb-4">
+          <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-xl sm:rounded-2xl flex items-center justify-center text-white font-bold text-2xl sm:text-3xl">E</div>
         </div>
-        <h1 class="text-4xl font-display font-bold text-white mb-2">Emlak CRM</h1>
-        <p class="text-lg text-primary-100">Gayrimenkul Yönetim Sistemi</p>
+        <h1 class="text-3xl sm:text-4xl font-display font-bold text-white mb-2">Emlak CRM</h1>
+        <p class="text-base sm:text-lg text-primary-100">Gayrimenkul Yönetim Sistemi</p>
       </div>
 
       <div class="card bg-white shadow-hard">
-        <h2 class="text-2xl font-bold text-dark-900 mb-6 text-center">Giriş Yapın</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-dark-900 mb-4 sm:mb-6 text-center">Giriş Yapın</h2>
 
         <div v-if="error" class="mb-4 p-4 bg-danger-50 border border-danger-200 rounded-lg">
           <p class="text-sm text-danger-700 flex items-center gap-2">
@@ -30,7 +30,7 @@
             <input v-model="password" type="password" placeholder="••••••••" class="input" required />
           </div>
 
-          <button type="submit" :disabled="loading" class="btn btn-primary w-full btn-lg">
+          <button type="submit" :disabled="loading" class="btn btn-primary w-full btn-lg text-base sm:text-lg">
             <span v-if="!loading">🚀</span><span v-else>⏳</span>
             <span>{{ loading ? 'Giriş Yapılıyor...' : 'Giriş Yap' }}</span>
           </button>

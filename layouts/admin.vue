@@ -23,7 +23,14 @@ const sidebarOpen = ref(true)
 
 <template>
   <div class="min-h-screen bg-gray-50">
-    <aside class="fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-b from-dark-900 to-dark-800 border-r border-dark-700 transition-transform duration-300" :class="{ '-translate-x-full': !sidebarOpen }">
+    <!-- Mobile Overlay -->
+    <div
+      v-if="sidebarOpen"
+      @click="sidebarOpen = false"
+      class="fixed inset-0 bg-black/50 z-40 lg:hidden"
+    ></div>
+
+    <aside class="fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-b from-dark-900 to-dark-800 border-r border-dark-700 transition-transform duration-300" :class="{ '-translate-x-full lg:translate-x-0': !sidebarOpen }">
       <div class="flex items-center gap-3 px-6 py-5 border-b border-dark-700">
         <div class="w-10 h-10 bg-gradient-to-br from-warning-500 to-orange-500 rounded-xl flex items-center justify-center text-white font-bold text-lg">E</div>
         <div>
@@ -82,20 +89,25 @@ const sidebarOpen = ref(true)
       </div>
     </aside>
 
-    <div class="lg:pl-72">
+    <div class="lg:pl-72 min-h-screen">
       <header class="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-        <div class="flex items-center justify-between px-6 py-4">
-          <div class="flex items-center gap-4">
-            <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden btn btn-ghost btn-sm"><span class="text-xl">☰</span></button>
-            <div>
-              <h2 class="text-xl font-bold text-dark-900">Broker Panel</h2>
-              <p class="text-sm text-gray-500">Ofis yönetim sistemi</p>
+        <div class="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
+          <div class="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+            <button @click="sidebarOpen = !sidebarOpen" class="btn btn-ghost btn-sm flex-shrink-0">
+              <span class="text-xl">☰</span>
+            </button>
+            <div class="min-w-0">
+              <h2 class="text-lg sm:text-xl font-bold text-dark-900 truncate">Broker Panel</h2>
+              <p class="text-xs sm:text-sm text-gray-500 hidden sm:block">Ofis yönetim sistemi</p>
             </div>
           </div>
-          <button class="btn btn-primary btn-sm"><span>+ Yeni İşlem</span></button>
+          <NuxtLink to="/admin/danismanlar" class="btn btn-primary btn-sm flex-shrink-0">
+            <span class="hidden sm:inline">+ Yeni</span>
+            <span class="sm:hidden">+</span>
+          </NuxtLink>
         </div>
       </header>
-      <main class="p-6"><slot /></main>
+      <main class="p-4 sm:p-6"><slot /></main>
     </div>
   </div>
 </template>

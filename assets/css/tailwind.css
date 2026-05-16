@@ -12,20 +12,30 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-bold;
   }
+
+  /* Touch-friendly: Minimum tap target 44x44px */
+  button, a {
+    @apply min-h-[44px] touch-manipulation;
+  }
+
+  /* Smooth scrolling */
+  html {
+    @apply scroll-smooth;
+  }
 }
 
 @layer components {
   /* Buttons */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px];
   }
 
   .btn-sm {
-    @apply px-3 py-1.5 text-sm;
+    @apply px-3 py-2 text-sm min-h-[40px];
   }
 
   .btn-lg {
-    @apply px-6 py-3.5 text-lg;
+    @apply px-6 py-3.5 text-lg min-h-[52px];
   }
 
   .btn-primary {
@@ -54,20 +64,20 @@
 
   /* Cards */
   .card {
-    @apply bg-white rounded-xl shadow-soft p-6 transition-shadow duration-200;
+    @apply bg-white rounded-xl shadow-soft p-4 sm:p-6 transition-shadow duration-200;
   }
 
   .card-hover {
-    @apply hover:shadow-medium;
+    @apply hover:shadow-medium active:shadow-soft;
   }
 
   .card-flat {
-    @apply bg-white rounded-xl border border-gray-200 p-6;
+    @apply bg-white rounded-xl border border-gray-200 p-4 sm:p-6;
   }
 
   /* Inputs */
   .input {
-    @apply w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200;
+    @apply w-full px-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200 text-base min-h-[44px];
   }
 
   .input-error {
@@ -97,7 +107,7 @@
 
   /* Stats */
   .stat-card {
-    @apply bg-gradient-to-br rounded-xl p-6 text-white shadow-medium;
+    @apply bg-gradient-to-br rounded-xl p-4 sm:p-6 text-white shadow-medium;
   }
 
   /* Animations */

@@ -1,20 +1,20 @@
 <template>
-  <div class="space-y-6 fade-in">
+  <div class="space-y-4 sm:space-y-6 fade-in">
     <!-- Welcome Banner -->
     <div class="card bg-gradient-to-br from-primary-600 to-secondary-600 text-white relative overflow-hidden">
-      <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
-      <div class="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full -ml-24 -mb-24"></div>
+      <div class="absolute top-0 right-0 w-32 sm:w-64 h-32 sm:h-64 bg-white/10 rounded-full -mr-16 sm:-mr-32 -mt-16 sm:-mt-32"></div>
+      <div class="absolute bottom-0 left-0 w-24 sm:w-48 h-24 sm:h-48 bg-white/10 rounded-full -ml-12 sm:-ml-24 -mb-12 sm:-mb-24"></div>
       <div class="relative">
-        <h1 class="text-3xl font-display font-bold mb-2">Günaydın, Ahmet! 👋</h1>
-        <p class="text-primary-100 mb-6">Bugün 12 müşterinizi aramanız ve 8 malik raporunu göndermeniz gerekiyor.</p>
-        <div class="flex gap-3">
-          <NuxtLink to="/danisman/gorevler" class="btn bg-white text-primary-600 hover:bg-gray-50">
+        <h1 class="text-2xl sm:text-3xl font-display font-bold mb-2">Günaydın! 👋</h1>
+        <p class="text-primary-100 mb-4 sm:mb-6 text-sm sm:text-base">Bugün 12 müşterinizi aramanız gerekiyor.</p>
+        <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
+          <NuxtLink to="/danisman/gorevler" class="btn bg-white text-primary-600 hover:bg-gray-50 justify-center">
             <span>🎯</span>
             <span>Görevlere Başla</span>
           </NuxtLink>
-          <NuxtLink to="/danisman/raporlar" class="btn bg-white/20 hover:bg-white/30 text-white border-white/30">
+          <NuxtLink to="/danisman/raporlar" class="btn bg-white/20 hover:bg-white/30 text-white border-white/30 justify-center">
             <span>📊</span>
-            <span>Haftalık Rapor</span>
+            <span>Rapor</span>
           </NuxtLink>
         </div>
       </div>
@@ -49,39 +49,39 @@
     </div>
 
     <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
       <!-- Left Column -->
-      <div class="lg:col-span-2 space-y-6">
+      <div class="lg:col-span-2 space-y-4 sm:space-y-6">
         <!-- Bugün Aranacak Müşteriler -->
         <div class="card slide-up">
-          <div class="flex items-center justify-between mb-6">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                <span class="text-xl">📞</span>
+          <div class="flex items-center justify-between mb-4 sm:mb-6 gap-3">
+            <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+              <div class="w-8 h-8 sm:w-10 sm:h-10 bg-primary-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <span class="text-lg sm:text-xl">📞</span>
               </div>
-              <div>
-                <h3 class="text-lg font-bold text-dark-900">Bugün Aranacak Müşteriler</h3>
-                <p class="text-sm text-gray-500">Periyodik takip zamanı geldi</p>
+              <div class="min-w-0">
+                <h3 class="text-base sm:text-lg font-bold text-dark-900 truncate">Bugün Aranacak</h3>
+                <p class="text-xs sm:text-sm text-gray-500 hidden sm:block">Periyodik takip zamanı geldi</p>
               </div>
             </div>
-            <button class="btn btn-ghost btn-sm">Tümünü Gör</button>
+            <NuxtLink to="/danisman/musteriler" class="btn btn-ghost btn-sm flex-shrink-0 text-xs sm:text-sm">Tümü</NuxtLink>
           </div>
 
-          <div class="space-y-3">
+          <div class="space-y-2 sm:space-y-3">
             <div
               v-for="musteri in bugunAranacaklar"
               :key="musteri.id"
-              class="flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-all duration-200 cursor-pointer group"
+              class="flex items-center justify-between p-3 sm:p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-all duration-200 cursor-pointer group gap-3"
             >
-              <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
+              <div class="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base flex-shrink-0">
                   {{ musteri.name.split(' ').map(n => n[0]).join('') }}
                 </div>
-                <div>
-                  <div class="flex items-center gap-2">
-                    <h4 class="font-semibold text-dark-900">{{ musteri.name }}</h4>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h4 class="font-semibold text-dark-900 text-sm sm:text-base truncate">{{ musteri.name }}</h4>
                     <span
-                      class="badge"
+                      class="badge text-xs flex-shrink-0"
                       :class="{
                         'badge-danger': musteri.priority === 'high',
                         'badge-warning': musteri.priority === 'medium',
@@ -90,58 +90,58 @@
                       {{ musteri.type }}
                     </span>
                   </div>
-                  <div class="text-sm text-gray-500 flex items-center gap-2">
-                    <span>{{ musteri.phone }}</span>
-                    <span>•</span>
-                    <span>{{ musteri.lastCall }}</span>
+                  <div class="text-xs sm:text-sm text-gray-500 flex items-center gap-1 sm:gap-2 flex-wrap">
+                    <span class="truncate">{{ musteri.phone }}</span>
+                    <span class="hidden sm:inline">•</span>
+                    <span class="text-xs">{{ musteri.lastCall }}</span>
                   </div>
                 </div>
               </div>
-              <button class="btn btn-primary btn-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              <a :href="`tel:${musteri.phone}`" class="btn btn-primary btn-sm flex-shrink-0 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200">
                 <span>📱</span>
-                <span>Ara</span>
-              </button>
+                <span class="hidden sm:inline">Ara</span>
+              </a>
             </div>
           </div>
         </div>
 
         <!-- Geciken Aramalar -->
         <div class="card slide-up" style="animation-delay: 0.1s">
-          <div class="flex items-center justify-between mb-6">
-            <div class="flex items-center gap-3">
-              <div class="w-10 h-10 bg-danger-100 rounded-lg flex items-center justify-center">
-                <span class="text-xl">⏰</span>
+          <div class="flex items-center justify-between mb-4 sm:mb-6 gap-3">
+            <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+              <div class="w-8 h-8 sm:w-10 sm:h-10 bg-danger-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <span class="text-lg sm:text-xl">⏰</span>
               </div>
-              <div>
-                <h3 class="text-lg font-bold text-dark-900">Geciken Aramalar</h3>
-                <p class="text-sm text-danger-600">Acil olarak aranmalı</p>
+              <div class="min-w-0">
+                <h3 class="text-base sm:text-lg font-bold text-dark-900 truncate">Geciken Aramalar</h3>
+                <p class="text-xs sm:text-sm text-danger-600 hidden sm:block">Acil olarak aranmalı</p>
               </div>
             </div>
           </div>
 
-          <div class="space-y-3">
+          <div class="space-y-2 sm:space-y-3">
             <div
               v-for="musteri in gecikenAramalar"
               :key="musteri.id"
-              class="flex items-center justify-between p-4 bg-danger-50 hover:bg-danger-100 rounded-lg transition-all duration-200 cursor-pointer border border-danger-200"
+              class="flex items-center justify-between p-3 sm:p-4 bg-danger-50 hover:bg-danger-100 rounded-lg transition-all duration-200 cursor-pointer border border-danger-200 gap-3"
             >
-              <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-gradient-to-br from-danger-500 to-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+              <div class="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
+                <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-danger-500 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base flex-shrink-0">
                   {{ musteri.name.split(' ').map(n => n[0]).join('') }}
                 </div>
-                <div>
-                  <h4 class="font-semibold text-dark-900">{{ musteri.name }}</h4>
-                  <div class="text-sm text-gray-600 flex items-center gap-2">
-                    <span>{{ musteri.phone }}</span>
-                    <span>•</span>
-                    <span class="text-danger-600 font-medium">{{ musteri.gecikme }} gecikme</span>
+                <div class="flex-1 min-w-0">
+                  <h4 class="font-semibold text-dark-900 text-sm sm:text-base truncate">{{ musteri.name }}</h4>
+                  <div class="text-xs sm:text-sm text-gray-600 flex items-center gap-1 sm:gap-2 flex-wrap">
+                    <span class="truncate">{{ musteri.phone }}</span>
+                    <span class="hidden sm:inline">•</span>
+                    <span class="text-danger-600 font-medium text-xs">{{ musteri.gecikme }}</span>
                   </div>
                 </div>
               </div>
-              <button class="btn btn-danger btn-sm">
+              <a :href="`tel:${musteri.phone}`" class="btn btn-danger btn-sm flex-shrink-0">
                 <span>🚨</span>
-                <span>Hemen Ara</span>
-              </button>
+                <span class="hidden sm:inline">Ara</span>
+              </a>
             </div>
           </div>
         </div>
@@ -149,16 +149,16 @@
       </div>
 
       <!-- Right Column -->
-      <div class="space-y-6">
+      <div class="space-y-4 sm:space-y-6">
         <!-- Yaklaşan Özel Günler -->
         <div class="card slide-up" style="animation-delay: 0.15s">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
-              <span class="text-xl">🎉</span>
+          <div class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+            <div class="w-8 h-8 sm:w-10 sm:h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <span class="text-lg sm:text-xl">🎉</span>
             </div>
-            <div>
-              <h3 class="text-lg font-bold text-dark-900">Özel Günler</h3>
-              <p class="text-sm text-gray-500">Yaklaşan kutlamalar</p>
+            <div class="min-w-0">
+              <h3 class="text-base sm:text-lg font-bold text-dark-900 truncate">Özel Günler</h3>
+              <p class="text-xs sm:text-sm text-gray-500 hidden sm:block">Yaklaşan kutlamalar</p>
             </div>
           </div>
 
@@ -184,13 +184,13 @@
 
         <!-- Günlük Görevler -->
         <div class="card slide-up" style="animation-delay: 0.2s">
-          <div class="flex items-center gap-3 mb-6">
-            <div class="w-10 h-10 bg-warning-100 rounded-lg flex items-center justify-center">
-              <span class="text-xl">✅</span>
+          <div class="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+            <div class="w-8 h-8 sm:w-10 sm:h-10 bg-warning-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <span class="text-lg sm:text-xl">✅</span>
             </div>
-            <div>
-              <h3 class="text-lg font-bold text-dark-900">Günlük Görevler</h3>
-              <p class="text-sm text-gray-500">Bugün yapılacaklar</p>
+            <div class="min-w-0">
+              <h3 class="text-base sm:text-lg font-bold text-dark-900 truncate">Günlük Görevler</h3>
+              <p class="text-xs sm:text-sm text-gray-500 hidden sm:block">Bugün yapılacaklar</p>
             </div>
           </div>
 
@@ -198,16 +198,16 @@
             <div
               v-for="gorev in gunlukGorevler"
               :key="gorev.id"
-              class="flex items-center gap-3 p-3 hover:bg-gray-50 rounded-lg transition-all duration-200"
+              class="flex items-start gap-2 sm:gap-3 p-2 sm:p-3 hover:bg-gray-50 rounded-lg transition-all duration-200"
               :class="{ 'opacity-50': gorev.done }"
             >
               <input
                 type="checkbox"
                 :checked="gorev.done"
-                class="w-5 h-5 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
+                class="w-4 h-4 sm:w-5 sm:h-5 rounded border-gray-300 text-primary-600 focus:ring-primary-500 mt-0.5 flex-shrink-0"
               />
-              <div class="flex-1">
-                <p class="text-sm font-medium text-dark-900" :class="{ 'line-through': gorev.done }">
+              <div class="flex-1 min-w-0">
+                <p class="text-xs sm:text-sm font-medium text-dark-900" :class="{ 'line-through': gorev.done }">
                   {{ gorev.task }}
                 </p>
                 <p class="text-xs text-gray-500">{{ gorev.time }}</p>

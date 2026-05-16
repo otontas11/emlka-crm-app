@@ -1,11 +1,17 @@
 <template>
-  <div class="space-y-6">
+  <div class="space-y-4 sm:space-y-6">
     <div class="card bg-gradient-to-br from-warning-500 to-orange-600 text-white">
-      <h1 class="text-3xl font-bold mb-2">Broker Paneli</h1>
-      <p class="mb-6">Danışmanların müşteri takip durumunu tek ekrandan izle</p>
-      <div class="flex gap-3">
-        <NuxtLink to="/admin/danismanlar" class="btn bg-white text-warning-600">👥 Danışmanlar</NuxtLink>
-        <NuxtLink to="/admin/ayarlar" class="btn bg-white/20 text-white">⚙️ Ayarlar</NuxtLink>
+      <h1 class="text-2xl sm:text-3xl font-bold mb-2">Broker Paneli</h1>
+      <p class="mb-4 sm:mb-6 text-sm sm:text-base">Danışmanların müşteri takip durumunu tek ekrandan izle</p>
+      <div class="flex flex-col sm:flex-row gap-2 sm:gap-3">
+        <NuxtLink to="/admin/danismanlar" class="btn bg-white text-warning-600 justify-center">
+          <span>👥</span>
+          <span>Danışmanlar</span>
+        </NuxtLink>
+        <NuxtLink to="/admin/ayarlar" class="btn bg-white/20 text-white justify-center">
+          <span>⚙️</span>
+          <span>Ayarlar</span>
+        </NuxtLink>
       </div>
     </div>
 
@@ -21,34 +27,34 @@
     </div>
 
     <div class="card">
-      <h3 class="text-xl font-bold mb-6">Danışman Takip Özeti</h3>
-      <div class="space-y-4">
-        <div v-for="d in danismanlar" :key="d.id" class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-          <div class="flex items-center justify-between mb-4">
-            <div class="flex items-center gap-3">
-              <div class="w-12 h-12 bg-gradient-to-br from-primary-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">{{ d.avatar }}</div>
-              <div>
-                <h4 class="font-semibold">{{ d.name }}</h4>
-                <p class="text-xs text-gray-500">Son görüşme: {{ d.sonGorusme }}</p>
+      <h3 class="text-lg sm:text-xl font-bold mb-4 sm:mb-6">Danışman Takip Özeti</h3>
+      <div class="space-y-3 sm:space-y-4">
+        <div v-for="d in danismanlar" :key="d.id" class="p-3 sm:p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+          <div class="flex items-center justify-between mb-3 sm:mb-4 gap-3">
+            <div class="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+              <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-primary-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base flex-shrink-0">{{ d.avatar }}</div>
+              <div class="min-w-0 flex-1">
+                <h4 class="font-semibold text-sm sm:text-base truncate">{{ d.name }}</h4>
+                <p class="text-xs text-gray-500 truncate">Son: {{ d.sonGorusme }}</p>
               </div>
             </div>
-            <NuxtLink :to="`/admin/danismanlar/${d.id}`" class="btn btn-ghost btn-sm">Detay</NuxtLink>
+            <NuxtLink :to="`/admin/danismanlar`" class="btn btn-ghost btn-sm flex-shrink-0 text-xs sm:text-sm">Detay</NuxtLink>
           </div>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
             <div class="text-center p-2 bg-white rounded border border-gray-200">
-              <div class="text-lg font-bold text-primary-600">{{ d.bugunAranacak }}</div>
-              <div class="text-xs text-gray-600">Bugün Aranacak</div>
+              <div class="text-base sm:text-lg font-bold text-primary-600">{{ d.bugunAranacak }}</div>
+              <div class="text-xs text-gray-600">Bugün</div>
             </div>
             <div class="text-center p-2 bg-white rounded border border-gray-200">
-              <div class="text-lg font-bold text-danger-600">{{ d.gecikenArama }}</div>
+              <div class="text-base sm:text-lg font-bold text-danger-600">{{ d.gecikenArama }}</div>
               <div class="text-xs text-gray-600">Geciken</div>
             </div>
             <div class="text-center p-2 bg-white rounded border border-gray-200">
-              <div class="text-lg font-bold text-success-600">{{ d.tamamlananGorev }}</div>
-              <div class="text-xs text-gray-600">Tamamlanan</div>
+              <div class="text-base sm:text-lg font-bold text-success-600">{{ d.tamamlananGorev }}</div>
+              <div class="text-xs text-gray-600">Tamamlandı</div>
             </div>
             <div class="text-center p-2 bg-white rounded border border-gray-200">
-              <div class="text-lg font-bold text-warning-600">{{ d.bekleyenGorev }}</div>
+              <div class="text-base sm:text-lg font-bold text-warning-600">{{ d.bekleyenGorev }}</div>
               <div class="text-xs text-gray-600">Bekleyen</div>
             </div>
           </div>
