@@ -83,7 +83,6 @@ const filters = ref({
   priority: ''
 })
 
-const showAddModal = ref(false)
 const selectedMusteri = ref(null)
 
 const getStatusColor = (status) => {
@@ -108,56 +107,56 @@ const getPriorityIcon = (priority) => {
 <template>
   <div class="space-y-6">
     <!-- Header -->
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <div>
-        <h1 class="text-3xl font-display font-bold text-dark-900 mb-2">Müşteriler</h1>
-        <p class="text-gray-600">Tüm müşterilerinizi yönetin ve takip edin</p>
+        <h1 class="text-2xl sm:text-3xl font-display font-bold text-dark-900 mb-2">Müşteriler</h1>
+        <p class="text-sm sm:text-base text-gray-600">Tüm müşterilerinizi yönetin ve takip edin</p>
       </div>
-      <button @click="showAddModal = true" class="btn btn-primary btn-lg">
+      <NuxtLink to="/danisman/musteriler/ekle" class="btn btn-primary btn-lg w-full sm:w-auto">
         <span class="text-xl">➕</span>
         <span>Yeni Müşteri</span>
-      </button>
+      </NuxtLink>
     </div>
 
     <!-- Stats -->
-    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-4">
       <div class="card text-center hover:shadow-medium transition-shadow duration-200">
-        <div class="text-3xl font-bold text-primary-600 mb-1">{{ stats.toplam }}</div>
-        <div class="text-sm text-gray-600">Toplam Müşteri</div>
+        <div class="text-2xl sm:text-3xl font-bold text-primary-600 mb-1">{{ stats.toplam }}</div>
+        <div class="text-xs sm:text-sm text-gray-600">Toplam Müşteri</div>
       </div>
       <div class="card text-center hover:shadow-medium transition-shadow duration-200">
-        <div class="text-3xl font-bold text-danger-600 mb-1">{{ stats.sicak }}</div>
-        <div class="text-sm text-gray-600">Sıcak Müşteri</div>
+        <div class="text-2xl sm:text-3xl font-bold text-danger-600 mb-1">{{ stats.sicak }}</div>
+        <div class="text-xs sm:text-sm text-gray-600">Sıcak Müşteri</div>
       </div>
       <div class="card text-center hover:shadow-medium transition-shadow duration-200">
-        <div class="text-3xl font-bold text-warning-600 mb-1">{{ stats.ilimlı }}</div>
-        <div class="text-sm text-gray-600">Ilımlı Müşteri</div>
+        <div class="text-2xl sm:text-3xl font-bold text-warning-600 mb-1">{{ stats.ilimlı }}</div>
+        <div class="text-xs sm:text-sm text-gray-600">Ilımlı Müşteri</div>
       </div>
       <div class="card text-center hover:shadow-medium transition-shadow duration-200">
-        <div class="text-3xl font-bold text-primary-600 mb-1">{{ stats.soguk }}</div>
-        <div class="text-sm text-gray-600">Soğuk Müşteri</div>
+        <div class="text-2xl sm:text-3xl font-bold text-primary-600 mb-1">{{ stats.soguk }}</div>
+        <div class="text-xs sm:text-sm text-gray-600">Soğuk Müşteri</div>
       </div>
-      <div class="card text-center bg-gradient-to-br from-success-500 to-primary-500 text-white hover:shadow-medium transition-shadow duration-200">
-        <div class="text-3xl font-bold mb-1">{{ stats.bugunAranacak }}</div>
-        <div class="text-sm">Bugün Aranacak</div>
+      <div class="card text-center bg-gradient-to-br from-success-500 to-primary-500 text-white hover:shadow-medium transition-shadow duration-200 col-span-2 sm:col-span-1">
+        <div class="text-2xl sm:text-3xl font-bold mb-1">{{ stats.bugunAranacak }}</div>
+        <div class="text-xs sm:text-sm">Bugün Aranacak</div>
       </div>
     </div>
 
     <!-- Filters -->
     <div class="card">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Ara</label>
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Ara</label>
           <input
             v-model="filters.search"
             type="text"
-            placeholder="İsim, telefon, email..."
-            class="input"
+            placeholder="İsim, telefon..."
+            class="input text-sm"
           />
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Müşteri Tipi</label>
-          <select v-model="filters.type" class="input">
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Müşteri Tipi</label>
+          <select v-model="filters.type" class="input text-sm">
             <option value="">Tümü</option>
             <option value="Alıcı">Alıcı</option>
             <option value="Satıcı">Satıcı</option>
@@ -166,8 +165,8 @@ const getPriorityIcon = (priority) => {
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Durum</label>
-          <select v-model="filters.status" class="input">
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Durum</label>
+          <select v-model="filters.status" class="input text-sm">
             <option value="">Tümü</option>
             <option value="Sıcak">Sıcak</option>
             <option value="Ilımlı">Ilımlı</option>
@@ -175,8 +174,8 @@ const getPriorityIcon = (priority) => {
           </select>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Öncelik</label>
-          <select v-model="filters.priority" class="input">
+          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Öncelik</label>
+          <select v-model="filters.priority" class="input text-sm">
             <option value="">Tümü</option>
             <option value="high">Yüksek</option>
             <option value="medium">Orta</option>
@@ -187,36 +186,36 @@ const getPriorityIcon = (priority) => {
     </div>
 
     <!-- Customer List -->
-    <div class="grid grid-cols-1 gap-4">
+    <div class="grid grid-cols-1 gap-3 sm:gap-4">
       <div
         v-for="musteri in musteriler"
         :key="musteri.id"
         class="card card-hover group cursor-pointer transition-all duration-200"
         @click="selectedMusteri = musteri"
       >
-        <div class="flex items-start justify-between">
+        <div class="flex flex-col sm:flex-row items-start justify-between gap-3 sm:gap-0">
           <!-- Left: Customer Info -->
-          <div class="flex items-start gap-4 flex-1">
+          <div class="flex items-start gap-3 sm:gap-4 flex-1 w-full sm:w-auto">
             <!-- Avatar -->
-            <div class="w-16 h-16 bg-gradient-to-br from-primary-500 to-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+            <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-primary-500 to-purple-500 rounded-xl flex items-center justify-center text-white font-bold text-base sm:text-xl flex-shrink-0">
               {{ musteri.avatar }}
             </div>
 
             <!-- Info -->
             <div class="flex-1 min-w-0">
-              <div class="flex items-center gap-3 mb-2">
-                <h3 class="text-lg font-bold text-dark-900">{{ musteri.name }}</h3>
-                <span class="text-xl">{{ getPriorityIcon(musteri.priority) }}</span>
-                <span :class="['badge', getStatusColor(musteri.status)]">
+              <div class="flex items-center gap-2 mb-2 flex-wrap">
+                <h3 class="text-base sm:text-lg font-bold text-dark-900 truncate">{{ musteri.name }}</h3>
+                <span class="text-lg sm:text-xl flex-shrink-0">{{ getPriorityIcon(musteri.priority) }}</span>
+                <span :class="['badge text-xs', getStatusColor(musteri.status)]">
                   {{ musteri.status }}
                 </span>
-                <span class="badge badge-primary">{{ musteri.type }}</span>
+                <span class="badge badge-primary text-xs">{{ musteri.type }}</span>
               </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 text-xs sm:text-sm">
                 <div class="flex items-center gap-2 text-gray-600">
                   <span>📱</span>
-                  <span>{{ musteri.phone }}</span>
+                  <span class="truncate">{{ musteri.phone }}</span>
                 </div>
                 <div class="flex items-center gap-2 text-gray-600">
                   <span>✉️</span>
@@ -224,38 +223,38 @@ const getPriorityIcon = (priority) => {
                 </div>
                 <div class="flex items-center gap-2 text-gray-600">
                   <span>💰</span>
-                  <span>{{ musteri.budget }}</span>
+                  <span class="truncate">{{ musteri.budget }}</span>
                 </div>
               </div>
 
-              <div class="mt-3 p-3 bg-gray-50 rounded-lg">
-                <p class="text-sm text-gray-700">
+              <div class="mt-3 p-2 sm:p-3 bg-gray-50 rounded-lg">
+                <p class="text-xs sm:text-sm text-gray-700 line-clamp-2">
                   <span class="font-medium">Not:</span> {{ musteri.notes }}
                 </p>
               </div>
 
-              <div class="flex items-center gap-4 mt-3 text-xs text-gray-500">
-                <span>Son Görüşme: {{ new Date(musteri.lastContact).toLocaleDateString('tr-TR') }}</span>
-                <span>•</span>
-                <span class="text-primary-600 font-medium">Sonraki: {{ new Date(musteri.nextContact).toLocaleDateString('tr-TR') }}</span>
+              <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 mt-3 text-xs text-gray-500">
+                <span>Son: {{ new Date(musteri.lastContact).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' }) }}</span>
+                <span class="hidden sm:inline">•</span>
+                <span class="text-primary-600 font-medium">Sonraki: {{ new Date(musteri.nextContact).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' }) }}</span>
               </div>
             </div>
           </div>
 
           <!-- Right: Actions -->
-          <div class="flex flex-col gap-2 ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <button class="btn btn-primary btn-sm">
+          <div class="flex flex-row sm:flex-col gap-2 w-full sm:w-auto sm:ml-4 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-200">
+            <a :href="`tel:${musteri.phone}`" class="btn btn-primary btn-sm flex-1 sm:flex-initial justify-center">
               <span>📱</span>
-              <span>Ara</span>
-            </button>
-            <button class="btn btn-success btn-sm">
+              <span class="sm:inline">Ara</span>
+            </a>
+            <a :href="`https://wa.me/${musteri.phone.replace(/\s/g, '')}`" target="_blank" class="btn btn-success btn-sm flex-1 sm:flex-initial justify-center">
               <span>💬</span>
-              <span>WhatsApp</span>
-            </button>
-            <button class="btn btn-outline btn-sm">
+              <span class="hidden sm:inline">WhatsApp</span>
+            </a>
+            <NuxtLink :to="`/danisman/musteriler/${musteri.id}`" class="btn btn-outline btn-sm flex-1 sm:flex-initial justify-center" @click.stop>
               <span>✏️</span>
-              <span>Düzenle</span>
-            </button>
+              <span class="sm:inline">Düzenle</span>
+            </NuxtLink>
           </div>
         </div>
       </div>
@@ -266,10 +265,10 @@ const getPriorityIcon = (priority) => {
       <div class="text-6xl mb-4">👥</div>
       <h3 class="text-xl font-bold text-dark-900 mb-2">Henüz müşteri yok</h3>
       <p class="text-gray-600 mb-6">İlk müşterinizi ekleyerek başlayın</p>
-      <button @click="showAddModal = true" class="btn btn-primary">
+      <NuxtLink to="/danisman/musteriler/ekle" class="btn btn-primary">
         <span>➕</span>
         <span>Yeni Müşteri Ekle</span>
-      </button>
+      </NuxtLink>
     </div>
   </div>
 </template>
