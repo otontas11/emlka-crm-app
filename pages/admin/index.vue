@@ -1,22 +1,3 @@
-<script setup>
-definePageMeta({ layout: 'admin', middleware: 'auth' })
-
-const stats = ref([
-  { title: 'Toplam Danışman', value: '5', subtitle: '2 yeni', icon: '👥', color: 'from-blue-500 to-blue-600' },
-  { title: 'Aktif İşlem', value: '12', subtitle: '3 bu hafta', icon: '💼', color: 'from-purple-500 to-purple-600' },
-  { title: 'Aylık Ciro', value: '450K', subtitle: '+15% artış', icon: '💰', color: 'from-success-500 to-success-600' },
-  { title: 'Toplam Portföy', value: '48', subtitle: '32 aktif', icon: '🏢', color: 'from-orange-500 to-orange-600' },
-])
-
-const danismanlar = ref([
-  { id: 1, name: 'Ahmet Yılmaz', avatar: 'AY', satis: 3, kiralama: 5, ciro: 125000, hedef: 80 },
-  { id: 2, name: 'Mehmet Demir', avatar: 'MD', satis: 2, kiralama: 4, ciro: 98000, hedef: 65 },
-  { id: 3, name: 'Ayşe Kaya', avatar: 'AK', satis: 4, kiralama: 3, ciro: 156000, hedef: 95 },
-])
-
-const formatPrice = (price) => new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 0 }).format(price)
-</script>
-
 <template>
   <div class="space-y-6">
     <div class="card bg-gradient-to-br from-warning-500 to-orange-600 text-white">
@@ -70,3 +51,22 @@ const formatPrice = (price) => new Intl.NumberFormat('tr-TR', { style: 'currency
     </div>
   </div>
 </template>
+
+<script setup>
+definePageMeta({ layout: 'admin', middleware: 'auth' })
+
+const stats = ref([
+  { title: 'Toplam Danışman', value: '5', subtitle: '2 yeni', icon: '👥', color: 'from-blue-500 to-blue-600' },
+  { title: 'Aktif İşlem', value: '12', subtitle: '3 bu hafta', icon: '💼', color: 'from-purple-500 to-purple-600' },
+  { title: 'Aylık Ciro', value: '450K', subtitle: '+15% artış', icon: '💰', color: 'from-success-500 to-success-600' },
+  { title: 'Toplam Portföy', value: '48', subtitle: '32 aktif', icon: '🏢', color: 'from-orange-500 to-orange-600' },
+])
+
+const danismanlar = ref([
+  { id: 1, name: 'Ahmet Yılmaz', avatar: 'AY', satis: 3, kiralama: 5, ciro: 125000, hedef: 80 },
+  { id: 2, name: 'Mehmet Demir', avatar: 'MD', satis: 2, kiralama: 4, ciro: 98000, hedef: 65 },
+  { id: 3, name: 'Ayşe Kaya', avatar: 'AK', satis: 4, kiralama: 3, ciro: 156000, hedef: 95 },
+])
+
+const formatPrice = (price) => new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 0 }).format(price)
+</script>
