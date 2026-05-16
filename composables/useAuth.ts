@@ -1,45 +1,35 @@
 export const useAuth = () => {
-  const user = useState('user', () => {
-    // Check localStorage for auth
-    if (process.client) {
-      const stored = localStorage.getItem('auth')
-      if (stored) {
-        return JSON.parse(stored)
-      }
-    }
-    return null
+  const authCookie = useCookie('auth', {
+    maxAge: 60 * 60 * 24 * 7, // 7 gün
+    sameSite: 'lax'
   })
+
+  const user = useState('user', () => authCookie.value || null)
 
   const isAuthenticated = computed(() => !!user.value)
   const isAdmin = computed(() => user.value?.role === 'admin')
   const isDanisman = computed(() => user.value?.role === 'danisman' || user.value?.role === 'admin')
 
   const login = async (email: string, password: string, role: string, name: string) => {
-    user.value = {
+    const userData = {
       email,
       name,
       role
     }
 
-    if (process.client) {
-      localStorage.setItem('auth', JSON.stringify(user.value))
-    }
+    user.value = userData
+    authCookie.value = userData
   }
 
   const logout = () => {
     user.value = null
-    if (process.client) {
-      localStorage.removeItem('auth')
-    }
+    authCookie.value = null
     navigateTo('/')
   }
 
   const checkAuth = () => {
-    if (process.client) {
-      const stored = localStorage.getItem('auth')
-      if (stored) {
-        user.value = JSON.parse(stored)
-      }
+    if (authCookie.value) {
+      user.value = authCookie.value
     }
   }
 

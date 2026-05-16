@@ -1,54 +1,3 @@
-<script setup>
-definePageMeta({
-  layout: false,
-  middleware: 'guest'
-})
-
-const email = ref('')
-const password = ref('')
-const loading = ref(false)
-const error = ref('')
-
-const users = {
-  'admin@emlakcrm.com': { password: 'admin123', role: 'admin', name: 'Ahmet Yılmaz' },
-  'danisman@emlakcrm.com': { password: 'danisman123', role: 'danisman', name: 'Mehmet Demir' }
-}
-
-const handleLogin = async () => {
-  error.value = ''
-  loading.value = true
-
-  try {
-    if (!email.value || !password.value) {
-      error.value = 'Email ve şifre gerekli'
-      loading.value = false
-      return
-    }
-
-    const user = users[email.value.toLowerCase()]
-    if (!user || user.password !== password.value) {
-      error.value = 'Hatalı email veya şifre'
-      loading.value = false
-      return
-    }
-
-    localStorage.setItem('auth', JSON.stringify({ email: email.value, name: user.name, role: user.role }))
-
-    // Rolüne göre yönlendir
-    if (user.role === 'admin') {
-      await navigateTo('/admin')
-    } else {
-      await navigateTo('/danisman')
-    }
-  } catch (err) {
-    error.value = 'Bir hata oluştu'
-    loading.value = false
-  }
-}
-
-const showDemo = ref(false)
-</script>
-
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-600 via-secondary-600 to-purple-700 p-6">
     <div class="absolute inset-0 bg-pattern opacity-10"></div>
@@ -123,3 +72,61 @@ const showDemo = ref(false)
     </div>
   </div>
 </template>
+
+<script setup>
+definePageMeta({
+  layout: false,
+  middleware: 'guest'
+})
+
+const email = ref('')
+const password = ref('')
+const loading = ref(false)
+const error = ref('')
+const showDemo = ref(false)
+
+const users = {
+  'admin@emlakcrm.com': { password: 'admin123', role: 'admin', name: 'Ahmet Yılmaz' },
+  'danisman@emlakcrm.com': { password: 'danisman123', role: 'danisman', name: 'Mehmet Demir' }
+}
+
+const authCookie = useCookie('auth', {
+  maxAge: 60 * 60 * 24 * 7, // 7 gün
+  sameSite: 'lax'
+})
+
+const handleLogin = async () => {
+  error.value = ''
+  loading.value = true
+
+  try {
+    if (!email.value || !password.value) {
+      error.value = 'Email ve şifre gerekli'
+      loading.value = false
+      return
+    }
+
+    const user = users[email.value.toLowerCase()]
+    if (!user || user.password !== password.value) {
+      error.value = 'Hatalı email veya şifre'
+      loading.value = false
+      return
+    }
+
+    // Cookie'ye yaz
+    authCookie.value = { email: email.value, name: user.name, role: user.role }
+
+    // Rolüne göre yönlendir
+    if (user.role === 'admin') {
+      await navigateTo('/admin')
+    } else {
+      await navigateTo('/danisman')
+    }
+  } catch (err) {
+    error.value = 'Bir hata oluştu'
+    loading.value = false
+  }
+}
+
+
+</script>

@@ -59,9 +59,6 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
 ```
 
 ### Pull Request
-- Branch'teki TÜM değişiklikleri analiz edin
-- PR başlığını kısa tutun (70 karakterden az)
-- Detayları description/body'de açıklayın
 
 ## İletişim Stili
 

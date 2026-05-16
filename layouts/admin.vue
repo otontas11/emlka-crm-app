@@ -1,7 +1,7 @@
 <script setup>
 const { user: authUser, logout, isAdmin } = useAuth()
 
-if (process.client && !isAdmin.value) {
+if (!isAdmin.value) {
   navigateTo('/danisman')
 }
 
