@@ -1,9 +1,10 @@
 <script setup>
-const { user: authUser, logout, isCompanyAdmin } = useAuth()
+const { user: authUser, logout, isCompanyAdmin } = useCrmAuth()
 
 const navigation = ref([
   { name: 'Dashboard', icon: '📊', path: '/danisman', badge: null },
   { name: 'Müşteriler', icon: '👥', path: '/danisman/musteriler', badge: '12' },
+  { name: 'Belge Merkezi', icon: '📄', path: '/danisman/belge-merkezi', badge: null },
   { name: 'Görevler', icon: '✅', path: '/danisman/gorevler', badge: '5' },
   { name: 'Raporlar', icon: '📈', path: '/danisman/raporlar', badge: null },
 ])
@@ -209,3 +210,10 @@ nav::-webkit-scrollbar-thumb:hover {
   background: #cbd5e1;
 }
 </style>
+
+
+
+
+
+
+

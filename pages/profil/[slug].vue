@@ -353,3 +353,4 @@ const formatPrice = (price) => {
     </div>
   </div>
 </template>
+

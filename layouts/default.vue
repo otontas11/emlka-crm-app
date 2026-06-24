@@ -1,128 +1,306 @@
+<script setup>
+const route = useRoute()
+const router = useRouter()
+
+const {
+  currentUser,
+  initAuth,
+  logout,
+} = useCrmAuth()
+
+onMounted(() => {
+  initAuth()
+})
+
+const sidebarOpen = ref(false)
+
+const personalMenu = [
+  { label: 'Dashboard', to: '/', icon: 'bi-grid-1x2-fill', exact: true },
+  { label: 'Müşteriler', to: '/contacts', icon: 'bi-people-fill' },
+  { label: 'Talepler', to: '/requests', icon: 'bi-clipboard-check-fill' },
+  { label: 'Belge Merkezi', to: '/danisman/belge-merkezi', icon: 'bi-file-earmark-text-fill' },
+  { label: 'Portföyler', to: '/properties', icon: 'bi-buildings-fill' },
+  { label: 'Görevler', to: '/tasks', icon: 'bi-check2-square' },
+  { label: 'Finans', to: '/finance', icon: 'bi-wallet2' },
+  { label: 'Profil Sayfam', to: '/profile', icon: 'bi-person-badge-fill' },
+]
+
+const officeMenu = [
+  { label: 'Ofis Paneli', to: '/office', icon: 'bi-building-gear', exact: true },
+  { label: 'Danışmanlar', to: '/office/consultants', icon: 'bi-person-lines-fill' },
+  { label: 'Duyurular', to: '/office/announcements', icon: 'bi-megaphone-fill' },
+  { label: 'Bildirim Merkezi', to: '/office/notifications', icon: 'bi-bell-fill' },
+  { label: 'Evrak Takibi', to: '/office/modules/evrak-takibi', icon: 'bi-folder2-open' },
+  { label: 'Belge Şablonları', to: '/office/modules/belge-sablonlari', icon: 'bi-file-earmark-richtext-fill' },
+  { label: 'Oryantasyon', to: '/office/modules/oryantasyon', icon: 'bi-list-check' },
+  { label: 'Eğitimler', to: '/office/modules/egitimler', icon: 'bi-mortarboard-fill' },
+  { label: 'Toplantı / Yoklama', to: '/office/modules/toplanti-yoklama', icon: 'bi-clipboard-check-fill' },
+  { label: 'Nöbet Yönetimi', to: '/office/modules/nobet-yonetimi', icon: 'bi-calendar-check-fill' },
+  { label: 'Komisyon Sistemi', to: '/office/modules/komisyon-sistemi', icon: 'bi-cash-stack' },
+  { label: 'Liderlik Tabloları', to: '/office/modules/liderlik-tablolari', icon: 'bi-trophy-fill' },
+  { label: 'Hedef Yönetimi', to: '/office/modules/hedef-yonetimi', icon: 'bi-bullseye' },
+]
+
+const consultantMenu = [
+  { label: 'Danışman Paneli', to: '/consultant', icon: 'bi-grid-1x2-fill', exact: true },
+  { label: 'Bildirimlerim', to: '/consultant/notifications', icon: 'bi-bell-fill' },
+  { label: 'Evraklarım', to: '/consultant/documents', icon: 'bi-folder2-open' },
+  { label: 'Oryantasyonum', to: '/consultant/orientation', icon: 'bi-list-check' },
+  { label: 'Eğitimlerim', to: '/consultant/trainings', icon: 'bi-mortarboard-fill' },
+  { label: 'Nöbetlerim', to: '/consultant/duties', icon: 'bi-calendar-check-fill' },
+]
+
+const isBrokerUser = computed(() => {
+  return currentUser.value?.role === 'broker'
+})
+
+const isConsultantUser = computed(() => {
+  return currentUser.value?.role === 'consultant'
+})
+
+const menuGroups = computed(() => {
+  if (isConsultantUser.value) {
+    return [
+      {
+        title: 'Kişisel CRM',
+        items: personalMenu,
+      },
+      {
+        title: 'Danışman Paneli',
+        items: consultantMenu,
+      },
+    ]
+  }
+
+  if (isBrokerUser.value) {
+    return [
+      {
+        title: 'Kişisel CRM',
+        items: personalMenu,
+      },
+      {
+        title: 'Ofis Yönetimi',
+        items: officeMenu,
+      },
+    ]
+  }
+
+  return [
+    {
+      title: 'Kişisel CRM',
+      items: personalMenu,
+    },
+  ]
+})
+
+const visibleMenuGroups = computed(() => {
+  return menuGroups.value.filter(group => {
+    if (!group.brokerOnly) return true
+    return isBrokerUser.value
+  })
+})
+
+const isActive = (item) => {
+  if (item.exact) {
+    return route.path === item.to
+  }
+
+  return route.path === item.to || route.path.startsWith(item.to + '/')
+}
+
+const pageTitle = computed(() => {
+  const allItems = [
+    ...personalMenu,
+    ...officeMenu,
+    ...consultantMenu,
+  ]
+
+  const activeItem = allItems
+    .filter(item => isActive(item))
+    .sort((a, b) => b.to.length - a.to.length)[0]
+
+  return activeItem?.label || 'Emlak CRM'
+})
+
+const userName = computed(() => {
+  return currentUser.value?.name || 'Sinan'
+})
+
+const userTitle = computed(() => {
+  return currentUser.value?.title || 'Ticari Gayrimenkul'
+})
+
+const avatarText = computed(() => {
+  return currentUser.value?.avatarText || userName.value?.charAt(0) || 'S'
+})
+
+const logoutUser = async () => {
+  logout()
+  await navigateTo('/login', { replace: true })
+}
+
+const closeSidebar = () => {
+  sidebarOpen.value = false
+}
+</script>
+
 <template>
-  <div class="min-h-screen flex flex-col bg-gray-50">
-    <!-- Header -->
-    <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-      <div class="max-w-7xl mx-auto px-6">
-        <div class="flex items-center justify-between h-16">
-          <!-- Logo -->
-          <NuxtLink to="/" class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
-              E
-            </div>
-            <span class="text-xl font-display font-bold text-dark-900">Emlak CRM</span>
-          </NuxtLink>
+  <div class="min-h-screen bg-slate-100 text-slate-900">
+    <div
+      v-if="sidebarOpen"
+      class="fixed inset-0 z-40 bg-slate-900/40 backdrop-blur-sm lg:hidden"
+      @click="sidebarOpen = false"
+    ></div>
 
-          <!-- Navigation -->
-          <nav class="hidden md:flex items-center gap-1">
-            <NuxtLink to="/" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary-600 transition-all duration-200 font-medium" active-class="bg-primary-100 text-primary-700">
-              Ana Sayfa
-            </NuxtLink>
-            <NuxtLink to="/app/properties" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary-600 transition-all duration-200 font-medium" active-class="bg-primary-100 text-primary-700">
-              Gayrimenkuller
-            </NuxtLink>
-            <NuxtLink to="/hakkimizda" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary-600 transition-all duration-200 font-medium" active-class="bg-primary-100 text-primary-700">
-              Hakkımızda
-            </NuxtLink>
-            <NuxtLink to="/iletisim" class="px-4 py-2 rounded-lg text-gray-700 hover:bg-gray-100 hover:text-primary-600 transition-all duration-200 font-medium" active-class="bg-primary-100 text-primary-700">
-              İletişim
-            </NuxtLink>
-          </nav>
-
-          <!-- CTA -->
-          <div class="flex items-center gap-3">
-            <NuxtLink to="/danisman" class="btn btn-outline btn-sm">
-              Danışman Girişi
-            </NuxtLink>
-            <NuxtLink to="/admin" class="btn btn-primary btn-sm">
-              Broker Girişi
-            </NuxtLink>
-          </div>
-        </div>
-      </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="flex-1">
-      <slot />
-    </main>
-
-    <!-- Footer -->
-    <footer class="bg-dark-900 text-white mt-auto">
-      <div class="max-w-7xl mx-auto px-6 py-12">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          <!-- Brand -->
-          <div>
-            <div class="flex items-center gap-3 mb-4">
-              <div class="w-10 h-10 bg-gradient-to-br from-primary-600 to-secondary-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
-                E
-              </div>
-              <span class="text-xl font-display font-bold">Emlak CRM</span>
-            </div>
-            <p class="text-gray-400 text-sm">
-              Gayrimenkul sektöründe çalışan danışmanlar ve ofisler için profesyonel CRM sistemi.
-            </p>
-          </div>
-
-          <!-- Quick Links -->
-          <div>
-            <h3 class="font-bold text-lg mb-4">Hızlı Linkler</h3>
-            <ul class="space-y-2">
-              <li><NuxtLink to="/" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">Ana Sayfa</NuxtLink></li>
-              <li><NuxtLink to="/app/properties" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">Gayrimenkuller</NuxtLink></li>
-              <li><NuxtLink to="/hakkimizda" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">Hakkımızda</NuxtLink></li>
-              <li><NuxtLink to="/iletisim" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">İletişim</NuxtLink></li>
-            </ul>
-          </div>
-
-          <!-- Services -->
-          <div>
-            <h3 class="font-bold text-lg mb-4">Hizmetler</h3>
-            <ul class="space-y-2 text-gray-400 text-sm">
-              <li>Müşteri Yönetimi</li>
-              <li>Portföy Takibi</li>
-              <li>Hatırlatma Sistemi</li>
-              <li>Ofis Yönetimi</li>
-            </ul>
-          </div>
-
-          <!-- Contact -->
-          <div>
-            <h3 class="font-bold text-lg mb-4">İletişim</h3>
-            <ul class="space-y-3 text-gray-400 text-sm">
-              <li class="flex items-center gap-2">
-                <span>📧</span>
-                <span>info@emlakcrm.com</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span>📱</span>
-                <span>+90 (212) 123 45 67</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span>📍</span>
-                <span>İstanbul, Türkiye</span>
-              </li>
-            </ul>
-          </div>
+    <aside
+      class="fixed inset-y-0 left-0 z-50 flex w-[292px] flex-col bg-slate-950 text-white shadow-2xl transition-transform duration-300 lg:translate-x-0"
+      :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+    >
+      <div class="flex h-20 items-center gap-3 border-b border-white/10 px-5">
+        <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 text-xl">
+          <i class="bi bi-buildings-fill"></i>
         </div>
 
-        <!-- Bottom -->
-        <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p class="text-gray-400 text-sm">
-            &copy; 2025 Emlak CRM. Tüm hakları saklıdır.
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.28em] text-slate-400">
+            Emlak CRM
           </p>
-          <div class="flex items-center gap-4">
-            <a href="#" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">
-              <span class="text-xl">📘</span>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">
-              <span class="text-xl">📷</span>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-primary-400 transition-colors duration-200">
-              <span class="text-xl">💼</span>
-            </a>
-          </div>
+          <h1 class="text-lg font-bold leading-tight text-white">
+            Yönetim Paneli
+          </h1>
         </div>
       </div>
-    </footer>
+
+      <nav class="flex-1 space-y-7 overflow-y-auto px-4 py-6">
+        <div
+          v-for="group in visibleMenuGroups"
+          :key="group.title"
+        >
+          <p class="mb-3 px-3 text-xs font-bold uppercase tracking-[0.22em] text-slate-500">
+            {{ group.title }}
+          </p>
+
+          <div class="space-y-1.5">
+            <NuxtLink
+              v-for="item in group.items"
+              :key="item.to"
+              :to="item.to"
+              class="group flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-semibold transition"
+              :class="isActive(item)
+                ? 'bg-white text-slate-950 shadow-sm'
+                : 'text-slate-300 hover:bg-white/10 hover:text-white'"
+              @click="closeSidebar"
+            >
+              <span
+                class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition"
+                :class="isActive(item)
+                  ? 'bg-slate-950 text-white'
+                  : 'bg-white/10 text-slate-300 group-hover:bg-white/15 group-hover:text-white'"
+              >
+                <i class="bi" :class="item.icon"></i>
+              </span>
+
+              <span class="truncate">
+                {{ item.label }}
+              </span>
+            </NuxtLink>
+          </div>
+        </div>
+      </nav>
+
+      <div class="border-t border-white/10 p-4">
+        <div class="rounded-3xl bg-white/10 p-4">
+          <div class="flex items-center gap-3">
+            <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-sm font-bold text-slate-950">
+              {{ avatarText }}
+            </div>
+
+            <div class="min-w-0">
+              <p class="truncate text-sm font-bold text-white">
+                {{ userName }}
+              </p>
+              <p class="mt-1 truncate text-xs text-slate-400">
+                {{ userTitle }}
+              </p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            class="mt-4 w-full rounded-2xl border border-white/10 px-4 py-3 text-sm font-semibold text-slate-300 transition hover:bg-white/10 hover:text-white"
+            @click="logoutUser"
+          >
+            <i class="bi bi-box-arrow-right mr-2"></i>
+            Çıkış Yap
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <div class="lg:pl-[292px]">
+      <header class="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur">
+        <div class="flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center gap-4">
+            <button
+              type="button"
+              class="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50"
+              @click="sidebarOpen = true"
+            >
+              <i class="bi bi-list text-xl"></i>
+            </button>
+
+            <div>
+              <p class="text-xs font-semibold uppercase tracking-[0.22em] text-slate-400">
+                Emlak CRM
+              </p>
+              <h2 class="text-lg font-bold text-slate-900">
+                {{ pageTitle }}
+              </h2>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <NuxtLink
+              v-if="isBrokerUser"
+              to="/office"
+              class="hidden rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 md:inline-flex"
+            >
+              <i class="bi bi-building-gear mr-2"></i>
+              Ofis Yönetimi
+            </NuxtLink>
+
+            <div class="flex items-center gap-3 rounded-3xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
+              <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-900 text-sm font-bold text-white">
+                {{ avatarText }}
+              </div>
+
+              <div class="hidden min-w-0 sm:block">
+                <p class="truncate text-sm font-bold text-slate-900">
+                  {{ userName }}
+                </p>
+                <p class="truncate text-xs text-slate-500">
+                  {{ userTitle }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="mx-auto max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8">
+        <slot />
+      </main>
+    </div>
   </div>
 </template>
+
+
+
+
+
+
+
+
+
+
+

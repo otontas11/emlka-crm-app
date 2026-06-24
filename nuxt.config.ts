@@ -3,6 +3,13 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
 
+  // Global CSS
+  css: [
+    'bootstrap/dist/css/bootstrap.min.css',
+    'bootstrap-icons/font/bootstrap-icons.css',
+    '~/assets/css/tailwind.css'
+  ],
+
   // Modules
   modules: ['@nuxtjs/tailwindcss'],
 
@@ -27,7 +34,6 @@ export default defineNuxtConfig({
 
   // Tailwind CSS
   tailwindcss: {
-    cssPath: '~/assets/css/tailwind.css',
     configPath: 'tailwind.config'
   }
 })

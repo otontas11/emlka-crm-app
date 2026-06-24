@@ -1,177 +1,187 @@
+script
 <script setup>
 definePageMeta({
-  layout: 'danisman',
-  middleware: 'auth'
-})
+  layout: "danisman",
+  middleware: "auth",
+});
 
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, onMounted } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
-const route = useRoute()
-const router = useRouter()
-const musteriId = route.params.id
+const route = useRoute();
+const router = useRouter();
+const musteriId = route.params.id;
 
-const isLoading = ref(false)
-const activeTab = ref('personal')
+const isLoading = ref(false);
+const activeTab = ref("personal");
 
 // Form verileri
 const formData = ref({
   // Kişisel Bilgiler
-  firstName: '',
-  lastName: '',
-  tcKimlikNo: '',
-  birthDate: '',
-  gender: '',
-  email: '',
-  phone: '',
-  address: '',
-  memleket: '',
+  firstName: "",
+  lastName: "",
+  tcKimlikNo: "",
+  birthDate: "",
+  gender: "",
+  email: "",
+  phone: "",
+  address: "",
+  memleket: "",
 
   // Meslek Bilgileri
-  mainProfession: '',
+  mainProfession: "",
   secondaryProfessions: [],
   previousProfessions: [],
   companies: [],
 
   // Sosyal Medya
-  facebook: '',
-  instagram: '',
-  linkedin: '',
-  youtube: '',
-  twitter: '',
+  facebook: "",
+  instagram: "",
+  linkedin: "",
+  youtube: "",
+  twitter: "",
 
   // Aile Bilgileri
-  spouseName: '',
-  childrenNames: '',
-  motherName: '',
-  fatherName: '',
-  marriageDate: '',
+  spouseName: "",
+  childrenNames: "",
+  motherName: "",
+  fatherName: "",
+  marriageDate: "",
 
   // Mülk Bilgileri
-  propertyType: '',
-  propertyOwnership: '',
-  rentalStatus: '',
-  propertyAddress: '',
+  propertyType: "",
+  propertyOwnership: "",
+  rentalStatus: "",
+  propertyAddress: "",
 
   // Hobiler ve Takımlar
   hobbies: [],
-  favoriteTeam: '',
-  fanaticismLevel: '',
+  favoriteTeam: "",
+  fanaticismLevel: "",
 
   // Araç ve Tekne
-  vehicleBrand: '',
-  vehicleModel: '',
-  vehicleYear: '',
-  vehicleFanaticism: '',
-  boatBrand: '',
-  boatModel: '',
-  boatYear: '',
+  vehicleBrand: "",
+  vehicleModel: "",
+  vehicleYear: "",
+  vehicleFanaticism: "",
+  boatBrand: "",
+  boatModel: "",
+  boatYear: "",
 
   // Evcil Hayvan
   pets: [],
 
   // Notlar
-  notes: ''
-})
+  notes: "",
+});
 
 const tabs = [
-  { id: 'personal', label: 'Kişisel Bilgiler', icon: 'user' },
-  { id: 'profession', label: 'Meslek', icon: 'briefcase' },
-  { id: 'social', label: 'Sosyal Medya', icon: 'share' },
-  { id: 'family', label: 'Aile', icon: 'users' },
-  { id: 'property', label: 'Mülk', icon: 'home' },
-  { id: 'hobbies', label: 'Hobiler', icon: 'heart' },
-  { id: 'vehicles', label: 'Araç/Tekne', icon: 'car' },
-  { id: 'pets', label: 'Evcil Hayvan', icon: 'paw' },
-  { id: 'notes', label: 'Notlar', icon: 'note' }
-]
+  { id: "personal", label: "Kişisel Bilgiler", icon: "user" },
+  { id: "profession", label: "Meslek", icon: "briefcase" },
+  { id: "social", label: "Sosyal Medya", icon: "share" },
+  { id: "family", label: "Aile", icon: "users" },
+  { id: "property", label: "Mülk", icon: "home" },
+  { id: "hobbies", label: "Hobiler", icon: "heart" },
+  { id: "vehicles", label: "Araç/Tekne", icon: "car" },
+  { id: "pets", label: "Evcil Hayvan", icon: "paw" },
+  { id: "notes", label: "Notlar", icon: "note" },
+];
 
 onMounted(() => {
   // Simüle edilmiş veri çekme - gerçek uygulamada API'den gelecek
   formData.value = {
-    firstName: 'Ahmet',
-    lastName: 'Yılmaz',
-    tcKimlikNo: '12345678901',
-    birthDate: '1985-05-15',
-    gender: 'male',
-    email: 'ahmet.yilmaz@email.com',
-    phone: '0532 123 4567',
-    address: 'Kadıköy, İstanbul',
-    memleket: 'Ankara',
-    mainProfession: 'Mühendis',
-    secondaryProfessions: ['Danışman'],
+    firstName: "Ahmet",
+    lastName: "Yılmaz",
+    tcKimlikNo: "12345678901",
+    birthDate: "1985-05-15",
+    gender: "male",
+    email: "ahmet.yilmaz@email.com",
+    phone: "0532 123 4567",
+    address: "Kadıköy, İstanbul",
+    memleket: "Ankara",
+    mainProfession: "Mühendis",
+    secondaryProfessions: ["Danışman"],
     previousProfessions: [],
-    companies: ['ABC Şirketi'],
-    facebook: 'ahmetyilmaz',
-    instagram: '@ahmetyilmaz',
-    linkedin: 'ahmet-yilmaz',
-    youtube: '',
-    twitter: '@ahmetyilmaz',
-    spouseName: 'Ayşe Yılmaz',
-    childrenNames: 'Ali, Elif',
-    motherName: 'Fatma',
-    fatherName: 'Mehmet',
-    marriageDate: '2010-06-20',
-    propertyType: 'ev',
-    propertyOwnership: 'owner',
-    rentalStatus: 'none',
-    propertyAddress: 'Kadıköy, İstanbul',
-    hobbies: ['Futbol', 'Kitap Okuma'],
-    favoriteTeam: 'Beşiktaş',
-    fanaticismLevel: 'high',
-    vehicleBrand: 'Toyota',
-    vehicleModel: 'Corolla',
-    vehicleYear: '2020',
-    vehicleFanaticism: 'medium',
-    boatBrand: '',
-    boatModel: '',
-    boatYear: '',
-    pets: [
-      { type: 'dog', name: 'Karabaş', age: '5', notes: 'Çok sevimli' }
-    ],
-    notes: 'Kadıköy bölgesinde 3+1 daire arıyor. Bütçesi 2.5M - 3.5M TL arası.'
-  }
-})
+    companies: ["ABC Şirketi"],
+    facebook: "ahmetyilmaz",
+    instagram: "@ahmetyilmaz",
+    linkedin: "ahmet-yilmaz",
+    youtube: "",
+    twitter: "@ahmetyilmaz",
+    spouseName: "Ayşe Yılmaz",
+    childrenNames: "Ali, Elif",
+    motherName: "Fatma",
+    fatherName: "Mehmet",
+    marriageDate: "2010-06-20",
+    propertyType: "ev",
+    propertyOwnership: "owner",
+    rentalStatus: "none",
+    propertyAddress: "Kadıköy, İstanbul",
+    hobbies: ["Futbol", "Kitap Okuma"],
+    favoriteTeam: "Beşiktaş",
+    fanaticismLevel: "high",
+    vehicleBrand: "Toyota",
+    vehicleModel: "Corolla",
+    vehicleYear: "2020",
+    vehicleFanaticism: "medium",
+    boatBrand: "",
+    boatModel: "",
+    boatYear: "",
+    pets: [{ type: "dog", name: "Karabaş", age: "5", notes: "Çok sevimli" }],
+    notes: "Kadıköy bölgesinde 3+1 daire arıyor. Bütçesi 2.5M - 3.5M TL arası.",
+  };
+});
 
 const handleSubmit = async () => {
-  isLoading.value = true
+  isLoading.value = true;
 
   // Simüle edilmiş güncelleme işlemi
   setTimeout(() => {
-    isLoading.value = false
+    isLoading.value = false;
     // Başarılı güncelleme sonrası müşteri listesine dön
-    router.push('/danisman/musteriler')
-  }, 1000)
-}
+    router.push("/danisman/musteriler");
+  }, 1000);
+};
 
 const addPet = () => {
   formData.value.pets.push({
-    type: '',
-    name: '',
-    age: '',
-    notes: ''
-  })
-}
+    type: "",
+    name: "",
+    age: "",
+    notes: "",
+  });
+};
 
 const removePet = (index) => {
-  formData.value.pets.splice(index, 1)
-}
+  formData.value.pets.splice(index, 1);
+};
 
 const addHobby = () => {
-  formData.value.hobbies.push('')
-}
+  formData.value.hobbies.push("");
+};
 
 const removeHobby = (index) => {
-  formData.value.hobbies.splice(index, 1)
-}
+  formData.value.hobbies.splice(index, 1);
+};
 </script>
 
 <template>
   <div class="person-add-page">
     <div class="page-header-edit">
       <NuxtLink to="/danisman/musteriler" class="back-btn-new">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          class="w-5 h-5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 19l-7-7m0 0l7-7m-7 7h18"
+          />
         </svg>
         <span>Geri</span>
       </NuxtLink>
@@ -202,15 +212,30 @@ const removeHobby = (index) => {
           <div class="form-grid">
             <div class="form-field">
               <label>Ad <span class="required">*</span></label>
-              <input type="text" v-model="formData.firstName" required placeholder="Ad" />
+              <input
+                type="text"
+                v-model="formData.firstName"
+                required
+                placeholder="Ad"
+              />
             </div>
             <div class="form-field">
               <label>Soyad <span class="required">*</span></label>
-              <input type="text" v-model="formData.lastName" required placeholder="Soyad" />
+              <input
+                type="text"
+                v-model="formData.lastName"
+                required
+                placeholder="Soyad"
+              />
             </div>
             <div class="form-field">
               <label>T.C. Kimlik No</label>
-              <input type="text" v-model="formData.tcKimlikNo" maxlength="11" placeholder="11 haneli T.C. Kimlik No" />
+              <input
+                type="text"
+                v-model="formData.tcKimlikNo"
+                maxlength="11"
+                placeholder="11 haneli T.C. Kimlik No"
+              />
             </div>
             <div class="form-field">
               <label>Doğum Tarihi</label>
@@ -227,19 +252,36 @@ const removeHobby = (index) => {
             </div>
             <div class="form-field">
               <label>E-posta</label>
-              <input type="email" v-model="formData.email" placeholder="ornek@email.com" />
+              <input
+                type="email"
+                v-model="formData.email"
+                placeholder="ornek@email.com"
+              />
             </div>
             <div class="form-field">
               <label>Telefon <span class="required">*</span></label>
-              <input type="tel" v-model="formData.phone" required placeholder="+90 5XX XXX XX XX" />
+              <input
+                type="tel"
+                v-model="formData.phone"
+                required
+                placeholder="+90 5XX XXX XX XX"
+              />
             </div>
             <div class="form-field">
               <label>Memleket</label>
-              <input type="text" v-model="formData.memleket" placeholder="Memleket" />
+              <input
+                type="text"
+                v-model="formData.memleket"
+                placeholder="Memleket"
+              />
             </div>
             <div class="form-field full-width">
               <label>Adres</label>
-              <textarea v-model="formData.address" rows="3" placeholder="Tam adres bilgisi"></textarea>
+              <textarea
+                v-model="formData.address"
+                rows="3"
+                placeholder="Tam adres bilgisi"
+              ></textarea>
             </div>
           </div>
         </div>
@@ -250,19 +292,35 @@ const removeHobby = (index) => {
           <div class="form-grid">
             <div class="form-field">
               <label>Ana Meslek</label>
-              <input type="text" v-model="formData.mainProfession" placeholder="Ana meslek" />
+              <input
+                type="text"
+                v-model="formData.mainProfession"
+                placeholder="Ana meslek"
+              />
             </div>
             <div class="form-field full-width">
               <label>Yan Meslekler</label>
-              <input type="text" v-model="formData.secondaryProfessions" placeholder="Yan meslekler (virgülle ayırın)" />
+              <input
+                type="text"
+                v-model="formData.secondaryProfessions"
+                placeholder="Yan meslekler (virgülle ayırın)"
+              />
             </div>
             <div class="form-field full-width">
               <label>Eski Meslekler</label>
-              <input type="text" v-model="formData.previousProfessions" placeholder="Eski meslekler (virgülle ayırın)" />
+              <input
+                type="text"
+                v-model="formData.previousProfessions"
+                placeholder="Eski meslekler (virgülle ayırın)"
+              />
             </div>
             <div class="form-field full-width">
               <label>Kurumlar</label>
-              <input type="text" v-model="formData.companies" placeholder="Çalışılan kurumlar (virgülle ayırın)" />
+              <input
+                type="text"
+                v-model="formData.companies"
+                placeholder="Çalışılan kurumlar (virgülle ayırın)"
+              />
             </div>
           </div>
         </div>
@@ -273,23 +331,43 @@ const removeHobby = (index) => {
           <div class="form-grid">
             <div class="form-field">
               <label>Facebook</label>
-              <input type="text" v-model="formData.facebook" placeholder="Facebook kullanıcı adı veya URL" />
+              <input
+                type="text"
+                v-model="formData.facebook"
+                placeholder="Facebook kullanıcı adı veya URL"
+              />
             </div>
             <div class="form-field">
               <label>Instagram</label>
-              <input type="text" v-model="formData.instagram" placeholder="Instagram kullanıcı adı" />
+              <input
+                type="text"
+                v-model="formData.instagram"
+                placeholder="Instagram kullanıcı adı"
+              />
             </div>
             <div class="form-field">
               <label>LinkedIn</label>
-              <input type="text" v-model="formData.linkedin" placeholder="LinkedIn profil URL" />
+              <input
+                type="text"
+                v-model="formData.linkedin"
+                placeholder="LinkedIn profil URL"
+              />
             </div>
             <div class="form-field">
               <label>YouTube</label>
-              <input type="text" v-model="formData.youtube" placeholder="YouTube kanal adı veya URL" />
+              <input
+                type="text"
+                v-model="formData.youtube"
+                placeholder="YouTube kanal adı veya URL"
+              />
             </div>
             <div class="form-field">
               <label>Twitter</label>
-              <input type="text" v-model="formData.twitter" placeholder="Twitter kullanıcı adı" />
+              <input
+                type="text"
+                v-model="formData.twitter"
+                placeholder="Twitter kullanıcı adı"
+              />
             </div>
           </div>
         </div>
@@ -300,7 +378,11 @@ const removeHobby = (index) => {
           <div class="form-grid">
             <div class="form-field">
               <label>Eş Adı</label>
-              <input type="text" v-model="formData.spouseName" placeholder="Eş adı" />
+              <input
+                type="text"
+                v-model="formData.spouseName"
+                placeholder="Eş adı"
+              />
             </div>
             <div class="form-field">
               <label>Evlilik Tarihi</label>
@@ -308,15 +390,27 @@ const removeHobby = (index) => {
             </div>
             <div class="form-field full-width">
               <label>Çocuk(lar) Adı</label>
-              <input type="text" v-model="formData.childrenNames" placeholder="Çocuk isimleri (virgülle ayırın)" />
+              <input
+                type="text"
+                v-model="formData.childrenNames"
+                placeholder="Çocuk isimleri (virgülle ayırın)"
+              />
             </div>
             <div class="form-field">
               <label>Anne Adı</label>
-              <input type="text" v-model="formData.motherName" placeholder="Anne adı" />
+              <input
+                type="text"
+                v-model="formData.motherName"
+                placeholder="Anne adı"
+              />
             </div>
             <div class="form-field">
               <label>Baba Adı</label>
-              <input type="text" v-model="formData.fatherName" placeholder="Baba adı" />
+              <input
+                type="text"
+                v-model="formData.fatherName"
+                placeholder="Baba adı"
+              />
             </div>
           </div>
         </div>
@@ -356,7 +450,11 @@ const removeHobby = (index) => {
             </div>
             <div class="form-field full-width">
               <label>Mülk Adresi</label>
-              <textarea v-model="formData.propertyAddress" rows="3" placeholder="Mülk adresi"></textarea>
+              <textarea
+                v-model="formData.propertyAddress"
+                rows="3"
+                placeholder="Mülk adresi"
+              ></textarea>
             </div>
           </div>
         </div>
@@ -367,15 +465,35 @@ const removeHobby = (index) => {
           <div class="form-grid">
             <div class="form-field full-width">
               <label>Hobiler</label>
-              <div v-for="(hobby, index) in formData.hobbies" :key="index" class="array-item">
-                <input type="text" v-model="formData.hobbies[index]" :placeholder="`Hobi ${index + 1}`" />
-                <button type="button" class="remove-btn" @click="removeHobby(index)">×</button>
+              <div
+                v-for="(hobby, index) in formData.hobbies"
+                :key="index"
+                class="array-item"
+              >
+                <input
+                  type="text"
+                  v-model="formData.hobbies[index]"
+                  :placeholder="`Hobi ${index + 1}`"
+                />
+                <button
+                  type="button"
+                  class="remove-btn"
+                  @click="removeHobby(index)"
+                >
+                  ×
+                </button>
               </div>
-              <button type="button" class="add-btn" @click="addHobby">+ Hobi Ekle</button>
+              <button type="button" class="add-btn" @click="addHobby">
+                + Hobi Ekle
+              </button>
             </div>
             <div class="form-field">
               <label>Tuttuğu Takım</label>
-              <input type="text" v-model="formData.favoriteTeam" placeholder="Takım adı" />
+              <input
+                type="text"
+                v-model="formData.favoriteTeam"
+                placeholder="Takım adı"
+              />
             </div>
             <div class="form-field">
               <label>Fanatiklik Seviyesi</label>
@@ -397,15 +515,29 @@ const removeHobby = (index) => {
             <h3 class="subsection-title">Araç</h3>
             <div class="form-field">
               <label>Marka</label>
-              <input type="text" v-model="formData.vehicleBrand" placeholder="Araç markası" />
+              <input
+                type="text"
+                v-model="formData.vehicleBrand"
+                placeholder="Araç markası"
+              />
             </div>
             <div class="form-field">
               <label>Model</label>
-              <input type="text" v-model="formData.vehicleModel" placeholder="Araç modeli" />
+              <input
+                type="text"
+                v-model="formData.vehicleModel"
+                placeholder="Araç modeli"
+              />
             </div>
             <div class="form-field">
               <label>Yıl</label>
-              <input type="number" v-model="formData.vehicleYear" placeholder="Üretim yılı" min="1900" :max="new Date().getFullYear()" />
+              <input
+                type="number"
+                v-model="formData.vehicleYear"
+                placeholder="Üretim yılı"
+                min="1900"
+                :max="new Date().getFullYear()"
+              />
             </div>
             <div class="form-field">
               <label>Fanatiklik Seviyesi</label>
@@ -419,15 +551,29 @@ const removeHobby = (index) => {
             <h3 class="subsection-title">Tekne</h3>
             <div class="form-field">
               <label>Marka</label>
-              <input type="text" v-model="formData.boatBrand" placeholder="Tekne markası" />
+              <input
+                type="text"
+                v-model="formData.boatBrand"
+                placeholder="Tekne markası"
+              />
             </div>
             <div class="form-field">
               <label>Model</label>
-              <input type="text" v-model="formData.boatModel" placeholder="Tekne modeli" />
+              <input
+                type="text"
+                v-model="formData.boatModel"
+                placeholder="Tekne modeli"
+              />
             </div>
             <div class="form-field">
               <label>Yıl</label>
-              <input type="number" v-model="formData.boatYear" placeholder="Üretim yılı" min="1900" :max="new Date().getFullYear()" />
+              <input
+                type="number"
+                v-model="formData.boatYear"
+                placeholder="Üretim yılı"
+                min="1900"
+                :max="new Date().getFullYear()"
+              />
             </div>
           </div>
         </div>
@@ -436,7 +582,11 @@ const removeHobby = (index) => {
         <div v-show="activeTab === 'pets'" class="form-section">
           <h2 class="section-title">Evcil Hayvan Bilgileri</h2>
           <div class="form-grid">
-            <div v-for="(pet, index) in formData.pets" :key="index" class="pet-item">
+            <div
+              v-for="(pet, index) in formData.pets"
+              :key="index"
+              class="pet-item"
+            >
               <h3 class="pet-title">Evcil Hayvan {{ index + 1 }}</h3>
               <div class="form-grid">
                 <div class="form-field">
@@ -451,20 +601,41 @@ const removeHobby = (index) => {
                 </div>
                 <div class="form-field">
                   <label>İsim</label>
-                  <input type="text" v-model="pet.name" placeholder="Hayvan ismi" />
+                  <input
+                    type="text"
+                    v-model="pet.name"
+                    placeholder="Hayvan ismi"
+                  />
                 </div>
                 <div class="form-field">
                   <label>Yaş</label>
-                  <input type="number" v-model="pet.age" placeholder="Yaş" min="0" />
+                  <input
+                    type="number"
+                    v-model="pet.age"
+                    placeholder="Yaş"
+                    min="0"
+                  />
                 </div>
                 <div class="form-field full-width">
                   <label>Notlar</label>
-                  <textarea v-model="pet.notes" rows="2" placeholder="Evcil hayvan hakkında notlar"></textarea>
+                  <textarea
+                    v-model="pet.notes"
+                    rows="2"
+                    placeholder="Evcil hayvan hakkında notlar"
+                  ></textarea>
                 </div>
               </div>
-              <button type="button" class="remove-btn" @click="removePet(index)">Evcil Hayvanı Kaldır</button>
+              <button
+                type="button"
+                class="remove-btn"
+                @click="removePet(index)"
+              >
+                Evcil Hayvanı Kaldır
+              </button>
             </div>
-            <button type="button" class="add-btn" @click="addPet">+ Evcil Hayvan Ekle</button>
+            <button type="button" class="add-btn" @click="addPet">
+              + Evcil Hayvan Ekle
+            </button>
           </div>
         </div>
 
@@ -474,18 +645,26 @@ const removeHobby = (index) => {
           <div class="form-grid">
             <div class="form-field full-width">
               <label>Notlar</label>
-              <textarea v-model="formData.notes" rows="8" placeholder="Müşteri hakkında ek notlar ve açıklamalar"></textarea>
+              <textarea
+                v-model="formData.notes"
+                rows="8"
+                placeholder="Müşteri hakkında ek notlar ve açıklamalar"
+              ></textarea>
             </div>
           </div>
         </div>
 
         <!-- Form Actions -->
         <div class="form-actions">
-          <button type="button" class="btn-secondary" @click="router.push('/danisman/musteriler')">
+          <button
+            type="button"
+            class="btn-secondary"
+            @click="router.push('/danisman/musteriler')"
+          >
             İptal
           </button>
           <button type="submit" class="btn-primary" :disabled="isLoading">
-            {{ isLoading ? 'Güncelleniyor...' : 'Değişiklikleri Kaydet' }}
+            {{ isLoading ? "Güncelleniyor..." : "Değişiklikleri Kaydet" }}
           </button>
         </div>
       </form>
@@ -722,7 +901,9 @@ const removeHobby = (index) => {
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
   font-size: 1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
   font-family: inherit;
   -webkit-appearance: none;
   min-height: 44px;
@@ -866,3 +1047,4 @@ const removeHobby = (index) => {
   background: #e5e7eb;
 }
 </style>
+

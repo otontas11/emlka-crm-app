@@ -427,3 +427,5 @@ const closeDetails = () => {
     </div>
   </div>
 </template>
+
+

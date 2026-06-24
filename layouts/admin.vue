@@ -1,5 +1,5 @@
 <script setup>
-const { user: authUser, logout, isCompanyAdmin } = useAuth()
+const { user: authUser, logout, isCompanyAdmin } = useCrmAuth()
 
 if (!isCompanyAdmin.value) {
   navigateTo('/danisman')
@@ -148,3 +148,6 @@ watch(sidebarOpen, (isOpen) => {
     </div>
   </div>
 </template>
+
+
+
