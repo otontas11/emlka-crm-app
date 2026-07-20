@@ -185,74 +185,62 @@ onMounted(() => {
 
               <div class="row g-4">
                 <div class="col-md-6">
-                  <label class="form-label fw-semibold">Ad Soyad</label>
-                  <input v-model="form.fullName" type="text" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.fullName" label="Ad Soyad" type="text" variant="ring" />
                 </div>
 
                 <div class="col-md-6">
-                  <label class="form-label fw-semibold">Telefon</label>
-                  <input v-model="form.phone" type="text" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.phone" label="Telefon" type="text" variant="ring" />
                 </div>
 
                 <div class="col-md-6">
-                  <label class="form-label fw-semibold">WhatsApp</label>
-                  <input v-model="form.whatsapp" type="text" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.whatsapp" label="WhatsApp" type="text" variant="ring" />
                 </div>
 
                 <div class="col-md-6">
-                  <label class="form-label fw-semibold">E-posta</label>
-                  <input v-model="form.email" type="email" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.email" label="E-posta" type="email" variant="ring" />
                 </div>
 
                 <div class="col-md-4">
-                  <label class="form-label fw-semibold">Meslek</label>
-                  <input v-model="form.profession" type="text" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.profession" label="Meslek" type="text" variant="ring" />
                 </div>
 
                 <div class="col-md-4">
-                  <label class="form-label fw-semibold">Eski Meslek</label>
-                  <input v-model="form.oldProfession" type="text" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.oldProfession" label="Eski Meslek" type="text" variant="ring" />
                 </div>
 
                 <div class="col-md-4">
-                  <label class="form-label fw-semibold">Doğum Tarihi</label>
-                  <input v-model="form.birthDate" type="date" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.birthDate" label="Doğum Tarihi" type="date" variant="ring" />
                 </div>
 
                 <div class="col-md-4">
-                  <label class="form-label fw-semibold">Müşteri Tipi</label>
-                  <select v-model="form.customerType" class="form-select form-select-lg rounded-3">
+                  <UiSelect v-model="form.customerType" label="Müşteri Tipi" variant="ring">
                     <option>Alıcı</option>
                     <option>Satıcı</option>
                     <option>Kiracı</option>
                     <option>Mal Sahibi</option>
                     <option>Yatırımcı</option>
                     <option>Referans</option>
-                  </select>
+                  </UiSelect>
                 </div>
 
                 <div class="col-md-4">
-                  <label class="form-label fw-semibold">Müşteri Durumu</label>
-                  <select v-model="form.customerStatus" class="form-select form-select-lg rounded-3">
+                  <UiSelect v-model="form.customerStatus" label="Müşteri Durumu" variant="ring">
                     <option>Aktif</option>
                     <option>Takipte</option>
                     <option>Pasif</option>
-                  </select>
+                  </UiSelect>
                 </div>
 
                 <div class="col-md-4">
-                  <label class="form-label fw-semibold">Bir Sonraki Takip Tarihi</label>
-                  <input v-model="form.nextFollowUpDate" type="date" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.nextFollowUpDate" label="Bir Sonraki Takip Tarihi" type="date" variant="ring" />
                 </div>
 
                 <div class="col-md-6">
-                  <label class="form-label fw-semibold">Yaşadığı Şehir</label>
-                  <input v-model="form.city" type="text" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.city" label="Yaşadığı Şehir" type="text" variant="ring" />
                 </div>
 
                 <div class="col-md-6">
-                  <label class="form-label fw-semibold">Memleket</label>
-                  <input v-model="form.hometown" type="text" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.hometown" label="Memleket" type="text" variant="ring" />
                 </div>
               </div>
             </div>
@@ -266,23 +254,19 @@ onMounted(() => {
 
               <div class="row g-4">
                 <div class="col-md-3">
-                  <label class="form-label fw-semibold">Eş Adı Soyadı</label>
-                  <input v-model="form.spouseName" type="text" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.spouseName" label="Eş Adı Soyadı" type="text" variant="ring" />
                 </div>
 
                 <div class="col-md-3">
-                  <label class="form-label fw-semibold">Eş Mesleği</label>
-                  <input v-model="form.spouseProfession" type="text" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.spouseProfession" label="Eş Mesleği" type="text" variant="ring" />
                 </div>
 
                 <div class="col-md-3">
-                  <label class="form-label fw-semibold">Eş Doğum Tarihi</label>
-                  <input v-model="form.spouseBirthDate" type="date" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.spouseBirthDate" label="Eş Doğum Tarihi" type="date" variant="ring" />
                 </div>
 
                 <div class="col-md-3">
-                  <label class="form-label fw-semibold">Evlilik Yıl Dönümü</label>
-                  <input v-model="form.weddingAnniversary" type="date" class="form-control form-control-lg rounded-3" />
+                  <UiInput v-model="form.weddingAnniversary" label="Evlilik Yıl Dönümü" type="date" variant="ring" />
                 </div>
               </div>
             </div>
@@ -295,39 +279,32 @@ onMounted(() => {
               <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="fw-bold mb-0">Çocuk Bilgileri</h5>
 
-                <button type="button" class="btn btn-outline-primary rounded-pill px-3" @click="addChild">
-                  <i class="bi bi-plus-lg me-2"></i>Çocuk Ekle
-                </button>
+                <UiButton variant="secondary" icon="bi-plus-lg" type="button" @click="addChild">Çocuk Ekle</UiButton>
               </div>
 
               <div v-for="(child, index) in form.children" :key="index" class="border rounded-4 p-3 mb-3">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                   <strong>{{ index + 1 }}. Çocuk</strong>
 
-                  <button
+                  <UiButton
+                    variant="danger"
                     type="button"
-                    class="btn btn-sm btn-outline-danger rounded-pill"
                     @click="removeChild(index)"
                     v-if="form.children.length > 1"
-                  >
-                    Sil
-                  </button>
+                  >Sil</UiButton>
                 </div>
 
                 <div class="row g-4">
                   <div class="col-md-4">
-                    <label class="form-label fw-semibold">Çocuk Adı</label>
-                    <input v-model="child.name" type="text" class="form-control form-control-lg rounded-3" />
+                    <UiInput v-model="child.name" label="Çocuk Adı" type="text" variant="ring" />
                   </div>
 
                   <div class="col-md-4">
-                    <label class="form-label fw-semibold">Çocuk Doğum Tarihi</label>
-                    <input v-model="child.birthDate" type="date" class="form-control form-control-lg rounded-3" />
+                    <UiInput v-model="child.birthDate" label="Çocuk Doğum Tarihi" type="date" variant="ring" />
                   </div>
 
                   <div class="col-md-4">
-                    <label class="form-label fw-semibold">Çocuk Mesleği / Okulu</label>
-                    <input v-model="child.schoolOrProfession" type="text" class="form-control form-control-lg rounded-3" />
+                    <UiInput v-model="child.schoolOrProfession" label="Çocuk Mesleği / Okulu" type="text" variant="ring" />
                   </div>
                 </div>
               </div>
@@ -337,9 +314,7 @@ onMounted(() => {
 
         <div class="col-12">
           <div class="d-flex gap-2">
-            <button type="button" class="btn btn-primary rounded-pill px-4" @click="saveCustomer">
-              <i class="bi bi-check2-circle me-2"></i>Güncelle
-            </button>
+            <UiButton variant="primary" icon="bi-check2-circle" type="button" @click="saveCustomer">Güncelle</UiButton>
           </div>
         </div>
       </div>

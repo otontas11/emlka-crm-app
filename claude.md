@@ -126,6 +126,40 @@ Projede 3 rol vardır:
 - Değişmediğin koda yorum/docstring ekleme
 - Kullanılmayan kodu tamamen sil
 
+### Ortak Component Kuralı (ZORUNLU)
+
+Tekrar eden UI markup'ı **asla** sayfaya kopyalanmaz; `components/ui/` altındaki
+ortak component'ler kullanılır. Nuxt bu klasörü otomatik import eder, ayrıca
+`import` satırı yazmaya gerek yoktur — doğrudan template'te kullanılır.
+
+**Mevcut ortak component'ler:**
+
+| Component | Yerine geçtiği markup | Öne çıkan prop'lar |
+|-----------|----------------------|--------------------|
+| `<UiInput>` | `<label>` + `<input>` ikilisi | `label`, `type`, `variant`, `size`, `shadow`, `hint`, `required` + `v-model` |
+| `<UiSelect>` | `<label>` + `<select>` (option'lar slot'ta) | `label`, `variant`, `size`, `shadow` + `v-model` |
+| `<UiTextarea>` | `<label>` + `<textarea>` | `label`, `rows`, `variant`, `size` + `v-model` |
+| `<UiButton>` | tekrar eden `<button>` stilleri | `variant`, `size`, `shape`, `icon`, `type`, `block` |
+| `<UiFormField>` | özel kontrol için `<label>` sarmalayıcı | `label`, `hint`, `required` (kontrol slot'ta) |
+
+**Ortak stil değerleri (tek kaynak):**
+- Input/Select/Textarea `variant`: `default` (sade kenarlık), `ring` (odak halkası),
+  `outline` (ince kenarlık + odakta koyulaşan kenarlık)
+- `size`: `md` (varsayılan), `sm` (`text-sm`)
+- `UiButton` `variant`: `primary` (koyu), `secondary` (outline), `danger`, `ghost`,
+  `dark-ghost` (koyu zemin üstü)
+
+**Kurallar:**
+1. Yeni bir form alanı eklerken `<input>`/`<select>`/`<textarea>` markup'ını elle
+   yazma; ilgili `Ui*` component'ini kullan.
+2. Label metni component'e `label` prop'u ile verilir; ayrı `<label>` yazma.
+3. `placeholder`, `min`, `max`, `disabled`, `accept` gibi native attribute'lar
+   component'e doğrudan yazılır (fallthrough ile input'a iner).
+4. Standart olmayan tek seferlik bir stil gerekiyorsa `class` prop'u ile ekle,
+   markup'ı kopyalama.
+5. Yeni bir tekrar eden UI parçası doğarsa (3+ yerde), onu da `components/ui/`
+   altına component olarak çıkar ve bu tabloya ekle.
+
 ## Git Kuralları
 
 - Sadece istendiğinde commit yap

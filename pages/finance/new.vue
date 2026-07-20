@@ -163,14 +163,7 @@ const goToList = () => {
           </p>
         </div>
 
-        <button
-          type="button"
-          class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-          @click="goToList"
-        >
-          <i class="bi bi-arrow-left mr-2"></i>
-          Listeye Dön
-        </button>
+        <UiButton variant="dark-ghost" icon="bi-arrow-left" @click="goToList">Listeye Dön</UiButton>
       </div>
     </section>
 
@@ -182,130 +175,79 @@ const goToList = () => {
 
       <div class="p-6">
         <div class="grid gap-5 md:grid-cols-12">
-          <div class="md:col-span-3">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Tür</label>
-            <select v-model="form.type" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3">
-              <option>Gelir</option>
-              <option>Gider</option>
-              <option>Fatura</option>
-              <option>Ödeme</option>
-            </select>
-          </div>
+          <UiSelect v-model="form.type" label="Tür" class="md:col-span-3">
+            <option>Gelir</option>
+            <option>Gider</option>
+            <option>Fatura</option>
+            <option>Ödeme</option>
+          </UiSelect>
 
-          <div class="md:col-span-3">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Alt Tür</label>
-            <select v-model="form.subType" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3">
-              <option v-for="option in subtypeOptions" :key="option" :value="option">{{ option }}</option>
-            </select>
-          </div>
+          <UiSelect v-model="form.subType" label="Alt Tür" class="md:col-span-3">
+            <option v-for="option in subtypeOptions" :key="option" :value="option">{{ option }}</option>
+          </UiSelect>
 
-          <div class="md:col-span-6">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Başlık</label>
-            <input v-model="form.title" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3" />
-          </div>
+          <UiInput v-model="form.title" label="Başlık" class="md:col-span-6" />
 
-          <div class="md:col-span-4">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Kişi / Kurum</label>
-            <input v-model="form.partyName" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3" />
-          </div>
+          <UiInput v-model="form.partyName" label="Kişi / Kurum" class="md:col-span-4" />
 
-          <div class="md:col-span-4">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Bağlı Modül</label>
-            <select v-model="form.relatedModule" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3">
-              <option>Genel</option>
-              <option>Portföy</option>
-              <option>Müşteri</option>
-              <option>Danışman</option>
-              <option>Ofis</option>
-            </select>
-          </div>
+          <UiSelect v-model="form.relatedModule" label="Bağlı Modül" class="md:col-span-4">
+            <option>Genel</option>
+            <option>Portföy</option>
+            <option>Müşteri</option>
+            <option>Danışman</option>
+            <option>Ofis</option>
+          </UiSelect>
 
-          <div class="md:col-span-4">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Bağlı Kayıt</label>
-            <input v-model="form.relatedName" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3" />
-          </div>
+          <UiInput v-model="form.relatedName" label="Bağlı Kayıt" class="md:col-span-4" />
 
-          <div class="md:col-span-3">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Tutar</label>
-            <input v-model="form.amount" type="number" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3" />
-          </div>
+          <UiInput v-model="form.amount" label="Tutar" type="number" class="md:col-span-3" />
 
-          <div class="md:col-span-2">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Para Birimi</label>
-            <select v-model="form.currency" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3">
-              <option>TL</option>
-              <option>USD</option>
-              <option>EUR</option>
-            </select>
-          </div>
+          <UiSelect v-model="form.currency" label="Para Birimi" class="md:col-span-2">
+            <option>TL</option>
+            <option>USD</option>
+            <option>EUR</option>
+          </UiSelect>
 
-          <div class="md:col-span-3">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Durum</label>
-            <select v-model="form.status" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3">
-              <option>Tahsil Edildi</option>
-              <option>Ödendi</option>
-              <option>Bekliyor</option>
-              <option>Ödenecek</option>
-              <option>Gecikmiş</option>
-              <option>Kısmi Ödendi</option>
-            </select>
-          </div>
+          <UiSelect v-model="form.status" label="Durum" class="md:col-span-3">
+            <option>Tahsil Edildi</option>
+            <option>Ödendi</option>
+            <option>Bekliyor</option>
+            <option>Ödenecek</option>
+            <option>Gecikmiş</option>
+            <option>Kısmi Ödendi</option>
+          </UiSelect>
 
-          <div class="md:col-span-4">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Ödeme Yöntemi</label>
-            <select v-model="form.paymentMethod" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3">
-              <option>Havale</option>
-              <option>Banka</option>
-              <option>Nakit</option>
-              <option>Kredi Kartı</option>
-              <option>EFT</option>
-            </select>
-          </div>
+          <UiSelect v-model="form.paymentMethod" label="Ödeme Yöntemi" class="md:col-span-4">
+            <option>Havale</option>
+            <option>Banka</option>
+            <option>Nakit</option>
+            <option>Kredi Kartı</option>
+            <option>EFT</option>
+          </UiSelect>
 
-          <div class="md:col-span-3">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Kayıt Tarihi</label>
-            <input v-model="form.issueDate" type="date" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3" />
-          </div>
+          <UiInput v-model="form.issueDate" label="Kayıt Tarihi" type="date" class="md:col-span-3" />
 
-          <div class="md:col-span-3">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Vade Tarihi</label>
-            <input v-model="form.dueDate" type="date" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3" />
-          </div>
+          <UiInput v-model="form.dueDate" label="Vade Tarihi" type="date" class="md:col-span-3" />
 
-          <div class="md:col-span-3">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Ödeme Tarihi</label>
-            <input v-model="form.paymentDate" type="date" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3" />
-          </div>
+          <UiInput v-model="form.paymentDate" label="Ödeme Tarihi" type="date" class="md:col-span-3" />
 
-          <div class="md:col-span-3" v-if="isInvoiceType">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Fatura No</label>
-            <input v-model="form.invoiceNo" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3" />
-          </div>
+          <UiInput v-if="isInvoiceType" v-model="form.invoiceNo" label="Fatura No" class="md:col-span-3" />
 
-          <div class="md:col-span-3" v-if="isInvoiceType">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Fatura Takibi</label>
-            <select v-model="form.invoiceTracked" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3">
-              <option>Evet</option>
-              <option>Hayır</option>
-            </select>
-          </div>
+          <UiSelect v-if="isInvoiceType" v-model="form.invoiceTracked" label="Fatura Takibi" class="md:col-span-3">
+            <option>Evet</option>
+            <option>Hayır</option>
+          </UiSelect>
 
-          <div class="md:col-span-3" v-if="!isInvoiceType">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Fatura Takibi</label>
-            <select v-model="form.invoiceTracked" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3">
-              <option>Evet</option>
-              <option>Hayır</option>
-            </select>
-          </div>
+          <UiSelect v-if="!isInvoiceType" v-model="form.invoiceTracked" label="Fatura Takibi" class="md:col-span-3">
+            <option>Evet</option>
+            <option>Hayır</option>
+          </UiSelect>
 
-          <div class="md:col-span-3">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Paket Seviyesi</label>
-            <select v-model="form.packageLevel" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3">
-              <option>Basic</option>
-              <option>Plus</option>
-              <option>Pro</option>
-            </select>
-          </div>
+          <UiSelect v-model="form.packageLevel" label="Paket Seviyesi" class="md:col-span-3">
+            <option>Basic</option>
+            <option>Plus</option>
+            <option>Pro</option>
+          </UiSelect>
 
           <div class="md:col-span-12">
             <div
@@ -325,29 +267,12 @@ const goToList = () => {
             </div>
           </div>
 
-          <div class="md:col-span-12">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Notlar</label>
-            <textarea v-model="form.notes" rows="4" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3"></textarea>
-          </div>
+          <UiTextarea v-model="form.notes" label="Notlar" :rows="4" class="md:col-span-12" />
 
           <div class="md:col-span-12">
             <div class="flex flex-wrap gap-3">
-              <button
-                type="button"
-                class="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-                @click="saveRecord"
-              >
-                <i class="bi bi-check2-circle mr-2"></i>
-                Kaydet
-              </button>
-
-              <button
-                type="button"
-                class="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-                @click="goToList"
-              >
-                Vazgeç
-              </button>
+              <UiButton icon="bi-check2-circle" @click="saveRecord">Kaydet</UiButton>
+              <UiButton variant="secondary" @click="goToList">Vazgeç</UiButton>
             </div>
           </div>
         </div>

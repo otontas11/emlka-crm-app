@@ -113,89 +113,49 @@ onMounted(() => {
 
         <div class="p-6">
           <div class="grid gap-5 md:grid-cols-12">
-            <div class="md:col-span-6">
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Görev Başlığı</label>
-              <input v-model="form.title" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200" />
-            </div>
+            <UiInput v-model="form.title" label="Görev Başlığı" variant="ring" class="md:col-span-6" />
 
-            <div class="md:col-span-3">
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Kategori</label>
-              <select v-model="form.category" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200">
-                <option>Müşteri Takibi</option>
-                <option>Portföy Takibi</option>
-                <option>Raporlama</option>
-                <option>Yetki Takibi</option>
-                <option>Randevu</option>
-              </select>
-            </div>
+            <UiSelect v-model="form.category" label="Kategori" variant="ring" class="md:col-span-3">
+              <option>Müşteri Takibi</option>
+              <option>Portföy Takibi</option>
+              <option>Raporlama</option>
+              <option>Yetki Takibi</option>
+              <option>Randevu</option>
+            </UiSelect>
 
-            <div class="md:col-span-3">
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Öncelik</label>
-              <select v-model="form.priority" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200">
-                <option>Düşük</option>
-                <option>Orta</option>
-                <option>Yüksek</option>
-              </select>
-            </div>
+            <UiSelect v-model="form.priority" label="Öncelik" variant="ring" class="md:col-span-3">
+              <option>Düşük</option>
+              <option>Orta</option>
+              <option>Yüksek</option>
+            </UiSelect>
 
-            <div class="md:col-span-3">
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Durum</label>
-              <select v-model="form.status" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200">
-                <option>Bugün</option>
-                <option>Planlandı</option>
-                <option>Gecikmiş</option>
-                <option>Tamamlandı</option>
-              </select>
-            </div>
+            <UiSelect v-model="form.status" label="Durum" variant="ring" class="md:col-span-3">
+              <option>Bugün</option>
+              <option>Planlandı</option>
+              <option>Gecikmiş</option>
+              <option>Tamamlandı</option>
+            </UiSelect>
 
-            <div class="md:col-span-3">
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Bağlantı Türü</label>
-              <select v-model="form.relatedType" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200">
-                <option>Müşteri</option>
-                <option>Portföy</option>
-                <option>Genel</option>
-              </select>
-            </div>
+            <UiSelect v-model="form.relatedType" label="Bağlantı Türü" variant="ring" class="md:col-span-3">
+              <option>Müşteri</option>
+              <option>Portföy</option>
+              <option>Genel</option>
+            </UiSelect>
 
-            <div class="md:col-span-3">
-              <label class="mb-2 block text-sm font-semibold text-slate-700">İlgili Kayıt</label>
-              <input v-model="form.relatedName" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200" />
-            </div>
+            <UiInput v-model="form.relatedName" label="İlgili Kayıt" variant="ring" class="md:col-span-3" />
 
-            <div class="md:col-span-3">
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Atanan Kişi</label>
-              <input v-model="form.assignedTo" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200" />
-            </div>
+            <UiInput v-model="form.assignedTo" label="Atanan Kişi" variant="ring" class="md:col-span-3" />
 
-            <div class="md:col-span-3">
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Tarih</label>
-              <input v-model="form.dueDate" type="date" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200" />
-            </div>
+            <UiInput v-model="form.dueDate" label="Tarih" type="date" variant="ring" class="md:col-span-3" />
 
-            <div class="md:col-span-3">
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Saat</label>
-              <input v-model="form.dueTime" type="time" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200" />
-            </div>
+            <UiInput v-model="form.dueTime" label="Saat" type="time" variant="ring" class="md:col-span-3" />
+
+            <UiTextarea v-model="form.description" label="Açıklama" :rows="4" variant="ring" class="md:col-span-12" />
+
+            <UiTextarea v-model="form.notes" label="Notlar" :rows="4" variant="ring" class="md:col-span-12" />
 
             <div class="md:col-span-12">
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Açıklama</label>
-              <textarea v-model="form.description" rows="4" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200"></textarea>
-            </div>
-
-            <div class="md:col-span-12">
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Notlar</label>
-              <textarea v-model="form.notes" rows="4" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200"></textarea>
-            </div>
-
-            <div class="md:col-span-12">
-              <button
-                type="button"
-                class="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-                @click="saveTask"
-              >
-                <i class="bi bi-check2-circle mr-2"></i>
-                Güncelle
-              </button>
+              <UiButton icon="bi-check2-circle" @click="saveTask">Güncelle</UiButton>
             </div>
           </div>
         </div>

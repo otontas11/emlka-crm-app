@@ -23,38 +23,38 @@ const formData = ref({
   phone: '',
   address: '',
   memleket: '',
-  
+
   // Meslek Bilgileri
   mainProfession: '',
   secondaryProfessions: [],
   previousProfessions: [],
   companies: [],
-  
+
   // Sosyal Medya
   facebook: '',
   instagram: '',
   linkedin: '',
   youtube: '',
   twitter: '',
-  
+
   // Aile Bilgileri
   spouseName: '',
   childrenNames: '',
   motherName: '',
   fatherName: '',
   marriageDate: '',
-  
+
   // Mülk Bilgileri
   propertyType: '',
   propertyOwnership: '',
   rentalStatus: '',
   propertyAddress: '',
-  
+
   // Hobiler ve Takımlar
   hobbies: [],
   favoriteTeam: '',
   fanaticismLevel: '',
-  
+
   // Araç ve Tekne
   vehicleBrand: '',
   vehicleModel: '',
@@ -63,10 +63,10 @@ const formData = ref({
   boatBrand: '',
   boatModel: '',
   boatYear: '',
-  
+
   // Evcil Hayvan
   pets: [],
-  
+
   // Notlar
   notes: ''
 })
@@ -142,47 +142,20 @@ const removeHobby = (index) => {
         <div v-show="activeTab === 'personal'" class="form-section">
           <h2 class="section-title">Kişisel Bilgiler</h2>
           <div class="form-grid">
-            <div class="form-field">
-              <label>Ad <span class="required">*</span></label>
-              <input type="text" v-model="formData.firstName" required placeholder="Ad" />
-            </div>
-            <div class="form-field">
-              <label>Soyad <span class="required">*</span></label>
-              <input type="text" v-model="formData.lastName" required placeholder="Soyad" />
-            </div>
-            <div class="form-field">
-              <label>T.C. Kimlik No</label>
-              <input type="text" v-model="formData.tcKimlikNo" maxlength="11" placeholder="11 haneli T.C. Kimlik No" />
-            </div>
-            <div class="form-field">
-              <label>Doğum Tarihi</label>
-              <input type="date" v-model="formData.birthDate" />
-            </div>
-            <div class="form-field">
-              <label>Cinsiyet</label>
-              <select v-model="formData.gender">
-                <option value="">Seçiniz</option>
-                <option value="male">Erkek</option>
-                <option value="female">Kadın</option>
-                <option value="other">Diğer</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label>E-posta</label>
-              <input type="email" v-model="formData.email" placeholder="ornek@email.com" />
-            </div>
-            <div class="form-field">
-              <label>Telefon <span class="required">*</span></label>
-              <input type="tel" v-model="formData.phone" required placeholder="+90 5XX XXX XX XX" />
-            </div>
-            <div class="form-field">
-              <label>Memleket</label>
-              <input type="text" v-model="formData.memleket" placeholder="Memleket" />
-            </div>
-            <div class="form-field full-width">
-              <label>Adres</label>
-              <textarea v-model="formData.address" rows="3" placeholder="Tam adres bilgisi"></textarea>
-            </div>
+            <UiInput label="Ad" required variant="outline" type="text" v-model="formData.firstName" placeholder="Ad" />
+            <UiInput label="Soyad" required variant="outline" type="text" v-model="formData.lastName" placeholder="Soyad" />
+            <UiInput label="T.C. Kimlik No" variant="outline" type="text" v-model="formData.tcKimlikNo" maxlength="11" placeholder="11 haneli T.C. Kimlik No" />
+            <UiInput label="Doğum Tarihi" variant="outline" type="date" v-model="formData.birthDate" />
+            <UiSelect label="Cinsiyet" variant="outline" v-model="formData.gender">
+              <option value="">Seçiniz</option>
+              <option value="male">Erkek</option>
+              <option value="female">Kadın</option>
+              <option value="other">Diğer</option>
+            </UiSelect>
+            <UiInput label="E-posta" variant="outline" type="email" v-model="formData.email" placeholder="ornek@email.com" />
+            <UiInput label="Telefon" required variant="outline" type="tel" v-model="formData.phone" placeholder="+90 5XX XXX XX XX" />
+            <UiInput label="Memleket" variant="outline" type="text" v-model="formData.memleket" placeholder="Memleket" />
+            <UiTextarea label="Adres" variant="outline" class="col-span-full" :rows="3" v-model="formData.address" placeholder="Tam adres bilgisi" />
           </div>
         </div>
 
@@ -190,22 +163,10 @@ const removeHobby = (index) => {
         <div v-show="activeTab === 'profession'" class="form-section">
           <h2 class="section-title">Meslek Bilgileri</h2>
           <div class="form-grid">
-            <div class="form-field">
-              <label>Ana Meslek</label>
-              <input type="text" v-model="formData.mainProfession" placeholder="Ana meslek" />
-            </div>
-            <div class="form-field full-width">
-              <label>Yan Meslekler</label>
-              <input type="text" v-model="formData.secondaryProfessions" placeholder="Yan meslekler (virgülle ayırın)" />
-            </div>
-            <div class="form-field full-width">
-              <label>Eski Meslekler</label>
-              <input type="text" v-model="formData.previousProfessions" placeholder="Eski meslekler (virgülle ayırın)" />
-            </div>
-            <div class="form-field full-width">
-              <label>Kurumlar</label>
-              <input type="text" v-model="formData.companies" placeholder="Çalışılan kurumlar (virgülle ayırın)" />
-            </div>
+            <UiInput label="Ana Meslek" variant="outline" type="text" v-model="formData.mainProfession" placeholder="Ana meslek" />
+            <UiInput label="Yan Meslekler" variant="outline" class="col-span-full" type="text" v-model="formData.secondaryProfessions" placeholder="Yan meslekler (virgülle ayırın)" />
+            <UiInput label="Eski Meslekler" variant="outline" class="col-span-full" type="text" v-model="formData.previousProfessions" placeholder="Eski meslekler (virgülle ayırın)" />
+            <UiInput label="Kurumlar" variant="outline" class="col-span-full" type="text" v-model="formData.companies" placeholder="Çalışılan kurumlar (virgülle ayırın)" />
           </div>
         </div>
 
@@ -213,26 +174,11 @@ const removeHobby = (index) => {
         <div v-show="activeTab === 'social'" class="form-section">
           <h2 class="section-title">Sosyal Medya Hesapları</h2>
           <div class="form-grid">
-            <div class="form-field">
-              <label>Facebook</label>
-              <input type="text" v-model="formData.facebook" placeholder="Facebook kullanıcı adı veya URL" />
-            </div>
-            <div class="form-field">
-              <label>Instagram</label>
-              <input type="text" v-model="formData.instagram" placeholder="Instagram kullanıcı adı" />
-            </div>
-            <div class="form-field">
-              <label>LinkedIn</label>
-              <input type="text" v-model="formData.linkedin" placeholder="LinkedIn profil URL" />
-            </div>
-            <div class="form-field">
-              <label>YouTube</label>
-              <input type="text" v-model="formData.youtube" placeholder="YouTube kanal adı veya URL" />
-            </div>
-            <div class="form-field">
-              <label>Twitter</label>
-              <input type="text" v-model="formData.twitter" placeholder="Twitter kullanıcı adı" />
-            </div>
+            <UiInput label="Facebook" variant="outline" type="text" v-model="formData.facebook" placeholder="Facebook kullanıcı adı veya URL" />
+            <UiInput label="Instagram" variant="outline" type="text" v-model="formData.instagram" placeholder="Instagram kullanıcı adı" />
+            <UiInput label="LinkedIn" variant="outline" type="text" v-model="formData.linkedin" placeholder="LinkedIn profil URL" />
+            <UiInput label="YouTube" variant="outline" type="text" v-model="formData.youtube" placeholder="YouTube kanal adı veya URL" />
+            <UiInput label="Twitter" variant="outline" type="text" v-model="formData.twitter" placeholder="Twitter kullanıcı adı" />
           </div>
         </div>
 
@@ -240,26 +186,11 @@ const removeHobby = (index) => {
         <div v-show="activeTab === 'family'" class="form-section">
           <h2 class="section-title">Aile Bilgileri</h2>
           <div class="form-grid">
-            <div class="form-field">
-              <label>Eş Adı</label>
-              <input type="text" v-model="formData.spouseName" placeholder="Eş adı" />
-            </div>
-            <div class="form-field">
-              <label>Evlilik Tarihi</label>
-              <input type="date" v-model="formData.marriageDate" />
-            </div>
-            <div class="form-field full-width">
-              <label>Çocuk(lar) Adı</label>
-              <input type="text" v-model="formData.childrenNames" placeholder="Çocuk isimleri (virgülle ayırın)" />
-            </div>
-            <div class="form-field">
-              <label>Anne Adı</label>
-              <input type="text" v-model="formData.motherName" placeholder="Anne adı" />
-            </div>
-            <div class="form-field">
-              <label>Baba Adı</label>
-              <input type="text" v-model="formData.fatherName" placeholder="Baba adı" />
-            </div>
+            <UiInput label="Eş Adı" variant="outline" type="text" v-model="formData.spouseName" placeholder="Eş adı" />
+            <UiInput label="Evlilik Tarihi" variant="outline" type="date" v-model="formData.marriageDate" />
+            <UiInput label="Çocuk(lar) Adı" variant="outline" class="col-span-full" type="text" v-model="formData.childrenNames" placeholder="Çocuk isimleri (virgülle ayırın)" />
+            <UiInput label="Anne Adı" variant="outline" type="text" v-model="formData.motherName" placeholder="Anne adı" />
+            <UiInput label="Baba Adı" variant="outline" type="text" v-model="formData.fatherName" placeholder="Baba adı" />
           </div>
         </div>
 
@@ -267,39 +198,27 @@ const removeHobby = (index) => {
         <div v-show="activeTab === 'property'" class="form-section">
           <h2 class="section-title">Mülk Bilgileri</h2>
           <div class="form-grid">
-            <div class="form-field">
-              <label>Mülk Türü</label>
-              <select v-model="formData.propertyType">
-                <option value="">Seçiniz</option>
-                <option value="ev">Ev</option>
-                <option value="dukkan">Dükkan</option>
-                <option value="arsa">Arsa</option>
-                <option value="villa">Villa</option>
-                <option value="apartman">Apartman</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label>Sahiplik Durumu</label>
-              <select v-model="formData.propertyOwnership">
-                <option value="">Seçiniz</option>
-                <option value="owner">Sahip</option>
-                <option value="tenant">Kiracı</option>
-                <option value="none">Yok</option>
-              </select>
-            </div>
-            <div class="form-field">
-              <label>Kira Durumu</label>
-              <select v-model="formData.rentalStatus">
-                <option value="">Seçiniz</option>
-                <option value="renting">Kiralıyor</option>
-                <option value="rented">Kiraya Veriyor</option>
-                <option value="none">Yok</option>
-              </select>
-            </div>
-            <div class="form-field full-width">
-              <label>Mülk Adresi</label>
-              <textarea v-model="formData.propertyAddress" rows="3" placeholder="Mülk adresi"></textarea>
-            </div>
+            <UiSelect label="Mülk Türü" variant="outline" v-model="formData.propertyType">
+              <option value="">Seçiniz</option>
+              <option value="ev">Ev</option>
+              <option value="dukkan">Dükkan</option>
+              <option value="arsa">Arsa</option>
+              <option value="villa">Villa</option>
+              <option value="apartman">Apartman</option>
+            </UiSelect>
+            <UiSelect label="Sahiplik Durumu" variant="outline" v-model="formData.propertyOwnership">
+              <option value="">Seçiniz</option>
+              <option value="owner">Sahip</option>
+              <option value="tenant">Kiracı</option>
+              <option value="none">Yok</option>
+            </UiSelect>
+            <UiSelect label="Kira Durumu" variant="outline" v-model="formData.rentalStatus">
+              <option value="">Seçiniz</option>
+              <option value="renting">Kiralıyor</option>
+              <option value="rented">Kiraya Veriyor</option>
+              <option value="none">Yok</option>
+            </UiSelect>
+            <UiTextarea label="Mülk Adresi" variant="outline" class="col-span-full" :rows="3" v-model="formData.propertyAddress" placeholder="Mülk adresi" />
           </div>
         </div>
 
@@ -307,28 +226,22 @@ const removeHobby = (index) => {
         <div v-show="activeTab === 'hobbies'" class="form-section">
           <h2 class="section-title">Hobiler ve Takımlar</h2>
           <div class="form-grid">
-            <div class="form-field full-width">
-              <label>Hobiler</label>
+            <div class="col-span-full">
+              <label class="mb-2 block text-sm font-semibold text-slate-700">Hobiler</label>
               <div v-for="(hobby, index) in formData.hobbies" :key="index" class="array-item">
-                <input type="text" v-model="formData.hobbies[index]" :placeholder="`Hobi ${index + 1}`" />
-                <button type="button" class="remove-btn" @click="removeHobby(index)">×</button>
+                <UiInput variant="outline" class="flex-1" type="text" v-model="formData.hobbies[index]" :placeholder="`Hobi ${index + 1}`" />
+                <UiButton variant="danger" type="button" @click="removeHobby(index)">×</UiButton>
               </div>
-              <button type="button" class="add-btn" @click="addHobby">+ Hobi Ekle</button>
+              <UiButton variant="secondary" type="button" class="mt-2" @click="addHobby">+ Hobi Ekle</UiButton>
             </div>
-            <div class="form-field">
-              <label>Tuttuğu Takım</label>
-              <input type="text" v-model="formData.favoriteTeam" placeholder="Takım adı" />
-            </div>
-            <div class="form-field">
-              <label>Fanatiklik Seviyesi</label>
-              <select v-model="formData.fanaticismLevel">
-                <option value="">Seçiniz</option>
-                <option value="low">Düşük</option>
-                <option value="medium">Orta</option>
-                <option value="high">Yüksek</option>
-                <option value="very-high">Çok Yüksek</option>
-              </select>
-            </div>
+            <UiInput label="Tuttuğu Takım" variant="outline" type="text" v-model="formData.favoriteTeam" placeholder="Takım adı" />
+            <UiSelect label="Fanatiklik Seviyesi" variant="outline" v-model="formData.fanaticismLevel">
+              <option value="">Seçiniz</option>
+              <option value="low">Düşük</option>
+              <option value="medium">Orta</option>
+              <option value="high">Yüksek</option>
+              <option value="very-high">Çok Yüksek</option>
+            </UiSelect>
           </div>
         </div>
 
@@ -337,40 +250,19 @@ const removeHobby = (index) => {
           <h2 class="section-title">Araç ve Tekne Bilgileri</h2>
           <div class="form-grid">
             <h3 class="subsection-title">Araç</h3>
-            <div class="form-field">
-              <label>Marka</label>
-              <input type="text" v-model="formData.vehicleBrand" placeholder="Araç markası" />
-            </div>
-            <div class="form-field">
-              <label>Model</label>
-              <input type="text" v-model="formData.vehicleModel" placeholder="Araç modeli" />
-            </div>
-            <div class="form-field">
-              <label>Yıl</label>
-              <input type="number" v-model="formData.vehicleYear" placeholder="Üretim yılı" min="1900" :max="new Date().getFullYear()" />
-            </div>
-            <div class="form-field">
-              <label>Fanatiklik Seviyesi</label>
-              <select v-model="formData.vehicleFanaticism">
-                <option value="">Seçiniz</option>
-                <option value="low">Düşük</option>
-                <option value="medium">Orta</option>
-                <option value="high">Yüksek</option>
-              </select>
-            </div>
+            <UiInput label="Marka" variant="outline" type="text" v-model="formData.vehicleBrand" placeholder="Araç markası" />
+            <UiInput label="Model" variant="outline" type="text" v-model="formData.vehicleModel" placeholder="Araç modeli" />
+            <UiInput label="Yıl" variant="outline" type="number" v-model="formData.vehicleYear" placeholder="Üretim yılı" min="1900" :max="new Date().getFullYear()" />
+            <UiSelect label="Fanatiklik Seviyesi" variant="outline" v-model="formData.vehicleFanaticism">
+              <option value="">Seçiniz</option>
+              <option value="low">Düşük</option>
+              <option value="medium">Orta</option>
+              <option value="high">Yüksek</option>
+            </UiSelect>
             <h3 class="subsection-title">Tekne</h3>
-            <div class="form-field">
-              <label>Marka</label>
-              <input type="text" v-model="formData.boatBrand" placeholder="Tekne markası" />
-            </div>
-            <div class="form-field">
-              <label>Model</label>
-              <input type="text" v-model="formData.boatModel" placeholder="Tekne modeli" />
-            </div>
-            <div class="form-field">
-              <label>Yıl</label>
-              <input type="number" v-model="formData.boatYear" placeholder="Üretim yılı" min="1900" :max="new Date().getFullYear()" />
-            </div>
+            <UiInput label="Marka" variant="outline" type="text" v-model="formData.boatBrand" placeholder="Tekne markası" />
+            <UiInput label="Model" variant="outline" type="text" v-model="formData.boatModel" placeholder="Tekne modeli" />
+            <UiInput label="Yıl" variant="outline" type="number" v-model="formData.boatYear" placeholder="Üretim yılı" min="1900" :max="new Date().getFullYear()" />
           </div>
         </div>
 
@@ -381,32 +273,20 @@ const removeHobby = (index) => {
             <div v-for="(pet, index) in formData.pets" :key="index" class="pet-item">
               <h3 class="pet-title">Evcil Hayvan {{ index + 1 }}</h3>
               <div class="form-grid">
-                <div class="form-field">
-                  <label>Tür</label>
-                  <select v-model="pet.type">
-                    <option value="">Seçiniz</option>
-                    <option value="dog">Köpek</option>
-                    <option value="cat">Kedi</option>
-                    <option value="bird">Kuş</option>
-                    <option value="other">Diğer</option>
-                  </select>
-                </div>
-                <div class="form-field">
-                  <label>İsim</label>
-                  <input type="text" v-model="pet.name" placeholder="Hayvan ismi" />
-                </div>
-                <div class="form-field">
-                  <label>Yaş</label>
-                  <input type="number" v-model="pet.age" placeholder="Yaş" min="0" />
-                </div>
-                <div class="form-field full-width">
-                  <label>Notlar</label>
-                  <textarea v-model="pet.notes" rows="2" placeholder="Evcil hayvan hakkında notlar"></textarea>
-                </div>
+                <UiSelect label="Tür" variant="outline" v-model="pet.type">
+                  <option value="">Seçiniz</option>
+                  <option value="dog">Köpek</option>
+                  <option value="cat">Kedi</option>
+                  <option value="bird">Kuş</option>
+                  <option value="other">Diğer</option>
+                </UiSelect>
+                <UiInput label="İsim" variant="outline" type="text" v-model="pet.name" placeholder="Hayvan ismi" />
+                <UiInput label="Yaş" variant="outline" type="number" v-model="pet.age" placeholder="Yaş" min="0" />
+                <UiTextarea label="Notlar" variant="outline" class="col-span-full" :rows="2" v-model="pet.notes" placeholder="Evcil hayvan hakkında notlar" />
               </div>
-              <button type="button" class="remove-btn" @click="removePet(index)">Evcil Hayvanı Kaldır</button>
+              <UiButton variant="danger" type="button" @click="removePet(index)">Evcil Hayvanı Kaldır</UiButton>
             </div>
-            <button type="button" class="add-btn" @click="addPet">+ Evcil Hayvan Ekle</button>
+            <UiButton variant="secondary" type="button" class="mt-2" @click="addPet">+ Evcil Hayvan Ekle</UiButton>
           </div>
         </div>
 
@@ -414,21 +294,18 @@ const removeHobby = (index) => {
         <div v-show="activeTab === 'notes'" class="form-section">
           <h2 class="section-title">Ek Notlar</h2>
           <div class="form-grid">
-            <div class="form-field full-width">
-              <label>Notlar</label>
-              <textarea v-model="formData.notes" rows="8" placeholder="Kişi hakkında ek notlar ve açıklamalar"></textarea>
-            </div>
+            <UiTextarea label="Notlar" variant="outline" class="col-span-full" :rows="8" v-model="formData.notes" placeholder="Kişi hakkında ek notlar ve açıklamalar" />
           </div>
         </div>
 
         <!-- Form Actions -->
         <div class="form-actions">
-          <button type="button" class="btn-secondary" @click="router.push('/danisman/musteriler')">
+          <UiButton variant="secondary" type="button" class="w-full md:w-auto" @click="router.push('/danisman/musteriler')">
             İptal
-          </button>
-          <button type="submit" class="btn-primary" :disabled="isLoading">
+          </UiButton>
+          <UiButton variant="primary" type="submit" :disabled="isLoading" class="w-full md:w-auto">
             {{ isLoading ? 'Kaydediliyor...' : 'Müşteriyi Kaydet' }}
-          </button>
+          </UiButton>
         </div>
       </form>
     </div>
@@ -541,96 +418,10 @@ const removeHobby = (index) => {
   gap: 1.5rem;
 }
 
-.form-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.form-field.full-width {
-  grid-column: 1 / -1;
-}
-
-.form-field label {
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: #374151;
-}
-
-.required {
-  color: #ef4444;
-}
-
-.form-field input,
-.form-field select,
-.form-field textarea {
-  padding: 0.75rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  font-family: inherit;
-  -webkit-appearance: none;
-  min-height: 44px;
-}
-
-.form-field textarea {
-  min-height: auto;
-  resize: vertical;
-}
-
-.form-field input:focus,
-.form-field select:focus,
-.form-field textarea:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-}
-
 .array-item {
   display: flex;
   gap: 0.5rem;
   align-items: flex-start;
-}
-
-.array-item input {
-  flex: 1;
-}
-
-.remove-btn {
-  padding: 0.75rem 1rem;
-  background: #ef4444;
-  color: #fff;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-size: 1.25rem;
-  font-weight: 700;
-  transition: background-color 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-  min-width: 44px;
-}
-
-.remove-btn:hover {
-  background: #dc2626;
-}
-
-.add-btn {
-  padding: 0.75rem 1.5rem;
-  background: #10b981;
-  color: #fff;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 600;
-  transition: background-color 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-  margin-top: 0.5rem;
-}
-
-.add-btn:hover {
-  background: #059669;
 }
 
 .pet-item {
@@ -656,43 +447,6 @@ const removeHobby = (index) => {
   margin-top: 2rem;
   padding-top: 2rem;
   border-top: 1px solid #e5e7eb;
-}
-
-.btn-primary,
-.btn-secondary {
-  padding: 0.875rem 2rem;
-  border: none;
-  border-radius: 0.75rem;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-  min-height: 48px;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
-  color: #fff;
-}
-
-.btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-}
-
-.btn-primary:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.btn-secondary {
-  background: #f3f4f6;
-  color: #374151;
-}
-
-.btn-secondary:hover {
-  background: #e5e7eb;
 }
 
 @media (max-width: 768px) {
@@ -721,13 +475,5 @@ const removeHobby = (index) => {
   .form-actions {
     flex-direction: column-reverse;
   }
-
-  .btn-primary,
-  .btn-secondary {
-    width: 100%;
-  }
 }
 </style>
-
-
-

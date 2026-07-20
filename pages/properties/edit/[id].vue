@@ -224,9 +224,7 @@ onMounted(() => {
           <div class="hero-bottom px-4 py-3">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
               <div class="text-muted">Kayıtlı portföy bilgilerini güncelleyebilirsiniz.</div>
-              <button type="button" class="btn btn-outline-secondary rounded-pill px-4" @click="goToDetail">
-                <i class="bi bi-arrow-left me-2"></i>Detaya Dön
-              </button>
+              <UiButton variant="secondary" icon="bi-arrow-left" @click="goToDetail">Detaya Dön</UiButton>
             </div>
           </div>
         </div>
@@ -240,113 +238,56 @@ onMounted(() => {
             </div>
             <div class="card-body p-4">
               <div class="row g-4">
-                <div class="col-md-6">
-                  <label class="form-label fw-semibold">Portföy Başlığı</label>
-                  <input v-model="form.title" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Portföy No</label>
-                  <input v-model="form.portfolioNo" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Durum</label>
-                  <select v-model="form.status" class="form-select form-select-lg rounded-3">
-                    <option>Aktif</option>
-                    <option>Beklemede</option>
-                    <option>Pasif</option>
-                    <option>Satıldı</option>
-                    <option>Kiralandı</option>
-                  </select>
-                </div>
+                <UiInput v-model="form.title" label="Portföy Başlığı" type="text" variant="ring" class="col-md-6" />
+                <UiInput v-model="form.portfolioNo" label="Portföy No" type="text" variant="ring" class="col-md-3" />
+                <UiSelect v-model="form.status" label="Durum" variant="ring" class="col-md-3">
+                  <option>Aktif</option>
+                  <option>Beklemede</option>
+                  <option>Pasif</option>
+                  <option>Satıldı</option>
+                  <option>Kiralandı</option>
+                </UiSelect>
 
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Kategori</label>
-                  <select v-model="form.category" class="form-select form-select-lg rounded-3">
-                    <option>Ticari</option>
-                    <option>Konut</option>
-                    <option>Arsa</option>
-                    <option>Sanayi</option>
-                  </select>
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">İlan Türü</label>
-                  <select v-model="form.listingType" class="form-select form-select-lg rounded-3">
-                    <option>Satılık</option>
-                    <option>Kiralık</option>
-                  </select>
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Mülk Tipi</label>
-                  <input v-model="form.propertyType" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Tapu Durumu</label>
-                  <input v-model="form.deedStatus" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
+                <UiSelect v-model="form.category" label="Kategori" variant="ring" class="col-md-3">
+                  <option>Ticari</option>
+                  <option>Konut</option>
+                  <option>Arsa</option>
+                  <option>Sanayi</option>
+                </UiSelect>
+                <UiSelect v-model="form.listingType" label="İlan Türü" variant="ring" class="col-md-3">
+                  <option>Satılık</option>
+                  <option>Kiralık</option>
+                </UiSelect>
+                <UiInput v-model="form.propertyType" label="Mülk Tipi" type="text" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.deedStatus" label="Tapu Durumu" type="text" variant="ring" class="col-md-3" />
 
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Fiyat</label>
-                  <input v-model="form.price" type="number" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-2">
-                  <label class="form-label fw-semibold">Para Birimi</label>
-                  <select v-model="form.currency" class="form-select form-select-lg rounded-3">
-                    <option>TL</option>
-                    <option>USD</option>
-                    <option>EUR</option>
-                  </select>
-                </div>
-                <div class="col-md-2">
-                  <label class="form-label fw-semibold">Brüt m²</label>
-                  <input v-model="form.grossArea" type="number" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-2">
-                  <label class="form-label fw-semibold">Net m²</label>
-                  <input v-model="form.netArea" type="number" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Oda Sayısı</label>
-                  <input v-model="form.roomCount" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
+                <UiInput v-model="form.price" label="Fiyat" type="number" variant="ring" class="col-md-3" />
+                <UiSelect v-model="form.currency" label="Para Birimi" variant="ring" class="col-md-2">
+                  <option>TL</option>
+                  <option>USD</option>
+                  <option>EUR</option>
+                </UiSelect>
+                <UiInput v-model="form.grossArea" label="Brüt m²" type="number" variant="ring" class="col-md-2" />
+                <UiInput v-model="form.netArea" label="Net m²" type="number" variant="ring" class="col-md-2" />
+                <UiInput v-model="form.roomCount" label="Oda Sayısı" type="text" variant="ring" class="col-md-3" />
 
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Bina Yaşı</label>
-                  <input v-model="form.buildingAge" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Kat</label>
-                  <input v-model="form.floor" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Isıtma</label>
-                  <input v-model="form.heating" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Kullanım Durumu</label>
-                  <input v-model="form.usageStatus" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
+                <UiInput v-model="form.buildingAge" label="Bina Yaşı" type="text" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.floor" label="Kat" type="text" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.heating" label="Isıtma" type="text" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.usageStatus" label="Kullanım Durumu" type="text" variant="ring" class="col-md-3" />
 
-                <div class="col-md-4">
-                  <label class="form-label fw-semibold">Eşyalı</label>
-                  <select v-model="form.furnished" class="form-select form-select-lg rounded-3">
-                    <option>Evet</option>
-                    <option>Hayır</option>
-                  </select>
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label fw-semibold">Site İçinde</label>
-                  <select v-model="form.inSite" class="form-select form-select-lg rounded-3">
-                    <option>Evet</option>
-                    <option>Hayır</option>
-                  </select>
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label fw-semibold">Takas Uygunluğu</label>
-                  <select v-model="form.swapEligible" class="form-select form-select-lg rounded-3">
-                    <option>Evet</option>
-                    <option>Hayır</option>
-                  </select>
-                </div>
+                <UiSelect v-model="form.furnished" label="Eşyalı" variant="ring" class="col-md-4">
+                  <option>Evet</option>
+                  <option>Hayır</option>
+                </UiSelect>
+                <UiSelect v-model="form.inSite" label="Site İçinde" variant="ring" class="col-md-4">
+                  <option>Evet</option>
+                  <option>Hayır</option>
+                </UiSelect>
+                <UiSelect v-model="form.swapEligible" label="Takas Uygunluğu" variant="ring" class="col-md-4">
+                  <option>Evet</option>
+                  <option>Hayır</option>
+                </UiSelect>
               </div>
             </div>
           </div>
@@ -359,26 +300,11 @@ onMounted(() => {
             </div>
             <div class="card-body p-4">
               <div class="row g-4">
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">İl</label>
-                  <input v-model="form.city" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">İlçe</label>
-                  <input v-model="form.district" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Mahalle</label>
-                  <input v-model="form.neighborhood" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Harita Konumu</label>
-                  <input v-model="form.mapLocation" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-12">
-                  <label class="form-label fw-semibold">Adres</label>
-                  <textarea v-model="form.address" class="form-control rounded-3" rows="3"></textarea>
-                </div>
+                <UiInput v-model="form.city" label="İl" type="text" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.district" label="İlçe" type="text" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.neighborhood" label="Mahalle" type="text" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.mapLocation" label="Harita Konumu" type="text" variant="ring" class="col-md-3" />
+                <UiTextarea v-model="form.address" label="Adres" :rows="3" variant="ring" class="col-12" />
               </div>
             </div>
           </div>
@@ -391,18 +317,9 @@ onMounted(() => {
             </div>
             <div class="card-body p-4">
               <div class="row g-4">
-                <div class="col-md-4">
-                  <label class="form-label fw-semibold">Malik Adı</label>
-                  <input v-model="form.ownerName" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label fw-semibold">Malik Telefon</label>
-                  <input v-model="form.ownerPhone" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label fw-semibold">Malik E-posta</label>
-                  <input v-model="form.ownerEmail" type="email" class="form-control form-control-lg rounded-3" />
-                </div>
+                <UiInput v-model="form.ownerName" label="Malik Adı" type="text" variant="ring" class="col-md-4" />
+                <UiInput v-model="form.ownerPhone" label="Malik Telefon" type="text" variant="ring" class="col-md-4" />
+                <UiInput v-model="form.ownerEmail" label="Malik E-posta" type="email" variant="ring" class="col-md-4" />
               </div>
             </div>
           </div>
@@ -415,43 +332,19 @@ onMounted(() => {
             </div>
             <div class="card-body p-4">
               <div class="row g-4">
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Rapor Periyodu (Gün)</label>
-                  <input v-model="form.reportFrequency" type="number" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Son Rapor Tarihi</label>
-                  <input v-model="form.lastReportDate" type="date" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Sonraki Rapor Tarihi</label>
-                  <input v-model="form.nextReportDate" type="date" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Yetki Türü</label>
-                  <select v-model="form.authorityType" class="form-select form-select-lg rounded-3">
-                    <option>Tek Yetkili</option>
-                    <option>Paylaşımlı Yetki</option>
-                    <option>Yetkisiz</option>
-                  </select>
-                </div>
+                <UiInput v-model="form.reportFrequency" label="Rapor Periyodu (Gün)" type="number" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.lastReportDate" label="Son Rapor Tarihi" type="date" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.nextReportDate" label="Sonraki Rapor Tarihi" type="date" variant="ring" class="col-md-3" />
+                <UiSelect v-model="form.authorityType" label="Yetki Türü" variant="ring" class="col-md-3">
+                  <option>Tek Yetkili</option>
+                  <option>Paylaşımlı Yetki</option>
+                  <option>Yetkisiz</option>
+                </UiSelect>
 
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Yazılı Yetki Başlangıç</label>
-                  <input v-model="form.writtenAuthorityStart" type="date" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Yazılı Yetki Bitiş</label>
-                  <input v-model="form.writtenAuthorityEnd" type="date" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">EİDS Başlangıç</label>
-                  <input v-model="form.eidsStart" type="date" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">EİDS Bitiş</label>
-                  <input v-model="form.eidsEnd" type="date" class="form-control form-control-lg rounded-3" />
-                </div>
+                <UiInput v-model="form.writtenAuthorityStart" label="Yazılı Yetki Başlangıç" type="date" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.writtenAuthorityEnd" label="Yazılı Yetki Bitiş" type="date" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.eidsStart" label="EİDS Başlangıç" type="date" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.eidsEnd" label="EİDS Bitiş" type="date" variant="ring" class="col-md-3" />
               </div>
             </div>
           </div>
@@ -464,39 +357,18 @@ onMounted(() => {
             </div>
             <div class="card-body p-4">
               <div class="row g-4">
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Kira Başlangıç Tarihi</label>
-                  <input v-model="form.rentStartDate" type="date" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Mevcut Kira</label>
-                  <input v-model="form.currentRent" type="number" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Artış Tarihi</label>
-                  <input v-model="form.rentIncreaseDate" type="date" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Artış Tipi</label>
-                  <select v-model="form.rentIncreaseType" class="form-select form-select-lg rounded-3">
-                    <option>TÜFE</option>
-                    <option>Sabit Oran</option>
-                    <option>Özel Sözleşme</option>
-                  </select>
-                </div>
+                <UiInput v-model="form.rentStartDate" label="Kira Başlangıç Tarihi" type="date" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.currentRent" label="Mevcut Kira" type="number" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.rentIncreaseDate" label="Artış Tarihi" type="date" variant="ring" class="col-md-3" />
+                <UiSelect v-model="form.rentIncreaseType" label="Artış Tipi" variant="ring" class="col-md-3">
+                  <option>TÜFE</option>
+                  <option>Sabit Oran</option>
+                  <option>Özel Sözleşme</option>
+                </UiSelect>
 
-                <div class="col-md-4">
-                  <label class="form-label fw-semibold">Sözleşme Süresi</label>
-                  <input v-model="form.contractDuration" type="text" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label fw-semibold">Depozito</label>
-                  <input v-model="form.deposit" type="number" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-4">
-                  <label class="form-label fw-semibold">Tahliye Tarihi</label>
-                  <input v-model="form.evacuationDate" type="date" class="form-control form-control-lg rounded-3" />
-                </div>
+                <UiInput v-model="form.contractDuration" label="Sözleşme Süresi" type="text" variant="ring" class="col-md-4" />
+                <UiInput v-model="form.deposit" label="Depozito" type="number" variant="ring" class="col-md-4" />
+                <UiInput v-model="form.evacuationDate" label="Tahliye Tarihi" type="date" variant="ring" class="col-md-4" />
               </div>
             </div>
           </div>
@@ -509,22 +381,10 @@ onMounted(() => {
             </div>
             <div class="card-body p-4">
               <div class="row g-4">
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Telefon Araması</label>
-                  <input v-model="form.marketingPhoneCalls" type="number" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">WhatsApp Talebi</label>
-                  <input v-model="form.marketingWhatsapp" type="number" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Gösterim Sayısı</label>
-                  <input v-model="form.marketingShowings" type="number" class="form-control form-control-lg rounded-3" />
-                </div>
-                <div class="col-md-3">
-                  <label class="form-label fw-semibold">Teklif Sayısı</label>
-                  <input v-model="form.marketingOffers" type="number" class="form-control form-control-lg rounded-3" />
-                </div>
+                <UiInput v-model="form.marketingPhoneCalls" label="Telefon Araması" type="number" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.marketingWhatsapp" label="WhatsApp Talebi" type="number" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.marketingShowings" label="Gösterim Sayısı" type="number" variant="ring" class="col-md-3" />
+                <UiInput v-model="form.marketingOffers" label="Teklif Sayısı" type="number" variant="ring" class="col-md-3" />
               </div>
             </div>
           </div>
@@ -534,27 +394,21 @@ onMounted(() => {
           <div class="card form-card border-0 shadow-sm rounded-4">
             <div class="section-title-wrap d-flex justify-content-between align-items-center">
               <h5 class="fw-bold mb-0">Fotoğraflar</h5>
-              <button type="button" class="btn btn-outline-primary rounded-pill px-3" @click="addPhoto">
-                <i class="bi bi-plus-lg me-2"></i>Fotoğraf Ekle
-              </button>
+              <UiButton variant="secondary" icon="bi-plus-lg" @click="addPhoto">Fotoğraf Ekle</UiButton>
             </div>
             <div class="card-body p-4">
               <div v-if="form.photos.length === 0" class="empty-soft">Henüz fotoğraf eklenmedi.</div>
 
               <div v-for="(photo, index) in form.photos" :key="index" class="media-row mb-3">
                 <div class="media-input-wrap">
-                  <label class="form-label fw-semibold">Fotoğraf {{ index + 1 }}</label>
-                  <input v-model="form.photos[index]" type="text" class="form-control form-control-lg rounded-3" placeholder="Fotoğraf URL veya dosya yolu" />
+                  <UiInput v-model="form.photos[index]" :label="'Fotoğraf ' + (index + 1)" type="text" variant="ring" placeholder="Fotoğraf URL veya dosya yolu" />
                 </div>
                 <div class="media-action-wrap">
-                  <button type="button" class="btn btn-outline-danger w-100 rounded-3" @click="removePhoto(index)">Sil</button>
+                  <UiButton variant="danger" shape="rounded" block @click="removePhoto(index)">Sil</UiButton>
                 </div>
               </div>
 
-              <div class="mt-4">
-                <label class="form-label fw-semibold">Video URL</label>
-                <input v-model="form.videoUrl" type="text" class="form-control form-control-lg rounded-3" />
-              </div>
+              <UiInput v-model="form.videoUrl" label="Video URL" type="text" variant="ring" class="mt-4" />
             </div>
           </div>
         </div>
@@ -563,20 +417,17 @@ onMounted(() => {
           <div class="card form-card border-0 shadow-sm rounded-4">
             <div class="section-title-wrap d-flex justify-content-between align-items-center">
               <h5 class="fw-bold mb-0">Belgeler</h5>
-              <button type="button" class="btn btn-outline-primary rounded-pill px-3" @click="addDocument">
-                <i class="bi bi-plus-lg me-2"></i>Belge Ekle
-              </button>
+              <UiButton variant="secondary" icon="bi-plus-lg" @click="addDocument">Belge Ekle</UiButton>
             </div>
             <div class="card-body p-4">
               <div v-if="form.documents.length === 0" class="empty-soft">Henüz belge eklenmedi.</div>
 
               <div v-for="(document, index) in form.documents" :key="index" class="media-row mb-3">
                 <div class="media-input-wrap">
-                  <label class="form-label fw-semibold">Belge {{ index + 1 }}</label>
-                  <input v-model="form.documents[index]" type="text" class="form-control form-control-lg rounded-3" placeholder="Belge adı veya dosya yolu" />
+                  <UiInput v-model="form.documents[index]" :label="'Belge ' + (index + 1)" type="text" variant="ring" placeholder="Belge adı veya dosya yolu" />
                 </div>
                 <div class="media-action-wrap">
-                  <button type="button" class="btn btn-outline-danger w-100 rounded-3" @click="removeDocument(index)">Sil</button>
+                  <UiButton variant="danger" shape="rounded" block @click="removeDocument(index)">Sil</UiButton>
                 </div>
               </div>
             </div>
@@ -590,14 +441,8 @@ onMounted(() => {
             </div>
             <div class="card-body p-4">
               <div class="row g-4">
-                <div class="col-12">
-                  <label class="form-label fw-semibold">Açıklama</label>
-                  <textarea v-model="form.description" class="form-control rounded-3" rows="4"></textarea>
-                </div>
-                <div class="col-12">
-                  <label class="form-label fw-semibold">Notlar</label>
-                  <textarea v-model="form.notes" class="form-control rounded-3" rows="4"></textarea>
-                </div>
+                <UiTextarea v-model="form.description" label="Açıklama" :rows="4" variant="ring" class="col-12" />
+                <UiTextarea v-model="form.notes" label="Notlar" :rows="4" variant="ring" class="col-12" />
               </div>
             </div>
           </div>
@@ -605,9 +450,7 @@ onMounted(() => {
 
         <div class="col-12">
           <div class="d-flex gap-2">
-            <button type="button" class="btn btn-primary rounded-pill px-4" @click="saveProperty">
-              <i class="bi bi-check2-circle me-2"></i>Güncelle
-            </button>
+            <UiButton variant="primary" icon="bi-check2-circle" @click="saveProperty">Güncelle</UiButton>
           </div>
         </div>
       </div>
