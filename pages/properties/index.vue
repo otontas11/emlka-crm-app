@@ -157,29 +157,40 @@ const clearFilters = () => {
     <div class="card filter-card border-0 shadow-sm rounded-4 mb-4">
       <div class="card-body p-4">
         <div class="row g-3">
-          <div class="col-lg-5">
-            <label class="form-label fw-semibold">Arama</label>
-            <input v-model="searchTerm" type="text" class="form-control" placeholder="Başlık, portföy no, mahalle, malik adı ile ara" />
-          </div>
+          <UiInput
+            v-model="searchTerm"
+            label="Arama"
+            variant="ring"
+            class="col-lg-5"
+            placeholder="Başlık, portföy no, mahalle, malik adı ile ara"
+          />
 
-          <div class="col-lg-3">
-            <label class="form-label fw-semibold">İlan Türü</label>
-            <select v-model="selectedListingType" class="form-select">
-              <option v-for="type in listingTypes" :key="type" :value="type">{{ type }}</option>
-            </select>
-          </div>
+          <UiSelect
+            v-model="selectedListingType"
+            label="İlan Türü"
+            variant="ring"
+            class="col-lg-3"
+          >
+            <option v-for="type in listingTypes" :key="type" :value="type">{{ type }}</option>
+          </UiSelect>
 
-          <div class="col-lg-2">
-            <label class="form-label fw-semibold">Durum</label>
-            <select v-model="selectedStatus" class="form-select">
-              <option v-for="status in statuses" :key="status" :value="status">{{ status }}</option>
-            </select>
-          </div>
+          <UiSelect
+            v-model="selectedStatus"
+            label="Durum"
+            variant="ring"
+            class="col-lg-2"
+          >
+            <option v-for="status in statuses" :key="status" :value="status">{{ status }}</option>
+          </UiSelect>
 
           <div class="col-lg-2 d-flex align-items-end">
-            <button type="button" class="btn btn-outline-secondary w-100 rounded-pill" @click="clearFilters">
+            <UiButton
+              variant="secondary"
+              block
+              @click="clearFilters"
+            >
               Temizle
-            </button>
+            </UiButton>
           </div>
         </div>
       </div>

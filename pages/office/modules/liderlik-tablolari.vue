@@ -353,77 +353,46 @@ const leaderValue = (type, row) => {
 
     <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <div class="grid gap-4 xl:grid-cols-[1fr_160px_220px_260px_140px]">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Danışman Ara
-          </label>
-          <input
-            v-model="search"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Danışman adı, kod, bölge ara..."
-          />
-        </div>
+        <UiInput
+          v-model="search"
+          label="Danışman Ara"
+          type="text"
+          variant="outline"
+          size="sm"
+          placeholder="Danışman adı, kod, bölge ara..."
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Yıl
-          </label>
-          <select
-            v-model="yearFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="yearFilter" label="Yıl" variant="outline" size="sm">
+          <option
+            v-for="item in availableYears"
+            :key="item"
           >
-            <option
-              v-for="item in availableYears"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Dönem
-          </label>
-          <select
-            v-model="periodFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="periodFilter" label="Dönem" variant="outline" size="sm">
+          <option
+            v-for="item in periodOptions"
+            :key="item"
           >
-            <option
-              v-for="item in periodOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Ana Sıralama
-          </label>
-          <select
-            v-model="metricFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="metricFilter" label="Ana Sıralama" variant="outline" size="sm">
+          <option
+            v-for="item in metricOptions"
+            :key="item"
           >
-            <option
-              v-for="item in metricOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
         <div class="flex items-end">
-          <button
-            type="button"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-            @click="clearFilters"
-          >
+          <UiButton variant="secondary" shape="rounded" block @click="clearFilters">
             Temizle
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>

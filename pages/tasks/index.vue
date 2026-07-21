@@ -171,44 +171,41 @@ const goToEdit = (id) => {
 
       <div class="p-6">
         <div class="grid gap-4 md:grid-cols-12">
-          <div class="md:col-span-5">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Arama</label>
-            <input
-              v-model="searchTerm"
-              type="text"
-              class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200"
-              placeholder="Görev adı, açıklama, kategori, kişi ile ara"
-            />
-          </div>
+          <UiInput
+            v-model="searchTerm"
+            label="Arama"
+            variant="ring"
+            class="md:col-span-5"
+            placeholder="Görev adı, açıklama, kategori, kişi ile ara"
+          />
 
-          <div class="md:col-span-3">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Durum</label>
-            <select
-              v-model="selectedStatus"
-              class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200"
-            >
-              <option v-for="status in statuses" :key="status" :value="status">{{ status }}</option>
-            </select>
-          </div>
+          <UiSelect
+            v-model="selectedStatus"
+            label="Durum"
+            variant="ring"
+            class="md:col-span-3"
+          >
+            <option v-for="status in statuses" :key="status" :value="status">{{ status }}</option>
+          </UiSelect>
 
-          <div class="md:col-span-2">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Öncelik</label>
-            <select
-              v-model="selectedPriority"
-              class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900 outline-none transition focus:border-slate-400 focus:ring-4 focus:ring-slate-200"
-            >
-              <option v-for="priority in priorities" :key="priority" :value="priority">{{ priority }}</option>
-            </select>
-          </div>
+          <UiSelect
+            v-model="selectedPriority"
+            label="Öncelik"
+            variant="ring"
+            class="md:col-span-2"
+          >
+            <option v-for="priority in priorities" :key="priority" :value="priority">{{ priority }}</option>
+          </UiSelect>
 
           <div class="flex items-end md:col-span-2">
-            <button
-              type="button"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            <UiButton
+              variant="secondary"
+              shape="rounded"
+              block
               @click="clearFilters"
             >
               Temizle
-            </button>
+            </UiButton>
           </div>
         </div>
       </div>

@@ -61,35 +61,32 @@ const login = async () => {
           </p>
 
           <div class="mt-8 grid gap-4">
-            <div>
-              <label class="mb-2 block text-sm font-semibold text-slate-700">
-                E-posta
-              </label>
-              <input
-                v-model="form.email"
-                type="email"
-                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-              />
-            </div>
+            <UiInput
+              v-model="form.email"
+              label="E-posta"
+              type="email"
+              variant="outline"
+              size="sm"
+            />
 
-            <div>
-              <label class="mb-2 block text-sm font-semibold text-slate-700">
-                Şifre
-              </label>
-              <input
-                v-model="form.password"
-                type="password"
-                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-              />
-            </div>
+            <UiInput
+              v-model="form.password"
+              label="Şifre"
+              type="password"
+              variant="outline"
+              size="sm"
+            />
 
-            <button
+            <UiButton
               type="button"
-              class="mt-2 rounded-2xl bg-slate-900 px-5 py-4 text-sm font-bold text-white transition hover:bg-slate-800"
+              variant="primary"
+              shape="rounded"
+              block
+              class="mt-2"
               @click="login"
             >
               Broker Paneline Giriş Yap
-            </button>
+            </UiButton>
 
             <NuxtLink
               to="/login"

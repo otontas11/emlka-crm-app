@@ -225,59 +225,29 @@ const workTypeClass = (workType) => {
           </div>
         </div>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Danışman Durumu
-          </label>
-          <select
-            v-model="statusFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option>Aday</option>
-            <option>Aktif</option>
-            <option>Pasif</option>
-            <option>Ayrılmış</option>
-          </select>
-        </div>
+        <UiSelect v-model="statusFilter" label="Danışman Durumu" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option>Aday</option>
+          <option>Aktif</option>
+          <option>Pasif</option>
+          <option>Ayrılmış</option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Çalışma Türü
-          </label>
-          <select
-            v-model="workTypeFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option>SGK’lı Danışman</option>
-            <option>Bağ-Kur’lu Danışman</option>
-          </select>
-        </div>
+        <UiSelect v-model="workTypeFilter" label="Çalışma Türü" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option>SGK’lı Danışman</option>
+          <option>Bağ-Kur’lu Danışman</option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Adım Durumu
-          </label>
-          <select
-            v-model="stepStatusFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option>Bekliyor</option>
-            <option>Devam Ediyor</option>
-            <option>Tamamlandı</option>
-          </select>
-        </div>
+        <UiSelect v-model="stepStatusFilter" label="Adım Durumu" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option>Bekliyor</option>
+          <option>Devam Ediyor</option>
+          <option>Tamamlandı</option>
+        </UiSelect>
 
         <div class="flex items-end">
-          <button
-            type="button"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-            @click="clearFilters"
-          >
-            Temizle
-          </button>
+          <UiButton variant="secondary" shape="rounded" block @click="clearFilters">Temizle</UiButton>
         </div>
       </div>
     </section>

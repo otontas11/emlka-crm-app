@@ -158,43 +158,33 @@ const getDaysUntil = (date) => {
     <!-- Filters -->
     <div class="card">
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Ara</label>
-          <input
-            v-model="filters.search"
-            type="text"
-            placeholder="Başlık, lokasyon..."
-            class="input"
-          />
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Tip</label>
-          <select v-model="filters.type" class="input">
-            <option value="">Tümü</option>
-            <option value="Satılık">Satılık</option>
-            <option value="Kiralık">Kiralık</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
-          <select v-model="filters.category" class="input">
-            <option value="">Tümü</option>
-            <option value="Daire">Daire</option>
-            <option value="Villa">Villa</option>
-            <option value="Ofis">Ofis</option>
-            <option value="Arsa">Arsa</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Durum</label>
-          <select v-model="filters.status" class="input">
-            <option value="">Tümü</option>
-            <option value="Aktif">Aktif</option>
-            <option value="Teklif Var">Teklif Var</option>
-            <option value="Opsiyonlu">Opsiyonlu</option>
-            <option value="Beklemede">Beklemede</option>
-          </select>
-        </div>
+        <UiInput
+          v-model="filters.search"
+          label="Ara"
+          type="text"
+          placeholder="Başlık, lokasyon..."
+          variant="outline"
+          size="sm"
+        />
+        <UiSelect v-model="filters.type" label="Tip" variant="outline" size="sm">
+          <option value="">Tümü</option>
+          <option value="Satılık">Satılık</option>
+          <option value="Kiralık">Kiralık</option>
+        </UiSelect>
+        <UiSelect v-model="filters.category" label="Kategori" variant="outline" size="sm">
+          <option value="">Tümü</option>
+          <option value="Daire">Daire</option>
+          <option value="Villa">Villa</option>
+          <option value="Ofis">Ofis</option>
+          <option value="Arsa">Arsa</option>
+        </UiSelect>
+        <UiSelect v-model="filters.status" label="Durum" variant="outline" size="sm">
+          <option value="">Tümü</option>
+          <option value="Aktif">Aktif</option>
+          <option value="Teklif Var">Teklif Var</option>
+          <option value="Opsiyonlu">Opsiyonlu</option>
+          <option value="Beklemede">Beklemede</option>
+        </UiSelect>
       </div>
     </div>
 

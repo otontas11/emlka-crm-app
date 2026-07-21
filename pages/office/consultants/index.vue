@@ -240,58 +240,30 @@ const nextPage = () => {
           </div>
         </div>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Durum
-          </label>
-          <select
-            v-model="statusFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option>Aday</option>
-            <option>Aktif</option>
-            <option>Pasif</option>
-            <option>Ayrılmış</option>
-          </select>
-        </div>
+        <UiSelect v-model="statusFilter" label="Durum" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option>Aday</option>
+          <option>Aktif</option>
+          <option>Pasif</option>
+          <option>Ayrılmış</option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Çalışma Türü
-          </label>
-          <select
-            v-model="workTypeFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option>SGK’lı Danışman</option>
-            <option>Bağ-Kur’lu Danışman</option>
-          </select>
-        </div>
+        <UiSelect v-model="workTypeFilter" label="Çalışma Türü" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option>SGK’lı Danışman</option>
+          <option>Bağ-Kur’lu Danışman</option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Sayfa Başına
-          </label>
-          <select
-            v-model.number="pageSize"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-          >
-            <option v-for="item in pageSizeOptions" :key="item" :value="item">
-              {{ item }}
-            </option>
-          </select>
-        </div>
+        <UiSelect v-model.number="pageSize" label="Sayfa Başına" variant="outline" size="sm">
+          <option v-for="item in pageSizeOptions" :key="item" :value="item">
+            {{ item }}
+          </option>
+        </UiSelect>
 
         <div class="flex items-end">
-          <button
-            type="button"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-            @click="clearFilters"
-          >
+          <UiButton variant="secondary" shape="rounded" block @click="clearFilters">
             Temizle
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>

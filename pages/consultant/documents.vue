@@ -161,40 +161,24 @@ const clearFilters = () => {
 
     <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <div class="grid gap-4 md:grid-cols-[220px_220px_120px]">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Durum
-          </label>
-          <select
-            v-model="statusFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option>Eksik</option>
-            <option>Kontrol Bekliyor</option>
-            <option>Tamamlandı</option>
-            <option>Süresi Yaklaşıyor</option>
-            <option>Geçersiz</option>
-          </select>
-        </div>
+        <UiSelect v-model="statusFilter" label="Durum" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option>Eksik</option>
+          <option>Kontrol Bekliyor</option>
+          <option>Tamamlandı</option>
+          <option>Süresi Yaklaşıyor</option>
+          <option>Geçersiz</option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Evrak Grubu
-          </label>
-          <select
-            v-model="groupFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="groupFilter" label="Evrak Grubu" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option
+            v-for="item in documentGroups"
+            :key="item"
           >
-            <option>Tümü</option>
-            <option
-              v-for="item in documentGroups"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
         <div class="flex items-end">
           <button

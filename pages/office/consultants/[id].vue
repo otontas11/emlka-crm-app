@@ -390,60 +390,49 @@ const formatNumber = (value) => {
         </div>
 
         <div class="mt-6 grid gap-4 xl:grid-cols-4">
-          <div class="xl:col-span-2">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">
-              Komisyon Kıdem Hesabı
-            </label>
-            <select
-              v-model="commissionForm.commissionSeniorityMode"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+          <UiSelect
+            v-model="commissionForm.commissionSeniorityMode"
+            label="Komisyon Kıdem Hesabı"
+            variant="outline"
+            size="sm"
+            class="xl:col-span-2"
+          >
+            <option
+              v-for="item in commissionSeniorityOptions"
+              :key="item"
             >
-              <option
-                v-for="item in commissionSeniorityOptions"
-                :key="item"
-              >
-                {{ item }}
-              </option>
-            </select>
-          </div>
+              {{ item }}
+            </option>
+          </UiSelect>
 
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">
-              Önceki Tecrübe Yılı
-            </label>
-            <input
-              v-model="commissionForm.previousOfficeExperienceYears"
-              type="number"
-              min="0"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            />
-          </div>
+          <UiInput
+            v-model="commissionForm.previousOfficeExperienceYears"
+            label="Önceki Tecrübe Yılı"
+            type="number"
+            min="0"
+            variant="outline"
+            size="sm"
+          />
 
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">
-              Kabul Edilen Tecrübe
-            </label>
-            <input
-              v-model="commissionForm.recognizedExperienceYears"
-              type="number"
-              min="0"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            />
-          </div>
+          <UiInput
+            v-model="commissionForm.recognizedExperienceYears"
+            label="Kabul Edilen Tecrübe"
+            type="number"
+            min="0"
+            variant="outline"
+            size="sm"
+          />
 
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">
-              Manuel Başlangıç Oranı %
-            </label>
-            <input
-              v-model="commissionForm.manualCommissionStartPercent"
-              type="number"
-              min="0"
-              max="100"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-              placeholder="0 ise otomatik"
-            />
-          </div>
+          <UiInput
+            v-model="commissionForm.manualCommissionStartPercent"
+            label="Manuel Başlangıç Oranı %"
+            type="number"
+            min="0"
+            max="100"
+            placeholder="0 ise otomatik"
+            variant="outline"
+            size="sm"
+          />
 
           <div class="xl:col-span-3 rounded-3xl bg-slate-50 p-5">
             <p class="text-sm font-bold text-slate-900">

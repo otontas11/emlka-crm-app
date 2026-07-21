@@ -303,25 +303,45 @@ const closeDetails = () => {
         </div>
 
         <form @submit.prevent="handleAddDanisman" class="space-y-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Ad Soyad</label>
-            <input v-model="newDanisman.name" type="text" placeholder="Ahmet Yılmaz" class="input" required />
-          </div>
+          <UiInput
+            v-model="newDanisman.name"
+            label="Ad Soyad"
+            type="text"
+            placeholder="Ahmet Yılmaz"
+            variant="outline"
+            size="sm"
+            required
+          />
 
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-            <input v-model="newDanisman.email" type="email" placeholder="ahmet.yilmaz@emlakcrm.com" class="input" required />
-          </div>
+          <UiInput
+            v-model="newDanisman.email"
+            label="Email"
+            type="email"
+            placeholder="ahmet.yilmaz@emlakcrm.com"
+            variant="outline"
+            size="sm"
+            required
+          />
 
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Telefon</label>
-            <input v-model="newDanisman.telefon" type="tel" placeholder="0532 123 4567" class="input" required />
-          </div>
+          <UiInput
+            v-model="newDanisman.telefon"
+            label="Telefon"
+            type="tel"
+            placeholder="0532 123 4567"
+            variant="outline"
+            size="sm"
+            required
+          />
 
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Şifre</label>
-            <input v-model="newDanisman.password" type="password" placeholder="••••••••" class="input" required />
-          </div>
+          <UiInput
+            v-model="newDanisman.password"
+            label="Şifre"
+            type="password"
+            placeholder="••••••••"
+            variant="outline"
+            size="sm"
+            required
+          />
 
           <div class="flex gap-3 pt-4">
             <button type="button" @click="showAddModal = false" class="btn btn-outline flex-1">İptal</button>

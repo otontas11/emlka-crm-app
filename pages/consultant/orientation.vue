@@ -197,38 +197,22 @@ const clearFilters = () => {
 
     <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <div class="grid gap-4 md:grid-cols-[220px_220px_120px]">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Adım Durumu
-          </label>
-          <select
-            v-model="statusFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option>Bekliyor</option>
-            <option>Devam Ediyor</option>
-            <option>Tamamlandı</option>
-          </select>
-        </div>
+        <UiSelect v-model="statusFilter" label="Adım Durumu" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option>Bekliyor</option>
+          <option>Devam Ediyor</option>
+          <option>Tamamlandı</option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Kategori
-          </label>
-          <select
-            v-model="categoryFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="categoryFilter" label="Kategori" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option
+            v-for="item in categories"
+            :key="item"
           >
-            <option>Tümü</option>
-            <option
-              v-for="item in categories"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
         <div class="flex items-end">
           <button

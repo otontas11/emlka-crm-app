@@ -145,37 +145,34 @@ const paymentClass = (status) => {
 
     <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <div class="grid gap-4 xl:grid-cols-[1fr_220px_220px]">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Arama</label>
-          <input
-            v-model="search"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Talep, portföy, danışman, müşteri ara..."
-          />
-        </div>
+        <UiInput
+          v-model="search"
+          label="Arama"
+          type="text"
+          variant="outline"
+          size="sm"
+          placeholder="Talep, portföy, danışman, müşteri ara..."
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">İşlem Durumu</label>
-          <select
-            v-model="statusFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option v-for="item in statusOptions" :key="item">{{ item }}</option>
-          </select>
-        </div>
+        <UiSelect
+          v-model="statusFilter"
+          label="İşlem Durumu"
+          variant="outline"
+          size="sm"
+        >
+          <option>Tümü</option>
+          <option v-for="item in statusOptions" :key="item">{{ item }}</option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Ödeme Durumu</label>
-          <select
-            v-model="paymentFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option v-for="item in paymentOptions" :key="item">{{ item }}</option>
-          </select>
-        </div>
+        <UiSelect
+          v-model="paymentFilter"
+          label="Ödeme Durumu"
+          variant="outline"
+          size="sm"
+        >
+          <option>Tümü</option>
+          <option v-for="item in paymentOptions" :key="item">{{ item }}</option>
+        </UiSelect>
       </div>
     </section>
 
@@ -317,13 +314,15 @@ const paymentClass = (status) => {
               </td>
 
               <td class="px-6 py-5 text-right">
-                <button
+                <UiButton
                   type="button"
-                  class="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700"
+                  variant="secondary"
+                  size="sm"
+                  shape="rounded"
                   @click="removeTransaction(transaction)"
                 >
                   Sil
-                </button>
+                </UiButton>
               </td>
             </tr>
 

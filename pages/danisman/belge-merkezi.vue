@@ -283,34 +283,28 @@ const progressWidth = (value) => {
     >
       <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div class="grid gap-4 xl:grid-cols-[1fr_260px]">
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">
-              Şablon Ara
-            </label>
-            <input
-              v-model="search"
-              type="text"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-              placeholder="Konut kira, ticari kira, yer gösterme, teklif..."
-            />
-          </div>
+          <UiInput
+            v-model="search"
+            label="Şablon Ara"
+            type="text"
+            variant="outline"
+            size="sm"
+            placeholder="Konut kira, ticari kira, yer gösterme, teklif..."
+          />
 
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">
-              Kategori
-            </label>
-            <select
-              v-model="categoryFilter"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+          <UiSelect
+            v-model="categoryFilter"
+            label="Kategori"
+            variant="outline"
+            size="sm"
+          >
+            <option
+              v-for="item in categories"
+              :key="item"
             >
-              <option
-                v-for="item in categories"
-                :key="item"
-              >
-                {{ item }}
-              </option>
-            </select>
-          </div>
+              {{ item }}
+            </option>
+          </UiSelect>
         </div>
       </section>
 

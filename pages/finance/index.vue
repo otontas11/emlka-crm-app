@@ -206,45 +206,34 @@ const goToEdit = (id) => {
 
       <div class="p-6">
         <div class="grid gap-4 md:grid-cols-12">
-          <div class="md:col-span-4">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Arama</label>
-            <input
-              v-model="searchTerm"
-              type="text"
-              class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-slate-900"
-              placeholder="Başlık, kişi, alt tür, not ile ara"
-            />
-          </div>
+          <UiInput
+            v-model="searchTerm"
+            label="Arama"
+            class="md:col-span-4"
+            placeholder="Başlık, kişi, alt tür, not ile ara"
+          />
 
-          <div class="md:col-span-2">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Tür</label>
-            <select v-model="selectedType" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3">
-              <option v-for="type in types" :key="type" :value="type">{{ type }}</option>
-            </select>
-          </div>
+          <UiSelect v-model="selectedType" label="Tür" class="md:col-span-2">
+            <option v-for="type in types" :key="type" :value="type">{{ type }}</option>
+          </UiSelect>
 
-          <div class="md:col-span-3">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Durum</label>
-            <select v-model="selectedStatus" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3">
-              <option v-for="status in statuses" :key="status" :value="status">{{ status }}</option>
-            </select>
-          </div>
+          <UiSelect v-model="selectedStatus" label="Durum" class="md:col-span-3">
+            <option v-for="status in statuses" :key="status" :value="status">{{ status }}</option>
+          </UiSelect>
 
-          <div class="md:col-span-2">
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Paket</label>
-            <select v-model="selectedPackage" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3">
-              <option v-for="level in packages" :key="level" :value="level">{{ level }}</option>
-            </select>
-          </div>
+          <UiSelect v-model="selectedPackage" label="Paket" class="md:col-span-2">
+            <option v-for="level in packages" :key="level" :value="level">{{ level }}</option>
+          </UiSelect>
 
           <div class="flex items-end md:col-span-1">
-            <button
-              type="button"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+            <UiButton
+              variant="secondary"
+              shape="rounded"
+              block
               @click="clearFilters"
             >
               Temizle
-            </button>
+            </UiButton>
           </div>
         </div>
       </div>

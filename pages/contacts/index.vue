@@ -643,63 +643,59 @@ const sourceLabel = (customer) => {
 
     <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <div class="grid gap-4 xl:grid-cols-[1fr_220px_220px_220px_140px]">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Arama</label>
-          <input
-            v-model="search"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Ad, telefon, şehir, not ara..."
-          />
-        </div>
+        <UiInput
+          v-model="search"
+          label="Arama"
+          variant="outline"
+          size="sm"
+          placeholder="Ad, telefon, şehir, not ara..."
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Müşteri Tipi</label>
-          <select
-            v-model="typeFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="typeFilter"
+          label="Müşteri Tipi"
+          variant="outline"
+          size="sm"
+        >
+          <option
+            v-for="item in typeOptions"
+            :key="item"
           >
-            <option
-              v-for="item in typeOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Gizlilik</label>
-          <select
-            v-model="visibilityFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option>Kişisel</option>
-            <option>Ofisle Paylaşıldı</option>
-          </select>
-        </div>
+        <UiSelect
+          v-model="visibilityFilter"
+          label="Gizlilik"
+          variant="outline"
+          size="sm"
+        >
+          <option>Tümü</option>
+          <option>Kişisel</option>
+          <option>Ofisle Paylaşıldı</option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Kaynak</label>
-          <select
-            v-model="sourceFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option>Rehberden Aktarılan</option>
-            <option>Manuel Kayıt</option>
-          </select>
-        </div>
+        <UiSelect
+          v-model="sourceFilter"
+          label="Kaynak"
+          variant="outline"
+          size="sm"
+        >
+          <option>Tümü</option>
+          <option>Rehberden Aktarılan</option>
+          <option>Manuel Kayıt</option>
+        </UiSelect>
 
         <div class="flex items-end">
-          <button
-            type="button"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          <UiButton
+            variant="secondary"
+            shape="rounded"
+            block
             @click="clearFilters"
           >
             Temizle
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>

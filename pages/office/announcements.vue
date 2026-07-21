@@ -227,87 +227,67 @@ const typeClass = (type) => {
         </div>
 
         <div class="grid gap-4 p-6">
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">
-              Duyuru Başlığı
-            </label>
-            <input
-              v-model="form.title"
-              type="text"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-              placeholder="Örn: Pazartesi toplantısı saat 10:00’da yapılacaktır."
-            />
-          </div>
+          <UiInput
+            v-model="form.title"
+            label="Duyuru Başlığı"
+            variant="outline"
+            size="sm"
+            placeholder="Örn: Pazartesi toplantısı saat 10:00’da yapılacaktır."
+          />
 
           <div class="grid gap-4 md:grid-cols-2">
-            <div>
-              <label class="mb-2 block text-sm font-semibold text-slate-700">
-                Duyuru Türü
-              </label>
-              <select
-                v-model="form.type"
-                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-              >
-                <option v-for="item in typeOptions" :key="item">
-                  {{ item }}
-                </option>
-              </select>
-            </div>
+            <UiSelect
+              v-model="form.type"
+              label="Duyuru Türü"
+              variant="outline"
+              size="sm"
+            >
+              <option v-for="item in typeOptions" :key="item">
+                {{ item }}
+              </option>
+            </UiSelect>
 
-            <div>
-              <label class="mb-2 block text-sm font-semibold text-slate-700">
-                Hedef Kitle
-              </label>
-              <select
-                v-model="form.audience"
-                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-              >
-                <option v-for="item in audienceOptions" :key="item">
-                  {{ item }}
-                </option>
-              </select>
-            </div>
+            <UiSelect
+              v-model="form.audience"
+              label="Hedef Kitle"
+              variant="outline"
+              size="sm"
+            >
+              <option v-for="item in audienceOptions" :key="item">
+                {{ item }}
+              </option>
+            </UiSelect>
 
-            <div>
-              <label class="mb-2 block text-sm font-semibold text-slate-700">
-                Öncelik
-              </label>
-              <select
-                v-model="form.priority"
-                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-              >
-                <option v-for="item in priorityOptions" :key="item">
-                  {{ item }}
-                </option>
-              </select>
-            </div>
+            <UiSelect
+              v-model="form.priority"
+              label="Öncelik"
+              variant="outline"
+              size="sm"
+            >
+              <option v-for="item in priorityOptions" :key="item">
+                {{ item }}
+              </option>
+            </UiSelect>
 
-            <div>
-              <label class="mb-2 block text-sm font-semibold text-slate-700">
-                Durum
-              </label>
-              <select
-                v-model="form.status"
-                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-              >
-                <option v-for="item in statusOptions" :key="item">
-                  {{ item }}
-                </option>
-              </select>
-            </div>
+            <UiSelect
+              v-model="form.status"
+              label="Durum"
+              variant="outline"
+              size="sm"
+            >
+              <option v-for="item in statusOptions" :key="item">
+                {{ item }}
+              </option>
+            </UiSelect>
           </div>
 
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">
-              Tarih
-            </label>
-            <input
-              v-model="form.date"
-              type="text"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-              placeholder="Bugün, Yarın, Bu hafta..."
-            />
-          </div>
+          <UiInput
+            v-model="form.date"
+            label="Tarih"
+            variant="outline"
+            size="sm"
+            placeholder="Bugün, Yarın, Bu hafta..."
+          />
 
           <div v-if="form.audience === 'Belirli Danışmanlar'" class="rounded-3xl border border-slate-200 bg-slate-50 p-4">
             <label class="mb-3 block text-sm font-semibold text-slate-700">
@@ -366,26 +346,24 @@ const typeClass = (type) => {
             <span>Bu duyuru için danışman onayı zorunlu olsun</span>
           </label>
 
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">
-              Açıklama
-            </label>
-            <textarea
-              v-model="form.description"
-              rows="5"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-              placeholder="Duyuru detayını yazın..."
-            ></textarea>
-          </div>
+          <UiTextarea
+            v-model="form.description"
+            label="Açıklama"
+            :rows="5"
+            variant="outline"
+            size="sm"
+            placeholder="Duyuru detayını yazın..."
+          />
 
-          <button
-            type="button"
-            class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-4 text-sm font-bold text-white transition hover:bg-slate-800"
+          <UiButton
+            variant="primary"
+            shape="rounded"
+            icon="bi-megaphone"
+            block
             @click="createAnnouncement"
           >
-            <i class="bi bi-megaphone mr-2"></i>
             Duyuruyu Yayınla
-          </button>
+          </UiButton>
         </div>
       </section>
 
@@ -485,21 +463,23 @@ const typeClass = (type) => {
               </div>
 
               <div class="flex shrink-0 flex-col gap-2">
-                <button
-                  type="button"
-                  class="rounded-2xl bg-slate-900 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slate-800"
+                <UiButton
+                  variant="primary"
+                  size="sm"
+                  shape="rounded"
                   @click="openTracking(item)"
                 >
                   Takip
-                </button>
+                </UiButton>
 
-                <button
-                  type="button"
-                  class="rounded-2xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-600 transition hover:bg-slate-100"
+                <UiButton
+                  variant="secondary"
+                  size="sm"
+                  shape="rounded"
                   @click="removeAnnouncement(item.id)"
                 >
                   Sil
-                </button>
+                </UiButton>
               </div>
             </div>
           </div>

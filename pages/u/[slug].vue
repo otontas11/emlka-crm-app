@@ -547,34 +547,13 @@ useHead(() => ({
                   <h5 class="text-lg font-bold text-slate-900">Bu İlan İçin Bilgi Al</h5>
 
                   <div class="mt-4 grid gap-3">
-                    <input
-                      v-model="propertyInquiryForm.name"
-                      type="text"
-                      class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-400"
-                      placeholder="Ad Soyad"
-                    />
+                    <UiInput v-model="propertyInquiryForm.name" variant="outline" placeholder="Ad Soyad" />
 
-                    <input
-                      v-model="propertyInquiryForm.phone"
-                      type="text"
-                      class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-400"
-                      placeholder="Telefon"
-                    />
+                    <UiInput v-model="propertyInquiryForm.phone" variant="outline" placeholder="Telefon" />
 
-                    <textarea
-                      v-model="propertyInquiryForm.message"
-                      rows="4"
-                      class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-400"
-                      placeholder="Mesaj"
-                    ></textarea>
+                    <UiTextarea v-model="propertyInquiryForm.message" :rows="4" variant="outline" placeholder="Mesaj" />
 
-                    <button
-                      type="button"
-                      class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-3 text-sm font-bold text-white transition hover:bg-slate-800"
-                      @click="sendPropertyInquiry"
-                    >
-                      İlan Hakkında Mesaj Gönder
-                    </button>
+                    <UiButton variant="primary" shape="rounded" @click="sendPropertyInquiry">İlan Hakkında Mesaj Gönder</UiButton>
                   </div>
                 </div>
               </div>
@@ -674,41 +653,15 @@ useHead(() => ({
               </div>
 
               <div class="mt-6 grid gap-4">
-                <input
-                  v-model="contactForm.name"
-                  type="text"
-                  class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-400"
-                  placeholder="Ad Soyad..."
-                />
+                <UiInput v-model="contactForm.name" variant="outline" placeholder="Ad Soyad..." />
 
-                <input
-                  v-model="contactForm.email"
-                  type="email"
-                  class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-400"
-                  placeholder="E-posta Adresi..."
-                />
+                <UiInput v-model="contactForm.email" type="email" variant="outline" placeholder="E-posta Adresi..." />
 
-                <input
-                  v-model="contactForm.subject"
-                  type="text"
-                  class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-400"
-                  placeholder="Konu..."
-                />
+                <UiInput v-model="contactForm.subject" variant="outline" placeholder="Konu..." />
 
-                <textarea
-                  v-model="contactForm.message"
-                  rows="5"
-                  class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-400"
-                  placeholder="Mesaj..."
-                ></textarea>
+                <UiTextarea v-model="contactForm.message" :rows="5" variant="outline" placeholder="Mesaj..." />
 
-                <button
-                  type="button"
-                  class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-6 py-4 text-base font-bold text-white transition hover:bg-slate-800"
-                  @click="sendFormToWhatsapp"
-                >
-                  Mesaj Gönder
-                </button>
+                <UiButton variant="primary" shape="rounded" @click="sendFormToWhatsapp">Mesaj Gönder</UiButton>
               </div>
             </section>
           </section>

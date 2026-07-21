@@ -145,43 +145,33 @@ const getPriorityIcon = (priority) => {
     <!-- Filters -->
     <div class="card">
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-        <div>
-          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Ara</label>
-          <input
-            v-model="filters.search"
-            type="text"
-            placeholder="İsim, telefon..."
-            class="input text-sm"
-          />
-        </div>
-        <div>
-          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Müşteri Tipi</label>
-          <select v-model="filters.type" class="input text-sm">
-            <option value="">Tümü</option>
-            <option value="Alıcı">Alıcı</option>
-            <option value="Satıcı">Satıcı</option>
-            <option value="Kiracı">Kiracı</option>
-            <option value="Yatırımcı">Yatırımcı</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Durum</label>
-          <select v-model="filters.status" class="input text-sm">
-            <option value="">Tümü</option>
-            <option value="Sıcak">Sıcak</option>
-            <option value="Ilımlı">Ilımlı</option>
-            <option value="Soğuk">Soğuk</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-xs sm:text-sm font-medium text-gray-700 mb-2">Öncelik</label>
-          <select v-model="filters.priority" class="input text-sm">
-            <option value="">Tümü</option>
-            <option value="high">Yüksek</option>
-            <option value="medium">Orta</option>
-            <option value="low">Düşük</option>
-          </select>
-        </div>
+        <UiInput
+          v-model="filters.search"
+          label="Ara"
+          type="text"
+          placeholder="İsim, telefon..."
+          variant="outline"
+          size="sm"
+        />
+        <UiSelect v-model="filters.type" label="Müşteri Tipi" variant="outline" size="sm">
+          <option value="">Tümü</option>
+          <option value="Alıcı">Alıcı</option>
+          <option value="Satıcı">Satıcı</option>
+          <option value="Kiracı">Kiracı</option>
+          <option value="Yatırımcı">Yatırımcı</option>
+        </UiSelect>
+        <UiSelect v-model="filters.status" label="Durum" variant="outline" size="sm">
+          <option value="">Tümü</option>
+          <option value="Sıcak">Sıcak</option>
+          <option value="Ilımlı">Ilımlı</option>
+          <option value="Soğuk">Soğuk</option>
+        </UiSelect>
+        <UiSelect v-model="filters.priority" label="Öncelik" variant="outline" size="sm">
+          <option value="">Tümü</option>
+          <option value="high">Yüksek</option>
+          <option value="medium">Orta</option>
+          <option value="low">Düşük</option>
+        </UiSelect>
       </div>
     </div>
 

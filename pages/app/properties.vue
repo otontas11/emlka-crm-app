@@ -62,23 +62,23 @@ const filters = ref({
     </div>
 
     <div class="filters">
-      <select v-model="filters.type" class="filter-select">
+      <UiSelect v-model="filters.type" variant="outline" size="sm" class="flex-1 min-w-[200px]">
         <option value="">Tüm Tipler</option>
         <option value="sale">Satılık</option>
         <option value="rent">Kiralık</option>
-      </select>
-      <select v-model="filters.location" class="filter-select">
+      </UiSelect>
+      <UiSelect v-model="filters.location" variant="outline" size="sm" class="flex-1 min-w-[200px]">
         <option value="">Tüm Lokasyonlar</option>
         <option value="istanbul">İstanbul</option>
         <option value="ankara">Ankara</option>
         <option value="izmir">İzmir</option>
-      </select>
-      <select v-model="filters.priceRange" class="filter-select">
+      </UiSelect>
+      <UiSelect v-model="filters.priceRange" variant="outline" size="sm" class="flex-1 min-w-[200px]">
         <option value="">Fiyat Aralığı</option>
         <option value="0-1000000">0 - 1M TL</option>
         <option value="1000000-3000000">1M - 3M TL</option>
         <option value="3000000+">3M TL+</option>
-      </select>
+      </UiSelect>
     </div>
 
     <div class="properties-grid">
@@ -133,23 +133,6 @@ const filters = ref({
   gap: 1rem;
   margin-bottom: 2rem;
   flex-wrap: wrap;
-}
-
-.filter-select {
-  flex: 1;
-  min-width: 200px;
-  padding: 0.75rem 1rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 1rem;
-  background: white;
-  cursor: pointer;
-  transition: border-color 0.3s;
-}
-
-.filter-select:focus {
-  outline: none;
-  border-color: #667eea;
 }
 
 .properties-grid {
@@ -253,10 +236,6 @@ const filters = ref({
 @media (max-width: 768px) {
   .filters {
     flex-direction: column;
-  }
-
-  .filter-select {
-    min-width: 100%;
   }
 
   .properties-grid {

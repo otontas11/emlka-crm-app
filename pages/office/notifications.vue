@@ -142,30 +142,18 @@ const clearFilters = () => {
           </div>
         </div>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Durum
-          </label>
-          <select
-            v-model="statusFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option>Okunmadı</option>
-            <option>Okundu</option>
-            <option>Onay Bekliyor</option>
-            <option>Onaylandı</option>
-          </select>
-        </div>
+        <UiSelect v-model="statusFilter" label="Durum" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option>Okunmadı</option>
+          <option>Okundu</option>
+          <option>Onay Bekliyor</option>
+          <option>Onaylandı</option>
+        </UiSelect>
 
         <div class="flex items-end">
-          <button
-            type="button"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-            @click="clearFilters"
-          >
+          <UiButton variant="secondary" shape="rounded" block @click="clearFilters">
             Temizle
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>

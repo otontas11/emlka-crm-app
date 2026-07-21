@@ -179,40 +179,25 @@ const stats = ref({
     <!-- Filters -->
     <div class="card">
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2"
-            >Durum</label
-          >
-          <select v-model="filters.durum" class="input">
-            <option value="">Tümü</option>
-            <option value="bekliyor">Bekliyor</option>
-            <option value="devam-ediyor">Devam Ediyor</option>
-            <option value="tamamlandi">Tamamlandı</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2"
-            >Öncelik</label
-          >
-          <select v-model="filters.oncelik" class="input">
-            <option value="">Tümü</option>
-            <option value="high">Yüksek</option>
-            <option value="medium">Orta</option>
-            <option value="low">Düşük</option>
-          </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2"
-            >Kategori</label
-          >
-          <select v-model="filters.kategori" class="input">
-            <option value="">Tümü</option>
-            <option value="Portföy İşlemleri">Portföy İşlemleri</option>
-            <option value="Müşteri Görüşmeleri">Müşteri Görüşmeleri</option>
-            <option value="Malik İlişkileri">Malik İlişkileri</option>
-            <option value="İlan Yönetimi">İlan Yönetimi</option>
-          </select>
-        </div>
+        <UiSelect v-model="filters.durum" label="Durum" variant="outline" size="sm">
+          <option value="">Tümü</option>
+          <option value="bekliyor">Bekliyor</option>
+          <option value="devam-ediyor">Devam Ediyor</option>
+          <option value="tamamlandi">Tamamlandı</option>
+        </UiSelect>
+        <UiSelect v-model="filters.oncelik" label="Öncelik" variant="outline" size="sm">
+          <option value="">Tümü</option>
+          <option value="high">Yüksek</option>
+          <option value="medium">Orta</option>
+          <option value="low">Düşük</option>
+        </UiSelect>
+        <UiSelect v-model="filters.kategori" label="Kategori" variant="outline" size="sm">
+          <option value="">Tümü</option>
+          <option value="Portföy İşlemleri">Portföy İşlemleri</option>
+          <option value="Müşteri Görüşmeleri">Müşteri Görüşmeleri</option>
+          <option value="Malik İlişkileri">Malik İlişkileri</option>
+          <option value="İlan Yönetimi">İlan Yönetimi</option>
+        </UiSelect>
       </div>
     </div>
 

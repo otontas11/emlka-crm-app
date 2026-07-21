@@ -225,21 +225,21 @@ const removeChild = (index) => {
           :key="field.key"
           :class="field.span === 2 ? 'xl:col-span-2' : ''"
         >
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            {{ field.label }}
-          </label>
-
-          <textarea
+          <UiTextarea
             v-if="field.type === 'textarea'"
             v-model="model[field.key]"
-            rows="4"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          ></textarea>
+            :label="field.label"
+            :rows="4"
+            variant="outline"
+            size="sm"
+          />
 
-          <select
+          <UiSelect
             v-else-if="field.type === 'select'"
             v-model="model[field.key]"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+            :label="field.label"
+            variant="outline"
+            size="sm"
           >
             <option
               v-for="option in field.options"
@@ -248,13 +248,15 @@ const removeChild = (index) => {
             >
               {{ option || 'Seçiniz' }}
             </option>
-          </select>
+          </UiSelect>
 
-          <input
+          <UiInput
             v-else
             v-model="model[field.key]"
+            :label="field.label"
             :type="field.type || 'text'"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+            variant="outline"
+            size="sm"
           />
         </div>
       </div>
@@ -272,13 +274,14 @@ const removeChild = (index) => {
           </p>
         </div>
 
-        <button
+        <UiButton
           type="button"
-          class="rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white"
+          variant="primary"
+          shape="rounded"
           @click="addChild"
         >
           + Çocuk Ekle
-        </button>
+        </UiButton>
       </div>
 
       <div
@@ -299,35 +302,22 @@ const removeChild = (index) => {
               {{ index + 1 }}. Çocuk
             </h3>
 
-            <button
+            <UiButton
               type="button"
-              class="rounded-2xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
+              variant="secondary"
+              size="sm"
+              shape="rounded"
               @click="removeChild(index)"
             >
               Kaldır
-            </button>
+            </UiButton>
           </div>
 
           <div class="grid gap-4 xl:grid-cols-4">
-            <div>
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Çocuk Adı</label>
-              <input v-model="child.name" type="text" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500" />
-            </div>
-
-            <div>
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Çocuk Doğum Tarihi</label>
-              <input v-model="child.birthDate" type="date" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500" />
-            </div>
-
-            <div>
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Çocuk Mesleği</label>
-              <input v-model="child.profession" type="text" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500" />
-            </div>
-
-            <div>
-              <label class="mb-2 block text-sm font-semibold text-slate-700">Çocuk Notları</label>
-              <input v-model="child.note" type="text" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500" />
-            </div>
+            <UiInput v-model="child.name" label="Çocuk Adı" type="text" variant="outline" size="sm" />
+            <UiInput v-model="child.birthDate" label="Çocuk Doğum Tarihi" type="date" variant="outline" size="sm" />
+            <UiInput v-model="child.profession" label="Çocuk Mesleği" type="text" variant="outline" size="sm" />
+            <UiInput v-model="child.note" label="Çocuk Notları" type="text" variant="outline" size="sm" />
           </div>
         </div>
       </div>

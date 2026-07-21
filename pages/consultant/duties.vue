@@ -262,25 +262,22 @@ const statusClass = (status) => {
             v-if="requestFormOpenId === item.id"
             class="mt-4 rounded-3xl border border-slate-200 bg-white p-4"
           >
-            <label class="mb-2 block text-sm font-semibold text-slate-700">
-              Değişim / Mazeret Açıklaması
-            </label>
-
-            <textarea
+            <UiTextarea
               v-model="requestReason"
-              rows="3"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+              label="Değişim / Mazeret Açıklaması"
+              :rows="3"
+              variant="outline"
+              size="sm"
               placeholder="Mazeretinizi veya değişim talebinizi yazın..."
-            ></textarea>
+            />
 
-            <label class="mb-2 mt-4 block text-sm font-semibold text-slate-700">
-              Talep Edilen Yeni Tarih
-            </label>
-
-            <input
+            <UiInput
               v-model="requestedDate"
+              label="Talep Edilen Yeni Tarih"
               type="date"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+              variant="outline"
+              size="sm"
+              class="mt-4"
             />
 
             <div class="mt-4 flex flex-wrap gap-2">

@@ -114,43 +114,38 @@ const login = async () => {
           </div>
 
           <div class="mt-8 grid gap-5">
-            <div>
-              <label class="mb-2 block text-sm font-semibold text-slate-700">
-                Telefon numarası veya e-posta
-              </label>
-              <input
-                v-model="form.identifier"
-                type="text"
-                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-4 text-sm outline-none transition focus:border-slate-500"
-                placeholder="Örn: 0545 441 41 18 veya danisman@mail.com"
-                @keyup.enter="login"
-              />
-            </div>
+            <UiInput
+              v-model="form.identifier"
+              label="Telefon numarası veya e-posta"
+              type="text"
+              variant="outline"
+              size="sm"
+              placeholder="Örn: 0545 441 41 18 veya danisman@mail.com"
+              @keyup.enter="login"
+            />
 
-            <div>
-              <label class="mb-2 block text-sm font-semibold text-slate-700">
-                Şifre
-              </label>
-              <input
-                v-model="form.password"
-                type="password"
-                class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-4 text-sm outline-none transition focus:border-slate-500"
-                placeholder="Şifrenizi giriniz"
-                @keyup.enter="login"
-              />
-              <p class="mt-2 text-xs text-slate-400">
-                Prototip şifresi: 123456
-              </p>
-            </div>
+            <UiInput
+              v-model="form.password"
+              label="Şifre"
+              type="password"
+              variant="outline"
+              size="sm"
+              placeholder="Şifrenizi giriniz"
+              hint="Prototip şifresi: 123456"
+              @keyup.enter="login"
+            />
 
-            <button
+            <UiButton
               type="button"
-              class="rounded-2xl bg-slate-900 px-5 py-4 text-sm font-bold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-60"
+              variant="primary"
+              shape="rounded"
+              block
+              class="disabled:cursor-not-allowed disabled:opacity-60"
               :disabled="isLoading"
               @click="login"
             >
               {{ isLoading ? 'Giriş yapılıyor...' : 'Danışman Paneline Giriş Yap' }}
-            </button>
+            </UiButton>
 
             <NuxtLink
               to="/login"
