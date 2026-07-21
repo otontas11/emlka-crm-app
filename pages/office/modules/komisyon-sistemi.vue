@@ -235,14 +235,9 @@ const confirmDelete = (item) => {
             Ofis Paneline Dön
           </NuxtLink>
 
-          <button
-            type="button"
-            class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-            @click="showForm = !showForm"
-          >
-            <i class="bi bi-plus-lg mr-2"></i>
+          <UiButton shape="rounded" icon="bi-plus-lg" @click="showForm = !showForm">
             Yeni Komisyon
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>
@@ -353,178 +348,139 @@ const confirmDelete = (item) => {
       </div>
 
       <div class="grid gap-4 xl:grid-cols-4">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Danışman</label>
-          <select
-            v-model="form.consultantId"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="form.consultantId" label="Danışman" variant="outline" size="sm">
+          <option value="">Danışman seçin</option>
+          <option
+            v-for="consultant in consultantOptions"
+            :key="consultant.id"
+            :value="consultant.id"
           >
-            <option value="">Danışman seçin</option>
-            <option
-              v-for="consultant in consultantOptions"
-              :key="consultant.id"
-              :value="consultant.id"
-            >
-              {{ consultant.fullName }}
-            </option>
-          </select>
-        </div>
+            {{ consultant.fullName }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">İşlem Türü</label>
-          <select
-            v-model="form.dealType"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="form.dealType" label="İşlem Türü" variant="outline" size="sm">
+          <option
+            v-for="item in dealTypeOptions"
+            :key="item"
           >
-            <option
-              v-for="item in dealTypeOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div class="xl:col-span-2">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Portföy / İşlem Başlığı</label>
-          <input
-            v-model="form.propertyTitle"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Örn: Gıda Çarşısı satılık dükkan işlemi"
-          />
-        </div>
+        <UiInput
+          v-model="form.propertyTitle"
+          label="Portföy / İşlem Başlığı"
+          type="text"
+          variant="outline"
+          size="sm"
+          class="xl:col-span-2"
+          placeholder="Örn: Gıda Çarşısı satılık dükkan işlemi"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Müşteri / Malik</label>
-          <input
-            v-model="form.customerName"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Müşteri adı"
-          />
-        </div>
+        <UiInput
+          v-model="form.customerName"
+          label="Müşteri / Malik"
+          type="text"
+          variant="outline"
+          size="sm"
+          placeholder="Müşteri adı"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">İşlem Tutarı</label>
-          <input
-            v-model="form.transactionAmount"
-            type="number"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.transactionAmount"
+          label="İşlem Tutarı"
+          type="number"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Brüt Komisyon</label>
-          <input
-            v-model="form.grossCommission"
-            type="number"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.grossCommission"
+          label="Brüt Komisyon"
+          type="number"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Dış Paylaşım</label>
-          <input
-            v-model="form.externalShareAmount"
-            type="number"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Varsa dış ofis / çözüm ortağı"
-          />
-        </div>
+        <UiInput
+          v-model="form.externalShareAmount"
+          label="Dış Paylaşım"
+          type="number"
+          variant="outline"
+          size="sm"
+          placeholder="Varsa dış ofis / çözüm ortağı"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Danışman Payı %</label>
-          <input
-            v-model="form.consultantSharePercent"
-            type="number"
-            min="0"
-            max="100"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.consultantSharePercent"
+          label="Danışman Payı %"
+          type="number"
+          variant="outline"
+          size="sm"
+          min="0"
+          max="100"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Ofis Payı %</label>
+        <UiFormField label="Ofis Payı %">
           <input
             :value="formShares.officeSharePercent"
             type="number"
             disabled
             class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-500"
           />
-        </div>
+        </UiFormField>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Kapanış Tarihi</label>
-          <input
-            v-model="form.closeDate"
-            type="date"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.closeDate"
+          label="Kapanış Tarihi"
+          type="date"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Tahsilat Vadesi</label>
-          <input
-            v-model="form.dueDate"
-            type="date"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.dueDate"
+          label="Tahsilat Vadesi"
+          type="date"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Tahsilat Tarihi</label>
-          <input
-            v-model="form.paidDate"
-            type="date"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.paidDate"
+          label="Tahsilat Tarihi"
+          type="date"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Tahsilat Durumu</label>
-          <select
-            v-model="form.paymentStatus"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="form.paymentStatus" label="Tahsilat Durumu" variant="outline" size="sm">
+          <option
+            v-for="item in paymentStatusOptions"
+            :key="item"
           >
-            <option
-              v-for="item in paymentStatusOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Danışman Ödemesi</label>
-          <select
-            v-model="form.consultantPaymentStatus"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="form.consultantPaymentStatus" label="Danışman Ödemesi" variant="outline" size="sm">
+          <option
+            v-for="item in consultantPaymentStatusOptions"
+            :key="item"
           >
-            <option
-              v-for="item in consultantPaymentStatusOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Fatura / Makbuz</label>
-          <select
-            v-model="form.invoiceStatus"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="form.invoiceStatus" label="Fatura / Makbuz" variant="outline" size="sm">
+          <option
+            v-for="item in invoiceStatusOptions"
+            :key="item"
           >
-            <option
-              v-for="item in invoiceStatusOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
       </div>
 
       <div class="mt-5 grid gap-4 lg:grid-cols-3">
@@ -550,120 +506,83 @@ const confirmDelete = (item) => {
         </div>
       </div>
 
-      <div class="mt-4">
-        <label class="mb-2 block text-sm font-semibold text-slate-700">Not</label>
-        <textarea
-          v-model="form.note"
-          rows="3"
-          class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          placeholder="Komisyon, ödeme veya fatura süreciyle ilgili not..."
-        ></textarea>
-      </div>
+      <UiTextarea
+        v-model="form.note"
+        label="Not"
+        :rows="3"
+        variant="outline"
+        size="sm"
+        class="mt-4"
+        placeholder="Komisyon, ödeme veya fatura süreciyle ilgili not..."
+      />
 
       <div class="mt-6 flex flex-wrap gap-2">
-        <button
-          type="button"
-          class="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-          @click="saveCommission"
-        >
+        <UiButton shape="rounded" @click="saveCommission">
           Komisyonu Kaydet
-        </button>
+        </UiButton>
 
-        <button
-          type="button"
-          class="rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-          @click="showForm = false"
-        >
+        <UiButton variant="secondary" shape="rounded" @click="showForm = false">
           Vazgeç
-        </button>
+        </UiButton>
       </div>
     </section>
 
     <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <div class="grid gap-4 xl:grid-cols-[1fr_220px_180px_220px_220px_140px]">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Arama</label>
-          <input
-            v-model="search"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Danışman, işlem, müşteri ara..."
-          />
-        </div>
+        <UiInput
+          v-model="search"
+          label="Arama"
+          type="text"
+          variant="outline"
+          size="sm"
+          placeholder="Danışman, işlem, müşteri ara..."
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Danışman</label>
-          <select
-            v-model="consultantFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="consultantFilter" label="Danışman" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option
+            v-for="consultant in consultantOptions"
+            :key="consultant.id"
+            :value="consultant.id"
           >
-            <option>Tümü</option>
-            <option
-              v-for="consultant in consultantOptions"
-              :key="consultant.id"
-              :value="consultant.id"
-            >
-              {{ consultant.fullName }}
-            </option>
-          </select>
-        </div>
+            {{ consultant.fullName }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">İşlem</label>
-          <select
-            v-model="dealTypeFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="dealTypeFilter" label="İşlem" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option
+            v-for="item in dealTypeOptions"
+            :key="item"
           >
-            <option>Tümü</option>
-            <option
-              v-for="item in dealTypeOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Tahsilat</label>
-          <select
-            v-model="paymentFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="paymentFilter" label="Tahsilat" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option
+            v-for="item in paymentStatusOptions"
+            :key="item"
           >
-            <option>Tümü</option>
-            <option
-              v-for="item in paymentStatusOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Danışman Ödemesi</label>
-          <select
-            v-model="consultantPaymentFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="consultantPaymentFilter" label="Danışman Ödemesi" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option
+            v-for="item in consultantPaymentStatusOptions"
+            :key="item"
           >
-            <option>Tümü</option>
-            <option
-              v-for="item in consultantPaymentStatusOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
         <div class="flex items-end">
-          <button
-            type="button"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-            @click="clearFilters"
-          >
+          <UiButton variant="secondary" shape="rounded" block @click="clearFilters">
             Temizle
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>
@@ -819,13 +738,9 @@ const confirmDelete = (item) => {
               </td>
 
               <td class="px-6 py-5 text-right">
-                <button
-                  type="button"
-                  class="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
-                  @click="confirmDelete(item)"
-                >
+                <UiButton variant="secondary" size="sm" shape="rounded" @click="confirmDelete(item)">
                   Sil
-                </button>
+                </UiButton>
               </td>
             </tr>
           </tbody>

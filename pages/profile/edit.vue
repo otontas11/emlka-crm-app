@@ -123,14 +123,9 @@ const goToProfile = () => {
           </p>
         </div>
 
-        <button
-          type="button"
-          class="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
-          @click="goToProfile"
-        >
-          <i class="bi bi-arrow-left mr-2"></i>
+        <UiButton variant="dark-ghost" icon="bi-arrow-left" @click="goToProfile">
           Profile Dön
-        </button>
+        </UiButton>
       </div>
     </section>
 
@@ -140,25 +135,13 @@ const goToProfile = () => {
       </div>
 
       <div class="grid gap-5 p-6 md:grid-cols-12">
-        <div class="md:col-span-4">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Ad Soyad</label>
-          <input v-model="form.fullName" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
-        </div>
+        <UiInput v-model="form.fullName" label="Ad Soyad" type="text" variant="default" shadow class="md:col-span-4" />
 
-        <div class="md:col-span-4">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Unvan</label>
-          <input v-model="form.title" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
-        </div>
+        <UiInput v-model="form.title" label="Unvan" type="text" variant="default" shadow class="md:col-span-4" />
 
-        <div class="md:col-span-4">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Slogan</label>
-          <input v-model="form.slogan" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
-        </div>
+        <UiInput v-model="form.slogan" label="Slogan" type="text" variant="default" shadow class="md:col-span-4" />
 
-        <div class="md:col-span-12">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Kısa Özgeçmiş</label>
-          <textarea v-model="form.shortBio" rows="5" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm"></textarea>
-        </div>
+        <UiTextarea v-model="form.shortBio" label="Kısa Özgeçmiş" :rows="5" variant="default" shadow class="md:col-span-12" />
       </div>
     </section>
 
@@ -184,13 +167,9 @@ const goToProfile = () => {
                   <input type="file" accept="image/*" class="hidden" @change="handleProfilePhotoChange" />
                 </label>
 
-                <button
-                  type="button"
-                  class="rounded-full border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700"
-                  @click="removeProfilePhoto"
-                >
+                <UiButton variant="danger" size="sm" @click="removeProfilePhoto">
                   Fotoğrafı Kaldır
-                </button>
+                </UiButton>
               </div>
             </div>
 
@@ -209,8 +188,7 @@ const goToProfile = () => {
         </div>
 
         <div class="md:col-span-6">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Tanıtım Videosu URL</label>
-          <input v-model="form.introVideo" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
+          <UiInput v-model="form.introVideo" label="Tanıtım Videosu URL" type="text" variant="default" shadow />
           <p class="mt-2 text-xs text-slate-500">YouTube linki ekleyebilirsiniz.</p>
         </div>
       </div>
@@ -222,54 +200,30 @@ const goToProfile = () => {
       </div>
 
       <div class="grid gap-5 p-6 md:grid-cols-12">
-        <div class="md:col-span-4">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Telefon</label>
-          <input v-model="form.phone" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
-        </div>
+        <UiInput v-model="form.phone" label="Telefon" type="text" variant="default" shadow class="md:col-span-4" />
 
-        <div class="md:col-span-4">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">WhatsApp</label>
-          <input v-model="form.whatsapp" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
-        </div>
+        <UiInput v-model="form.whatsapp" label="WhatsApp" type="text" variant="default" shadow class="md:col-span-4" />
 
-        <div class="md:col-span-4">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">E-posta</label>
-          <input v-model="form.email" type="email" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
-        </div>
+        <UiInput v-model="form.email" label="E-posta" type="email" variant="default" shadow class="md:col-span-4" />
 
-        <div class="md:col-span-12">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Ofis Adresi / Harita Konumu</label>
-          <input v-model="form.officeAddress" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
-        </div>
+        <UiInput v-model="form.officeAddress" label="Ofis Adresi / Harita Konumu" type="text" variant="default" shadow class="md:col-span-12" />
 
-        <div class="md:col-span-3">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Instagram</label>
-          <input v-model="form.instagram" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
-        </div>
+        <UiInput v-model="form.instagram" label="Instagram" type="text" variant="default" shadow class="md:col-span-3" />
 
-        <div class="md:col-span-3">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Facebook</label>
-          <input v-model="form.facebook" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
-        </div>
+        <UiInput v-model="form.facebook" label="Facebook" type="text" variant="default" shadow class="md:col-span-3" />
 
-        <div class="md:col-span-3">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">LinkedIn</label>
-          <input v-model="form.linkedin" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
-        </div>
+        <UiInput v-model="form.linkedin" label="LinkedIn" type="text" variant="default" shadow class="md:col-span-3" />
 
-        <div class="md:col-span-3">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">YouTube</label>
-          <input v-model="form.youtube" type="text" class="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
-        </div>
+        <UiInput v-model="form.youtube" label="YouTube" type="text" variant="default" shadow class="md:col-span-3" />
       </div>
     </section>
 
     <section class="rounded-3xl border border-slate-200 bg-white shadow-sm">
       <div class="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-5">
         <h2 class="text-lg font-semibold text-slate-900">Uzmanlık Alanları</h2>
-        <button type="button" class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white" @click="addExpertiseArea">
+        <UiButton variant="primary" size="sm" @click="addExpertiseArea">
           Ekle
-        </button>
+        </UiButton>
       </div>
 
       <div class="space-y-4 p-6">
@@ -278,10 +232,10 @@ const goToProfile = () => {
         </div>
 
         <div v-for="(item, index) in form.expertiseAreas" :key="index" class="flex gap-3">
-          <input v-model="form.expertiseAreas[index]" type="text" class="flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
-          <button type="button" class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 font-semibold text-red-700" @click="removeExpertiseArea(index)">
+          <UiInput v-model="form.expertiseAreas[index]" type="text" variant="default" shadow class="flex-1" />
+          <UiButton variant="danger" shape="rounded" @click="removeExpertiseArea(index)">
             Sil
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>
@@ -289,9 +243,9 @@ const goToProfile = () => {
     <section class="rounded-3xl border border-slate-200 bg-white shadow-sm">
       <div class="flex items-center justify-between border-b border-slate-200 bg-slate-50 px-6 py-5">
         <h2 class="text-lg font-semibold text-slate-900">Uzmanlık Bölgeleri</h2>
-        <button type="button" class="rounded-full bg-slate-900 px-4 py-2 text-sm font-semibold text-white" @click="addExpertiseRegion">
+        <UiButton variant="primary" size="sm" @click="addExpertiseRegion">
           Ekle
-        </button>
+        </UiButton>
       </div>
 
       <div class="space-y-4 p-6">
@@ -300,10 +254,10 @@ const goToProfile = () => {
         </div>
 
         <div v-for="(item, index) in form.expertiseRegions" :key="index" class="flex gap-3">
-          <input v-model="form.expertiseRegions[index]" type="text" class="flex-1 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm" />
-          <button type="button" class="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 font-semibold text-red-700" @click="removeExpertiseRegion(index)">
+          <UiInput v-model="form.expertiseRegions[index]" type="text" variant="default" shadow class="flex-1" />
+          <UiButton variant="danger" shape="rounded" @click="removeExpertiseRegion(index)">
             Sil
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>
@@ -334,13 +288,9 @@ const goToProfile = () => {
           >
             <img :src="item" alt="Galeri Fotoğrafı" class="aspect-square w-full object-cover" />
             <div class="p-3">
-              <button
-                type="button"
-                class="w-full rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-700"
-                @click="removeGalleryPhoto(index)"
-              >
+              <UiButton variant="danger" size="sm" shape="rounded" block @click="removeGalleryPhoto(index)">
                 Sil
-              </button>
+              </UiButton>
             </div>
           </div>
         </div>
@@ -348,22 +298,13 @@ const goToProfile = () => {
     </section>
 
     <div class="flex flex-wrap gap-3">
-      <button
-        type="button"
-        class="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-        @click="saveProfile"
-      >
-        <i class="bi bi-check2-circle mr-2"></i>
+      <UiButton variant="primary" icon="bi-check2-circle" @click="saveProfile">
         Profili Kaydet
-      </button>
+      </UiButton>
 
-      <button
-        type="button"
-        class="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-        @click="goToProfile"
-      >
+      <UiButton variant="secondary" @click="goToProfile">
         Vazgeç
-      </button>
+      </UiButton>
     </div>
   </div>
 </template>

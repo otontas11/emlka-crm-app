@@ -299,14 +299,14 @@ const percentClass = (value) => {
             Ofis Paneline Dön
           </NuxtLink>
 
-          <button
-            type="button"
-            class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+          <UiButton
+            variant="primary"
+            shape="rounded"
+            icon="bi-plus-lg"
             @click="showForm = !showForm"
           >
-            <i class="bi bi-plus-lg mr-2"></i>
             Yeni Hedef
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>
@@ -348,131 +348,124 @@ const percentClass = (value) => {
       <h2 class="text-xl font-bold text-slate-900">Yeni Danışman Hedefi</h2>
 
       <div class="mt-6 grid gap-4 xl:grid-cols-4">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Danışman</label>
-          <select
-            v-model="form.consultantId"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="form.consultantId"
+          label="Danışman"
+          variant="outline"
+          size="sm"
+        >
+          <option value="">Danışman seçin</option>
+          <option
+            v-for="consultant in consultantOptions"
+            :key="consultant.id"
+            :value="consultant.id"
           >
-            <option value="">Danışman seçin</option>
-            <option
-              v-for="consultant in consultantOptions"
-              :key="consultant.id"
-              :value="consultant.id"
-            >
-              {{ consultant.fullName }}
-            </option>
-          </select>
-        </div>
+            {{ consultant.fullName }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Hedef Dönemi</label>
-          <select
-            v-model="form.periodType"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="form.periodType"
+          label="Hedef Dönemi"
+          variant="outline"
+          size="sm"
+        >
+          <option
+            v-for="item in periodTypeOptions"
+            :key="item"
           >
-            <option
-              v-for="item in periodTypeOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            {{ form.periodType === 'Aylık' ? 'Ay' : 'Yıl' }}
-          </label>
-          <input
-            v-if="form.periodType === 'Aylık'"
-            v-model="form.period"
-            type="month"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
+        <UiInput
+          v-if="form.periodType === 'Aylık'"
+          v-model="form.period"
+          label="Ay"
+          type="month"
+          variant="outline"
+          size="sm"
+        />
 
-          <input
-            v-else
-            v-model="form.period"
-            type="number"
-            min="2024"
-            max="2035"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-else
+          v-model="form.period"
+          label="Yıl"
+          type="number"
+          variant="outline"
+          size="sm"
+          min="2024"
+          max="2035"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Durum</label>
-          <select
-            v-model="form.status"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="form.status"
+          label="Durum"
+          variant="outline"
+          size="sm"
+        >
+          <option
+            v-for="item in statusOptions"
+            :key="item"
           >
-            <option
-              v-for="item in statusOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Ciro Hedefi</label>
-          <input
-            v-model="form.revenueTarget"
-            type="number"
-            min="0"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.revenueTarget"
+          label="Ciro Hedefi"
+          type="number"
+          variant="outline"
+          size="sm"
+          min="0"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">İşlem Hedefi</label>
-          <input
-            v-model="form.dealTarget"
-            type="number"
-            min="0"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.dealTarget"
+          label="İşlem Hedefi"
+          type="number"
+          variant="outline"
+          size="sm"
+          min="0"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Yetkili Portföy Hedefi</label>
-          <input
-            v-model="form.authorizedListingTarget"
-            type="number"
-            min="0"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.authorizedListingTarget"
+          label="Yetkili Portföy Hedefi"
+          type="number"
+          variant="outline"
+          size="sm"
+          min="0"
+        />
 
-        <div class="xl:col-span-4">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Broker Notu</label>
-          <textarea
-            v-model="form.note"
-            rows="3"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Hedefle ilgili not..."
-          ></textarea>
-        </div>
+        <UiTextarea
+          v-model="form.note"
+          label="Broker Notu"
+          :rows="3"
+          variant="outline"
+          size="sm"
+          class="xl:col-span-4"
+          placeholder="Hedefle ilgili not..."
+        />
       </div>
 
       <div class="mt-6 flex flex-wrap gap-2">
-        <button
-          type="button"
-          class="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+        <UiButton
+          variant="primary"
+          shape="rounded"
           @click="saveTarget"
         >
           Hedefi Kaydet
-        </button>
+        </UiButton>
 
-        <button
-          type="button"
-          class="rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+        <UiButton
+          variant="secondary"
+          shape="rounded"
           @click="showForm = false"
         >
           Vazgeç
-        </button>
+        </UiButton>
       </div>
     </section>
 
@@ -539,73 +532,69 @@ const percentClass = (value) => {
 
     <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <div class="grid gap-4 xl:grid-cols-[1fr_220px_220px_180px_140px]">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Arama</label>
-          <input
-            v-model="search"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Danışman, dönem, not ara..."
-          />
-        </div>
+        <UiInput
+          v-model="search"
+          label="Arama"
+          variant="outline"
+          size="sm"
+          placeholder="Danışman, dönem, not ara..."
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Danışman</label>
-          <select
-            v-model="consultantFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="consultantFilter"
+          label="Danışman"
+          variant="outline"
+          size="sm"
+        >
+          <option>Tümü</option>
+          <option
+            v-for="consultant in consultantOptions"
+            :key="consultant.id"
+            :value="consultant.id"
           >
-            <option>Tümü</option>
-            <option
-              v-for="consultant in consultantOptions"
-              :key="consultant.id"
-              :value="consultant.id"
-            >
-              {{ consultant.fullName }}
-            </option>
-          </select>
-        </div>
+            {{ consultant.fullName }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Dönem Türü</label>
-          <select
-            v-model="periodTypeFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="periodTypeFilter"
+          label="Dönem Türü"
+          variant="outline"
+          size="sm"
+        >
+          <option>Tümü</option>
+          <option
+            v-for="item in periodTypeOptions"
+            :key="item"
           >
-            <option>Tümü</option>
-            <option
-              v-for="item in periodTypeOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Durum</label>
-          <select
-            v-model="statusFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="statusFilter"
+          label="Durum"
+          variant="outline"
+          size="sm"
+        >
+          <option>Tümü</option>
+          <option
+            v-for="item in statusOptions"
+            :key="item"
           >
-            <option>Tümü</option>
-            <option
-              v-for="item in statusOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
         <div class="flex items-end">
-          <button
-            type="button"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          <UiButton
+            variant="secondary"
+            shape="rounded"
+            block
             @click="clearFilters"
           >
             Temizle
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>
@@ -729,13 +718,14 @@ const percentClass = (value) => {
               </td>
 
               <td class="px-6 py-5 text-right">
-                <button
-                  type="button"
-                  class="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                <UiButton
+                  variant="secondary"
+                  size="sm"
+                  shape="rounded"
                   @click="confirmDelete(item)"
                 >
                   Sil
-                </button>
+                </UiButton>
               </td>
             </tr>
           </tbody>

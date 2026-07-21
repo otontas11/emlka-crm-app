@@ -208,128 +208,101 @@ const saveConsultant = async () => {
       </div>
 
       <div class="grid gap-4 xl:grid-cols-4">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Ad Soyad
-          </label>
-          <input
-            v-model="form.fullName"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Danışman adı soyadı"
-          />
-        </div>
+        <UiInput
+          v-model="form.fullName"
+          label="Ad Soyad"
+          type="text"
+          variant="outline"
+          size="sm"
+          placeholder="Danışman adı soyadı"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Telefon
-          </label>
-          <input
-            v-model="form.phone"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="05xx xxx xx xx"
-          />
-        </div>
+        <UiInput
+          v-model="form.phone"
+          label="Telefon"
+          type="text"
+          variant="outline"
+          size="sm"
+          placeholder="05xx xxx xx xx"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            E-posta
-          </label>
-          <input
-            v-model="form.email"
-            type="email"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="mail@ornek.com"
-          />
-        </div>
+        <UiInput
+          v-model="form.email"
+          label="E-posta"
+          type="email"
+          variant="outline"
+          size="sm"
+          placeholder="mail@ornek.com"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Ofise Başlangıç Tarihi
-          </label>
-          <input
-            v-model="form.startDate"
-            type="date"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.startDate"
+          label="Ofise Başlangıç Tarihi"
+          type="date"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Çalışma Türü
-          </label>
-          <select
-            v-model="form.workType"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="form.workType"
+          label="Çalışma Türü"
+          variant="outline"
+          size="sm"
+        >
+          <option
+            v-for="item in workTypeOptions"
+            :key="item"
           >
-            <option
-              v-for="item in workTypeOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Durum
-          </label>
-          <select
-            v-model="form.status"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="form.status"
+          label="Durum"
+          variant="outline"
+          size="sm"
+        >
+          <option
+            v-for="item in statusOptions"
+            :key="item"
           >
-            <option
-              v-for="item in statusOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Uzmanlık Alanı
-          </label>
-          <input
-            v-model="form.expertiseArea"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Ticari, konut, arsa..."
-          />
-        </div>
+        <UiInput
+          v-model="form.expertiseArea"
+          label="Uzmanlık Alanı"
+          type="text"
+          variant="outline"
+          size="sm"
+          placeholder="Ticari, konut, arsa..."
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Uzmanlık Bölgesi
-          </label>
-          <input
-            v-model="form.expertiseRegion"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="İzmir / Konak / Yenişehir"
-          />
-        </div>
+        <UiInput
+          v-model="form.expertiseRegion"
+          label="Uzmanlık Bölgesi"
+          type="text"
+          variant="outline"
+          size="sm"
+          placeholder="İzmir / Konak / Yenişehir"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Sabit Nöbet Günü
-          </label>
-          <select
-            v-model="form.fixedDutyDay"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="form.fixedDutyDay"
+          label="Sabit Nöbet Günü"
+          variant="outline"
+          size="sm"
+        >
+          <option value="">Seçilmedi</option>
+          <option
+            v-for="item in dutyDayOptions"
+            :key="item"
           >
-            <option value="">Seçilmedi</option>
-            <option
-              v-for="item in dutyDayOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
       </div>
     </section>
 
@@ -344,60 +317,49 @@ const saveConsultant = async () => {
       </div>
 
       <div class="grid gap-4 xl:grid-cols-4">
-        <div class="xl:col-span-2">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Komisyon Kıdem Hesabı
-          </label>
-          <select
-            v-model="form.commissionSeniorityMode"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="form.commissionSeniorityMode"
+          label="Komisyon Kıdem Hesabı"
+          variant="outline"
+          size="sm"
+          class="xl:col-span-2"
+        >
+          <option
+            v-for="item in commissionSeniorityOptions"
+            :key="item"
           >
-            <option
-              v-for="item in commissionSeniorityOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Önceki Tecrübe Yılı
-          </label>
-          <input
-            v-model="form.previousOfficeExperienceYears"
-            type="number"
-            min="0"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.previousOfficeExperienceYears"
+          label="Önceki Tecrübe Yılı"
+          type="number"
+          min="0"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Kabul Edilen Tecrübe
-          </label>
-          <input
-            v-model="form.recognizedExperienceYears"
-            type="number"
-            min="0"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.recognizedExperienceYears"
+          label="Kabul Edilen Tecrübe"
+          type="number"
+          min="0"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Manuel Başlangıç Oranı %
-          </label>
-          <input
-            v-model="form.manualCommissionStartPercent"
-            type="number"
-            min="0"
-            max="100"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Boşsa otomatik"
-          />
-        </div>
+        <UiInput
+          v-model="form.manualCommissionStartPercent"
+          label="Manuel Başlangıç Oranı %"
+          type="number"
+          min="0"
+          max="100"
+          variant="outline"
+          size="sm"
+          placeholder="Boşsa otomatik"
+        />
 
         <div class="xl:col-span-3 rounded-3xl bg-slate-50 p-5">
           <p class="text-sm font-bold text-slate-900">
@@ -421,75 +383,58 @@ const saveConsultant = async () => {
       </div>
 
       <div class="grid gap-4 xl:grid-cols-4">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Sektör Tecrübesi
-          </label>
-          <input
-            v-model="form.experienceYear"
-            type="number"
-            min="0"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.experienceYear"
+          label="Sektör Tecrübesi"
+          type="number"
+          min="0"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Aktif Portföy
-          </label>
-          <input
-            v-model="form.activeListings"
-            type="number"
-            min="0"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.activeListings"
+          label="Aktif Portföy"
+          type="number"
+          min="0"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Hedef Ciro
-          </label>
-          <input
-            v-model="form.targetRevenue"
-            type="number"
-            min="0"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.targetRevenue"
+          label="Hedef Ciro"
+          type="number"
+          min="0"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Eksik Evrak
-          </label>
-          <input
-            v-model="form.missingDocuments"
-            type="number"
-            min="0"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.missingDocuments"
+          label="Eksik Evrak"
+          type="number"
+          min="0"
+          variant="outline"
+          size="sm"
+        />
       </div>
 
       <div class="mt-4">
-        <label class="mb-2 block text-sm font-semibold text-slate-700">
-          Broker Notu
-        </label>
-        <textarea
+        <UiTextarea
           v-model="form.networkNote"
-          rows="4"
-          class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+          label="Broker Notu"
+          :rows="4"
+          variant="outline"
+          size="sm"
           placeholder="Danışmanın tecrübesi, bölgesi, güçlü yönleri, başlangıç planı..."
-        ></textarea>
+        />
       </div>
 
       <div class="mt-6 flex flex-wrap gap-2">
-        <button
-          type="button"
-          class="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-          @click="saveConsultant"
-        >
+        <UiButton variant="primary" shape="rounded" @click="saveConsultant">
           Danışmanı Kaydet
-        </button>
+        </UiButton>
 
         <NuxtLink
           to="/office/consultants"

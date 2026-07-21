@@ -272,17 +272,18 @@ const levelClass = (level) => {
         </div>
 
         <div class="grid gap-4 p-6">
-          <input
+          <UiInput
             v-model="trainingForm.title"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+            variant="outline"
+            size="sm"
             placeholder="Eğitim başlığı"
           />
 
           <div class="grid gap-4 md:grid-cols-2">
-            <select
+            <UiSelect
               v-model="trainingForm.category"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+              variant="outline"
+              size="sm"
             >
               <option>Genel</option>
               <option>Oryantasyon</option>
@@ -292,54 +293,57 @@ const levelClass = (level) => {
               <option>Ticari Gayrimenkul</option>
               <option>Hukuk</option>
               <option>CRM Kullanımı</option>
-            </select>
+            </UiSelect>
 
-            <select
+            <UiSelect
               v-model="trainingForm.level"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+              variant="outline"
+              size="sm"
             >
               <option>Başlangıç</option>
               <option>Orta</option>
               <option>İleri</option>
-            </select>
+            </UiSelect>
 
-            <input
+            <UiInput
               v-model="trainingForm.duration"
-              type="text"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+              variant="outline"
+              size="sm"
               placeholder="Süre: 45 dk"
             />
 
-            <select
+            <UiSelect
               v-model="trainingForm.format"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+              variant="outline"
+              size="sm"
             >
               <option>Doküman</option>
               <option>Video</option>
               <option>Sunum</option>
               <option>Doküman + Video</option>
-            </select>
+            </UiSelect>
           </div>
 
-          <textarea
+          <UiTextarea
             v-model="trainingForm.description"
-            rows="4"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+            :rows="4"
+            variant="outline"
+            size="sm"
             placeholder="Eğitim açıklaması..."
-          ></textarea>
+          />
 
           <div class="grid gap-4 md:grid-cols-2">
-            <input
+            <UiInput
               v-model="trainingForm.documentUrl"
-              type="text"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+              variant="outline"
+              size="sm"
               placeholder="Doküman linki"
             />
 
-            <input
+            <UiInput
               v-model="trainingForm.videoUrl"
-              type="text"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+              variant="outline"
+              size="sm"
               placeholder="Video linki"
             />
           </div>
@@ -349,13 +353,14 @@ const levelClass = (level) => {
             <span>Zorunlu eğitim olarak işaretle</span>
           </label>
 
-          <button
-            type="button"
-            class="rounded-2xl bg-slate-900 px-5 py-4 text-sm font-bold text-white transition hover:bg-slate-800"
+          <UiButton
+            variant="primary"
+            shape="rounded"
+            block
             @click="createNewTraining"
           >
             Eğitimi Kütüphaneye Ekle
-          </button>
+          </UiButton>
         </div>
       </section>
 
@@ -370,34 +375,28 @@ const levelClass = (level) => {
         </div>
 
         <div class="grid gap-4 p-6">
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">
-              Eğitim Seç
-            </label>
-            <select
-              v-model="selectedTrainingId"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+          <UiSelect
+            v-model="selectedTrainingId"
+            label="Eğitim Seç"
+            variant="outline"
+            size="sm"
+          >
+            <option
+              v-for="item in trainings"
+              :key="item.id"
+              :value="item.id"
             >
-              <option
-                v-for="item in trainings"
-                :key="item.id"
-                :value="item.id"
-              >
-                {{ item.title }}
-              </option>
-            </select>
-          </div>
+              {{ item.title }}
+            </option>
+          </UiSelect>
 
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">
-              Son Tarih
-            </label>
-            <input
-              v-model="dueDate"
-              type="date"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            />
-          </div>
+          <UiInput
+            v-model="dueDate"
+            label="Son Tarih"
+            type="date"
+            variant="outline"
+            size="sm"
+          />
 
           <div class="rounded-3xl border border-slate-200 bg-slate-50 p-4">
             <label class="mb-3 block text-sm font-semibold text-slate-700">
@@ -421,13 +420,14 @@ const levelClass = (level) => {
             </div>
           </div>
 
-          <button
-            type="button"
-            class="rounded-2xl bg-slate-900 px-5 py-4 text-sm font-bold text-white transition hover:bg-slate-800"
+          <UiButton
+            variant="primary"
+            shape="rounded"
+            block
             @click="assignSelectedTraining"
           >
             Seçili Danışmanlara Ata
-          </button>
+          </UiButton>
         </div>
       </section>
     </div>
@@ -449,42 +449,37 @@ const levelClass = (level) => {
           </div>
         </div>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Eğitim Durumu
-          </label>
-          <select
-            v-model="statusFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option>Bekliyor</option>
-            <option>Devam Ediyor</option>
-            <option>Tamamlandı</option>
-          </select>
-        </div>
+        <UiSelect
+          v-model="statusFilter"
+          label="Eğitim Durumu"
+          variant="outline"
+          size="sm"
+        >
+          <option>Tümü</option>
+          <option>Bekliyor</option>
+          <option>Devam Ediyor</option>
+          <option>Tamamlandı</option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">
-            Kategori
-          </label>
-          <select
-            v-model="categoryFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option v-for="item in categories" :key="item">{{ item }}</option>
-          </select>
-        </div>
+        <UiSelect
+          v-model="categoryFilter"
+          label="Kategori"
+          variant="outline"
+          size="sm"
+        >
+          <option>Tümü</option>
+          <option v-for="item in categories" :key="item">{{ item }}</option>
+        </UiSelect>
 
         <div class="flex items-end">
-          <button
-            type="button"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          <UiButton
+            variant="secondary"
+            shape="rounded"
+            block
             @click="clearFilters"
           >
             Temizle
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>
@@ -548,15 +543,15 @@ const levelClass = (level) => {
             </div>
 
             <div class="flex flex-wrap items-center gap-3">
-              <button
+              <UiButton
                 v-if="waitingCount(selectedConsultantId) > 0"
-                type="button"
-                class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+                variant="primary"
+                shape="rounded"
+                icon="bi-bell"
                 @click="sendReminder"
               >
-                <i class="bi bi-bell mr-2"></i>
                 Hatırlatma Gönder
-              </button>
+              </UiButton>
 
               <div class="rounded-2xl bg-slate-50 px-4 py-3 text-right">
                 <p class="text-xs text-slate-500">Tamamlanma</p>
@@ -661,13 +656,13 @@ const levelClass = (level) => {
             </div>
 
             <div class="mt-4 flex justify-end">
-              <button
-                type="button"
-                class="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              <UiButton
+                variant="secondary"
+                shape="rounded"
                 @click="deleteAssignment(item.id)"
               >
                 Atamayı Kaldır
-              </button>
+              </UiButton>
             </div>
           </div>
         </div>

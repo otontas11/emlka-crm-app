@@ -219,14 +219,9 @@ const progressWidth = (value) => {
           </p>
         </div>
 
-        <button
-          type="button"
-          class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-          @click="showForm = !showForm"
-        >
-          <i class="bi bi-plus-lg mr-2"></i>
+        <UiButton shape="rounded" icon="bi-plus-lg" @click="showForm = !showForm">
           Yeni Şablon
-        </button>
+        </UiButton>
       </div>
     </section>
 
@@ -301,64 +296,50 @@ const progressWidth = (value) => {
       </h2>
 
       <div class="mt-6 grid gap-4 xl:grid-cols-4">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Şablon Adı</label>
-          <input
-            v-model="form.title"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Örn: Ticari Kira Sözleşmesi"
-          />
-        </div>
+        <UiInput
+          v-model="form.title"
+          label="Şablon Adı"
+          type="text"
+          variant="outline"
+          size="sm"
+          placeholder="Örn: Ticari Kira Sözleşmesi"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Kategori</label>
-          <select
-            v-model="form.category"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="form.category" label="Kategori" variant="outline" size="sm">
+          <option
+            v-for="item in categoryOptions"
+            :key="item"
           >
-            <option
-              v-for="item in categoryOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Dosya Tipi</label>
-          <select
-            v-model="form.fileType"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="form.fileType" label="Dosya Tipi" variant="outline" size="sm">
+          <option
+            v-for="item in fileTypeOptions"
+            :key="item"
           >
-            <option
-              v-for="item in fileTypeOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Versiyon</label>
-          <input
-            v-model="form.version"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.version"
+          label="Versiyon"
+          type="text"
+          variant="outline"
+          size="sm"
+        />
 
-        <div class="xl:col-span-2">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Kullanım Alanı</label>
-          <input
-            v-model="form.usageArea"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Örn: Ticari kiralama, yer gösterme, teklif..."
-          />
-        </div>
+        <UiInput
+          v-model="form.usageArea"
+          label="Kullanım Alanı"
+          type="text"
+          variant="outline"
+          size="sm"
+          class="xl:col-span-2"
+          placeholder="Örn: Ticari kiralama, yer gösterme, teklif..."
+        />
 
         <div class="flex items-center gap-3 rounded-2xl bg-slate-50 p-4">
           <input
@@ -392,41 +373,33 @@ const progressWidth = (value) => {
           <span class="text-sm font-semibold text-slate-700">Aktif</span>
         </div>
 
-        <div class="xl:col-span-4">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Açıklama</label>
-          <textarea
-            v-model="form.description"
-            rows="3"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          ></textarea>
-        </div>
+        <UiTextarea
+          v-model="form.description"
+          label="Açıklama"
+          :rows="3"
+          variant="outline"
+          size="sm"
+          class="xl:col-span-4"
+        />
 
-        <div class="xl:col-span-4">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Şablon İçeriği / Not</label>
-          <textarea
-            v-model="form.content"
-            rows="4"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          ></textarea>
-        </div>
+        <UiTextarea
+          v-model="form.content"
+          label="Şablon İçeriği / Not"
+          :rows="4"
+          variant="outline"
+          size="sm"
+          class="xl:col-span-4"
+        />
       </div>
 
       <div class="mt-6 flex flex-wrap gap-2">
-        <button
-          type="button"
-          class="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-          @click="saveTemplate"
-        >
+        <UiButton shape="rounded" @click="saveTemplate">
           Şablonu Kaydet
-        </button>
+        </UiButton>
 
-        <button
-          type="button"
-          class="rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-          @click="showForm = false"
-        >
+        <UiButton variant="secondary" shape="rounded" @click="showForm = false">
           Vazgeç
-        </button>
+        </UiButton>
       </div>
     </section>
 
@@ -436,30 +409,23 @@ const progressWidth = (value) => {
     >
       <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div class="grid gap-4 xl:grid-cols-[1fr_260px]">
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Arama</label>
-            <input
-              v-model="search"
-              type="text"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-              placeholder="Şablon ara..."
-            />
-          </div>
+          <UiInput
+            v-model="search"
+            label="Arama"
+            type="text"
+            variant="outline"
+            size="sm"
+            placeholder="Şablon ara..."
+          />
 
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Kategori</label>
-            <select
-              v-model="categoryFilter"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+          <UiSelect v-model="categoryFilter" label="Kategori" variant="outline" size="sm">
+            <option
+              v-for="item in categories"
+              :key="item"
             >
-              <option
-                v-for="item in categories"
-                :key="item"
-              >
-                {{ item }}
-              </option>
-            </select>
-          </div>
+              {{ item }}
+            </option>
+          </UiSelect>
         </div>
       </section>
 
@@ -535,21 +501,13 @@ const progressWidth = (value) => {
 
                 <td class="px-6 py-5 text-right">
                   <div class="flex flex-col items-end gap-2">
-                    <button
-                      type="button"
-                      class="rounded-2xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
-                      @click="downloadTemplate(template)"
-                    >
+                    <UiButton size="sm" shape="rounded" @click="downloadTemplate(template)">
                       Test İndir
-                    </button>
+                    </UiButton>
 
-                    <button
-                      type="button"
-                      class="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700"
-                      @click="confirmDelete(template)"
-                    >
+                    <UiButton variant="secondary" size="sm" shape="rounded" @click="confirmDelete(template)">
                       Sil
-                    </button>
+                    </UiButton>
                   </div>
                 </td>
               </tr>
@@ -596,30 +554,23 @@ const progressWidth = (value) => {
 
       <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
         <div class="grid gap-4 xl:grid-cols-[1fr_220px]">
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Arama</label>
-            <input
-              v-model="search"
-              type="text"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-              placeholder="Danışman, belge, dosya ara..."
-            />
-          </div>
+          <UiInput
+            v-model="search"
+            label="Arama"
+            type="text"
+            variant="outline"
+            size="sm"
+            placeholder="Danışman, belge, dosya ara..."
+          />
 
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Durum</label>
-            <select
-              v-model="statusFilter"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+          <UiSelect v-model="statusFilter" label="Durum" variant="outline" size="sm">
+            <option
+              v-for="item in statusOptions"
+              :key="item"
             >
-              <option
-                v-for="item in statusOptions"
-                :key="item"
-              >
-                {{ item }}
-              </option>
-            </select>
-          </div>
+              {{ item }}
+            </option>
+          </UiSelect>
         </div>
       </section>
 
@@ -678,21 +629,13 @@ const progressWidth = (value) => {
 
                 <td class="px-6 py-5 text-right">
                   <div class="flex flex-col items-end gap-2">
-                    <button
-                      type="button"
-                      class="rounded-2xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
-                      @click="approveDocument(document)"
-                    >
+                    <UiButton size="sm" shape="rounded" @click="approveDocument(document)">
                       Onayla
-                    </button>
+                    </UiButton>
 
-                    <button
-                      type="button"
-                      class="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700"
-                      @click="requestRevision(document)"
-                    >
+                    <UiButton variant="secondary" size="sm" shape="rounded" @click="requestRevision(document)">
                       Revize İste
-                    </button>
+                    </UiButton>
                   </div>
                 </td>
               </tr>

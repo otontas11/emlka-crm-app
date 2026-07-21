@@ -385,65 +385,60 @@ const requestClass = (status) => {
 
       <div class="grid gap-5 p-6">
         <div class="grid gap-4 xl:grid-cols-5">
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Tarih</label>
-            <input
-              v-model="form.date"
-              type="date"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            />
-          </div>
+          <UiInput
+            v-model="form.date"
+            label="Tarih"
+            type="date"
+            variant="outline"
+            size="sm"
+          />
 
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Başlangıç</label>
-            <input
-              v-model="form.startTime"
-              type="time"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            />
-          </div>
+          <UiInput
+            v-model="form.startTime"
+            label="Başlangıç"
+            type="time"
+            variant="outline"
+            size="sm"
+          />
 
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Bitiş</label>
-            <input
-              v-model="form.endTime"
-              type="time"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            />
-          </div>
+          <UiInput
+            v-model="form.endTime"
+            label="Bitiş"
+            type="time"
+            variant="outline"
+            size="sm"
+          />
 
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Nöbet Türü</label>
-            <select
-              v-model="form.shiftType"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            >
-              <option>Tam Gün</option>
-              <option>Sabah</option>
-              <option>Öğleden Sonra</option>
-              <option>Hafta Sonu</option>
-              <option>Telefon Nöbeti</option>
-              <option>Ofis Nöbeti</option>
-            </select>
-          </div>
+          <UiSelect
+            v-model="form.shiftType"
+            label="Nöbet Türü"
+            variant="outline"
+            size="sm"
+          >
+            <option>Tam Gün</option>
+            <option>Sabah</option>
+            <option>Öğleden Sonra</option>
+            <option>Hafta Sonu</option>
+            <option>Telefon Nöbeti</option>
+            <option>Ofis Nöbeti</option>
+          </UiSelect>
 
-          <div>
-            <label class="mb-2 block text-sm font-semibold text-slate-700">Lokasyon</label>
-            <input
-              v-model="form.location"
-              type="text"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-              placeholder="Ofis"
-            />
-          </div>
+          <UiInput
+            v-model="form.location"
+            label="Lokasyon"
+            variant="outline"
+            size="sm"
+            placeholder="Ofis"
+          />
         </div>
 
-        <textarea
+        <UiTextarea
           v-model="form.description"
-          rows="3"
-          class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+          :rows="3"
+          variant="outline"
+          size="sm"
           placeholder="Nöbet açıklaması veya özel not..."
-        ></textarea>
+        />
 
         <div class="rounded-3xl border border-slate-200 bg-slate-50 p-4">
           <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -455,21 +450,23 @@ const requestClass = (status) => {
             </div>
 
             <div class="flex flex-wrap gap-2">
-              <button
-                type="button"
-                class="rounded-2xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+              <UiButton
+                variant="secondary"
+                size="sm"
+                shape="rounded"
                 @click="toggleAllFilteredConsultants"
               >
                 {{ allFilteredSelected ? 'Sayfadakileri Kaldır' : 'Sayfadakileri Seç' }}
-              </button>
+              </UiButton>
 
-              <button
-                type="button"
-                class="rounded-2xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+              <UiButton
+                variant="secondary"
+                size="sm"
+                shape="rounded"
                 @click="clearSelectedConsultants"
               >
                 Seçimi Temizle
-              </button>
+              </UiButton>
             </div>
           </div>
 
@@ -484,33 +481,36 @@ const requestClass = (status) => {
               />
             </div>
 
-            <select
+            <UiSelect
               v-model="assignmentStatusFilter"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+              variant="outline"
+              size="sm"
             >
               <option>Tümü</option>
               <option>Aday</option>
               <option>Aktif</option>
               <option>Pasif</option>
               <option>Ayrılmış</option>
-            </select>
+            </UiSelect>
 
-            <select
+            <UiSelect
               v-model="assignmentWorkTypeFilter"
-              class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+              variant="outline"
+              size="sm"
             >
               <option>Tümü</option>
               <option>SGK’lı Danışman</option>
               <option>Bağ-Kur’lu Danışman</option>
-            </select>
+            </UiSelect>
 
-            <button
-              type="button"
-              class="rounded-2xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+            <UiButton
+              variant="secondary"
+              size="sm"
+              shape="rounded"
               @click="clearAssignmentFilters"
             >
               Filtre Sil
-            </button>
+            </UiButton>
           </div>
 
           <div class="mt-4 overflow-hidden rounded-3xl border border-slate-200 bg-white">
@@ -538,23 +538,27 @@ const requestClass = (status) => {
                   </option>
                 </select>
 
-                <button
-                  type="button"
-                  class="rounded-2xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                <UiButton
+                  variant="secondary"
+                  size="sm"
+                  shape="rounded"
+                  class="disabled:cursor-not-allowed disabled:opacity-40"
                   :disabled="assignmentCurrentPage === 1"
                   @click="previousAssignmentPage"
                 >
                   Önceki
-                </button>
+                </UiButton>
 
-                <button
-                  type="button"
-                  class="rounded-2xl bg-slate-900 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+                <UiButton
+                  variant="primary"
+                  size="sm"
+                  shape="rounded"
+                  class="disabled:cursor-not-allowed disabled:opacity-40"
                   :disabled="assignmentCurrentPage === assignmentTotalPages"
                   @click="nextAssignmentPage"
                 >
                   Sonraki
-                </button>
+                </UiButton>
               </div>
             </div>
 
@@ -658,13 +662,14 @@ const requestClass = (status) => {
           </div>
         </div>
 
-        <button
-          type="button"
-          class="rounded-2xl bg-slate-900 px-5 py-4 text-sm font-bold text-white transition hover:bg-slate-800"
+        <UiButton
+          variant="primary"
+          shape="rounded"
+          block
           @click="createPlan"
         >
           Nöbet Planını Oluştur
-        </button>
+        </UiButton>
       </div>
     </section>
 
@@ -683,51 +688,49 @@ const requestClass = (status) => {
           </div>
         </div>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Tarih</label>
-          <input
-            v-model="dateFilter"
-            type="date"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="dateFilter"
+          label="Tarih"
+          type="date"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Durum</label>
-          <select
-            v-model="statusFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option v-for="item in statusOptions" :key="item">{{ item }}</option>
-          </select>
-        </div>
+        <UiSelect
+          v-model="statusFilter"
+          label="Durum"
+          variant="outline"
+          size="sm"
+        >
+          <option>Tümü</option>
+          <option v-for="item in statusOptions" :key="item">{{ item }}</option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Danışman</label>
-          <select
-            v-model="consultantFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="consultantFilter"
+          label="Danışman"
+          variant="outline"
+          size="sm"
+        >
+          <option>Tümü</option>
+          <option
+            v-for="item in consultants"
+            :key="item.id"
+            :value="item.id"
           >
-            <option>Tümü</option>
-            <option
-              v-for="item in consultants"
-              :key="item.id"
-              :value="item.id"
-            >
-              {{ item.fullName }}
-            </option>
-          </select>
-        </div>
+            {{ item.fullName }}
+          </option>
+        </UiSelect>
 
         <div class="flex items-end">
-          <button
-            type="button"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          <UiButton
+            variant="secondary"
+            shape="rounded"
+            block
             @click="clearFilters"
           >
             Temizle
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>
@@ -744,21 +747,21 @@ const requestClass = (status) => {
         </div>
 
         <div class="flex flex-wrap gap-2">
-          <button
-            type="button"
-            class="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          <UiButton
+            variant="secondary"
+            shape="rounded"
             @click="toggleAllVisibleDuties"
           >
             {{ allVisibleDutiesSelected ? 'Görünen Seçimi Kaldır' : 'Sayfadakileri Seç' }}
-          </button>
+          </UiButton>
 
-          <button
-            type="button"
-            class="rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+          <UiButton
+            variant="primary"
+            shape="rounded"
             @click="notifySelectedDuties"
           >
             Seçili Nöbetlere Bildirim Gönder
-          </button>
+          </UiButton>
         </div>
       </div>
 
@@ -855,21 +858,23 @@ const requestClass = (status) => {
 
               <td class="px-6 py-4">
                 <div class="flex justify-end gap-2">
-                  <button
-                    type="button"
-                    class="rounded-2xl bg-slate-900 px-3 py-2 text-xs font-semibold text-white transition hover:bg-slate-800"
+                  <UiButton
+                    variant="primary"
+                    size="sm"
+                    shape="rounded"
                     @click="notifySingleDuty(item)"
                   >
                     Bildir
-                  </button>
+                  </UiButton>
 
-                  <button
-                    type="button"
-                    class="rounded-2xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
+                  <UiButton
+                    variant="secondary"
+                    size="sm"
+                    shape="rounded"
                     @click="deleteDuty(item.id)"
                   >
                     Sil
-                  </button>
+                  </UiButton>
                 </div>
               </td>
             </tr>
@@ -939,21 +944,21 @@ const requestClass = (status) => {
             </div>
 
             <div class="flex shrink-0 flex-wrap gap-2">
-              <button
-                type="button"
-                class="rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+              <UiButton
+                variant="primary"
+                shape="rounded"
                 @click="updateDutyRequestStatus(item.id, 'Onaylandı', 'Talep broker tarafından onaylandı.')"
               >
                 Onayla
-              </button>
+              </UiButton>
 
-              <button
-                type="button"
-                class="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+              <UiButton
+                variant="secondary"
+                shape="rounded"
                 @click="updateDutyRequestStatus(item.id, 'Reddedildi', 'Talep broker tarafından reddedildi.')"
               >
                 Reddet
-              </button>
+              </UiButton>
             </div>
           </div>
         </div>

@@ -342,14 +342,9 @@ const directionClass = (direction) => {
           </p>
         </div>
 
-        <button
-          type="button"
-          class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-          @click="showForm = !showForm"
-        >
-          <i class="bi bi-plus-lg mr-2"></i>
+        <UiButton variant="primary" shape="rounded" icon="bi-plus-lg" @click="showForm = !showForm">
           Yeni Kayıt
-        </button>
+        </UiButton>
       </div>
     </section>
 
@@ -404,138 +399,59 @@ const directionClass = (direction) => {
       </h2>
 
       <div class="mt-6 grid gap-4 xl:grid-cols-4">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Kategori</label>
-          <select
-            v-model="form.category"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="form.category" label="Kategori" variant="outline" size="sm">
+          <option
+            v-for="item in categoryOptions"
+            :key="item.label"
+            :value="item.label"
           >
-            <option
-              v-for="item in categoryOptions"
-              :key="item.label"
-              :value="item.label"
-            >
-              {{ item.label }}
-            </option>
-          </select>
-        </div>
+            {{ item.label }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Yön</label>
-          <input
-            v-model="form.direction"
-            disabled
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm outline-none"
-          />
-        </div>
+        <UiInput v-model="form.direction" label="Yön" disabled variant="outline" size="sm" />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Dönem</label>
-          <input
-            v-model="form.period"
-            type="month"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput v-model="form.period" label="Dönem" type="month" variant="outline" size="sm" />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Durum</label>
-          <select
-            v-model="form.status"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="form.status" label="Durum" variant="outline" size="sm">
+          <option
+            v-for="item in statusOptions"
+            :key="item"
           >
-            <option
-              v-for="item in statusOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div v-if="requiresConsultant">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Danışman</label>
-          <select
-            v-model="form.consultantId"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-if="requiresConsultant" v-model="form.consultantId" label="Danışman" variant="outline" size="sm">
+          <option value="">Danışman seçin</option>
+          <option
+            v-for="consultant in consultantOptions"
+            :key="consultant.id"
+            :value="consultant.id"
           >
-            <option value="">Danışman seçin</option>
-            <option
-              v-for="consultant in consultantOptions"
-              :key="consultant.id"
-              :value="consultant.id"
-            >
-              {{ consultant.fullName }} · {{ consultant.workType }}
-            </option>
-          </select>
-        </div>
+            {{ consultant.fullName }} · {{ consultant.workType }}
+          </option>
+        </UiSelect>
 
-        <div v-else>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Kişi / Kurum</label>
-          <input
-            v-model="form.personName"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Asistan, temizlik personeli, tedarikçi..."
-          />
-        </div>
+        <UiInput v-else v-model="form.personName" label="Kişi / Kurum" variant="outline" size="sm" placeholder="Asistan, temizlik personeli, tedarikçi..." />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Tutar</label>
-          <input
-            v-model="form.amount"
-            type="number"
-            min="0"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput v-model="form.amount" label="Tutar" type="number" min="0" variant="outline" size="sm" />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Vade Tarihi</label>
-          <input
-            v-model="form.dueDate"
-            type="date"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput v-model="form.dueDate" label="Vade Tarihi" type="date" variant="outline" size="sm" />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Ödeme / Tahsil Tarihi</label>
-          <input
-            v-model="form.paidDate"
-            type="date"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput v-model="form.paidDate" label="Ödeme / Tahsil Tarihi" type="date" variant="outline" size="sm" />
       </div>
 
-      <div class="mt-4">
-        <label class="mb-2 block text-sm font-semibold text-slate-700">Not</label>
-        <textarea
-          v-model="form.note"
-          rows="3"
-          class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          placeholder="Ödeme / tahsilat notu..."
-        ></textarea>
-      </div>
+      <UiTextarea v-model="form.note" label="Not" :rows="3" variant="outline" size="sm" class="mt-4" placeholder="Ödeme / tahsilat notu..." />
 
       <div class="mt-6 flex flex-wrap gap-2">
-        <button
-          type="button"
-          class="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
-          @click="savePayment"
-        >
+        <UiButton variant="primary" shape="rounded" @click="savePayment">
           Kaydet
-        </button>
+        </UiButton>
 
-        <button
-          type="button"
-          class="rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-          @click="showForm = false"
-        >
+        <UiButton variant="secondary" shape="rounded" @click="showForm = false">
           Vazgeç
-        </button>
+        </UiButton>
       </div>
     </section>
 
@@ -591,23 +507,25 @@ const directionClass = (direction) => {
 
               <td class="px-6 py-5 text-right">
                 <div class="flex flex-wrap justify-end gap-2">
-                  <button
+                  <UiButton
                     v-if="!row.collection"
-                    type="button"
-                    class="rounded-2xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
+                    variant="secondary"
+                    size="sm"
+                    shape="rounded"
                     @click="createSskCollection(row.consultant)"
                   >
                     Tahsilat Aç
-                  </button>
+                  </UiButton>
 
-                  <button
+                  <UiButton
                     v-if="!row.debtPayment"
-                    type="button"
-                    class="rounded-2xl border border-slate-300 bg-white px-3 py-2 text-xs font-semibold text-slate-700"
+                    variant="secondary"
+                    size="sm"
+                    shape="rounded"
                     @click="createSskDebtPayment(row.consultant)"
                   >
                     Borç Kaydı Aç
-                  </button>
+                  </UiButton>
                 </div>
               </td>
             </tr>
@@ -668,78 +586,41 @@ const directionClass = (direction) => {
 
     <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <div class="grid gap-4 xl:grid-cols-[1fr_170px_180px_260px_180px_140px]">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Arama</label>
-          <input
-            v-model="search"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Kişi, kategori, not ara..."
-          />
-        </div>
+        <UiInput v-model="search" label="Arama" variant="outline" size="sm" placeholder="Kişi, kategori, not ara..." />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Dönem</label>
-          <input
-            v-model="periodFilter"
-            type="month"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput v-model="periodFilter" label="Dönem" type="month" variant="outline" size="sm" />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Yön</label>
-          <select
-            v-model="directionFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="directionFilter" label="Yön" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option>Tahsilat</option>
+          <option>Ödeme</option>
+        </UiSelect>
+
+        <UiSelect v-model="categoryFilter" label="Kategori" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option
+            v-for="item in categoryOptions"
+            :key="item.label"
+            :value="item.label"
           >
-            <option>Tümü</option>
-            <option>Tahsilat</option>
-            <option>Ödeme</option>
-          </select>
-        </div>
+            {{ item.label }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Kategori</label>
-          <select
-            v-model="categoryFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect v-model="statusFilter" label="Durum" variant="outline" size="sm">
+          <option>Tümü</option>
+          <option
+            v-for="item in statusOptions"
+            :key="item"
           >
-            <option>Tümü</option>
-            <option
-              v-for="item in categoryOptions"
-              :key="item.label"
-              :value="item.label"
-            >
-              {{ item.label }}
-            </option>
-          </select>
-        </div>
-
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Durum</label>
-          <select
-            v-model="statusFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          >
-            <option>Tümü</option>
-            <option
-              v-for="item in statusOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
         <div class="flex items-end">
-          <button
-            type="button"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
-            @click="clearFilters"
-          >
+          <UiButton variant="secondary" shape="rounded" block @click="clearFilters">
             Temizle
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>
@@ -855,21 +736,13 @@ const directionClass = (direction) => {
 
               <td class="px-6 py-5 text-right">
                 <div class="flex flex-col items-end gap-2">
-                  <button
-                    type="button"
-                    class="rounded-2xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white transition hover:bg-slate-800"
-                    @click="markRecordPaid(record)"
-                  >
+                  <UiButton variant="primary" size="sm" shape="rounded" @click="markRecordPaid(record)">
                     Tamamlandı Yap
-                  </button>
+                  </UiButton>
 
-                  <button
-                    type="button"
-                    class="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
-                    @click="confirmDelete(record)"
-                  >
+                  <UiButton variant="secondary" size="sm" shape="rounded" @click="confirmDelete(record)">
                     Sil
-                  </button>
+                  </UiButton>
                 </div>
               </td>
             </tr>

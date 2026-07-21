@@ -236,14 +236,14 @@ const progressWidth = (value) => {
             Ofis Paneline Dön
           </NuxtLink>
 
-          <button
-            type="button"
-            class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+          <UiButton
+            variant="primary"
+            shape="rounded"
+            icon="bi-plus-lg"
             @click="showForm = !showForm"
           >
-            <i class="bi bi-plus-lg mr-2"></i>
             Yeni Toplantı
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>
@@ -302,104 +302,94 @@ const progressWidth = (value) => {
       </div>
 
       <div class="grid gap-4 xl:grid-cols-4">
-        <div class="xl:col-span-2">
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Toplantı Başlığı</label>
-          <input
-            v-model="form.title"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Haftalık ofis toplantısı"
-          />
-        </div>
+        <UiInput
+          v-model="form.title"
+          label="Toplantı Başlığı"
+          variant="outline"
+          size="sm"
+          class="xl:col-span-2"
+          placeholder="Haftalık ofis toplantısı"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Toplantı Türü</label>
-          <select
-            v-model="form.meetingType"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="form.meetingType"
+          label="Toplantı Türü"
+          variant="outline"
+          size="sm"
+        >
+          <option
+            v-for="item in meetingTypeOptions"
+            :key="item"
           >
-            <option
-              v-for="item in meetingTypeOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Durum</label>
-          <select
-            v-model="form.status"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="form.status"
+          label="Durum"
+          variant="outline"
+          size="sm"
+        >
+          <option
+            v-for="item in meetingStatusOptions"
+            :key="item"
           >
-            <option
-              v-for="item in meetingStatusOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Tarih</label>
-          <input
-            v-model="form.date"
-            type="date"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.date"
+          label="Tarih"
+          type="date"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Başlangıç</label>
-          <input
-            v-model="form.startTime"
-            type="time"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.startTime"
+          label="Başlangıç"
+          type="time"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Bitiş</label>
-          <input
-            v-model="form.endTime"
-            type="time"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-          />
-        </div>
+        <UiInput
+          v-model="form.endTime"
+          label="Bitiş"
+          type="time"
+          variant="outline"
+          size="sm"
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Lokasyon</label>
-          <input
-            v-model="form.location"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Ofis"
-          />
-        </div>
+        <UiInput
+          v-model="form.location"
+          label="Lokasyon"
+          variant="outline"
+          size="sm"
+          placeholder="Ofis"
+        />
       </div>
 
       <div class="mt-4 grid gap-4 xl:grid-cols-2">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Toplantı Gündemi</label>
-          <textarea
-            v-model="form.agenda"
-            rows="4"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Toplantı gündem maddeleri..."
-          ></textarea>
-        </div>
+        <UiTextarea
+          v-model="form.agenda"
+          label="Toplantı Gündemi"
+          :rows="4"
+          variant="outline"
+          size="sm"
+          placeholder="Toplantı gündem maddeleri..."
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Broker Notu</label>
-          <textarea
-            v-model="form.note"
-            rows="4"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Toplantı notu..."
-          ></textarea>
-        </div>
+        <UiTextarea
+          v-model="form.note"
+          label="Broker Notu"
+          :rows="4"
+          variant="outline"
+          size="sm"
+          placeholder="Toplantı notu..."
+        />
       </div>
 
       <div class="mt-6 rounded-3xl bg-slate-50 p-5">
@@ -412,21 +402,23 @@ const progressWidth = (value) => {
           </div>
 
           <div class="flex flex-wrap gap-2">
-            <button
-              type="button"
-              class="rounded-2xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
+            <UiButton
+              variant="primary"
+              size="sm"
+              shape="rounded"
               @click="selectAllConsultants"
             >
               Tümünü Seç
-            </button>
+            </UiButton>
 
-            <button
-              type="button"
-              class="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700"
+            <UiButton
+              variant="secondary"
+              size="sm"
+              shape="rounded"
               @click="clearConsultantSelection"
             >
               Temizle
-            </button>
+            </UiButton>
           </div>
         </div>
 
@@ -447,21 +439,21 @@ const progressWidth = (value) => {
       </div>
 
       <div class="mt-6 flex flex-wrap gap-2">
-        <button
-          type="button"
-          class="rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800"
+        <UiButton
+          variant="primary"
+          shape="rounded"
           @click="saveMeeting"
         >
           Toplantıyı Kaydet
-        </button>
+        </UiButton>
 
-        <button
-          type="button"
-          class="rounded-2xl border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+        <UiButton
+          variant="secondary"
+          shape="rounded"
           @click="showForm = false"
         >
           Vazgeç
-        </button>
+        </UiButton>
       </div>
     </section>
 
@@ -508,56 +500,53 @@ const progressWidth = (value) => {
 
     <section class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
       <div class="grid gap-4 xl:grid-cols-[1fr_220px_220px_140px]">
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Arama</label>
-          <input
-            v-model="search"
-            type="text"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
-            placeholder="Toplantı, gündem, lokasyon ara..."
-          />
-        </div>
+        <UiInput
+          v-model="search"
+          label="Arama"
+          variant="outline"
+          size="sm"
+          placeholder="Toplantı, gündem, lokasyon ara..."
+        />
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Durum</label>
-          <select
-            v-model="statusFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="statusFilter"
+          label="Durum"
+          variant="outline"
+          size="sm"
+        >
+          <option>Tümü</option>
+          <option
+            v-for="item in meetingStatusOptions"
+            :key="item"
           >
-            <option>Tümü</option>
-            <option
-              v-for="item in meetingStatusOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
-        <div>
-          <label class="mb-2 block text-sm font-semibold text-slate-700">Toplantı Türü</label>
-          <select
-            v-model="typeFilter"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none focus:border-slate-500"
+        <UiSelect
+          v-model="typeFilter"
+          label="Toplantı Türü"
+          variant="outline"
+          size="sm"
+        >
+          <option>Tümü</option>
+          <option
+            v-for="item in meetingTypeOptions"
+            :key="item"
           >
-            <option>Tümü</option>
-            <option
-              v-for="item in meetingTypeOptions"
-              :key="item"
-            >
-              {{ item }}
-            </option>
-          </select>
-        </div>
+            {{ item }}
+          </option>
+        </UiSelect>
 
         <div class="flex items-end">
-          <button
-            type="button"
-            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+          <UiButton
+            variant="secondary"
+            shape="rounded"
+            block
             @click="clearFilters"
           >
             Temizle
-          </button>
+          </UiButton>
         </div>
       </div>
     </section>
@@ -607,29 +596,32 @@ const progressWidth = (value) => {
             </div>
 
             <div class="flex flex-wrap gap-2">
-              <button
-                type="button"
-                class="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700"
+              <UiButton
+                variant="secondary"
+                size="sm"
+                shape="rounded"
                 @click="markAllAttended(meeting)"
               >
                 Tümünü Katıldı Yap
-              </button>
+              </UiButton>
 
-              <button
-                type="button"
-                class="rounded-2xl bg-slate-900 px-4 py-2 text-xs font-semibold text-white"
+              <UiButton
+                variant="primary"
+                size="sm"
+                shape="rounded"
                 @click="completeMeetingProcess(meeting)"
               >
                 Tamamla
-              </button>
+              </UiButton>
 
-              <button
-                type="button"
-                class="rounded-2xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700"
+              <UiButton
+                variant="secondary"
+                size="sm"
+                shape="rounded"
                 @click="confirmDelete(meeting)"
               >
                 Sil
-              </button>
+              </UiButton>
             </div>
           </div>
 
