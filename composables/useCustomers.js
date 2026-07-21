@@ -469,3 +469,10 @@ export const useCustomers = () => {
 
   return Object.assign(customers, api)
 }
+
+// Sayfaların doğrudan isimli import ile kullanabilmesi için composable'a
+// delege eden modül-seviyesi yardımcılar.
+export const getCustomerById = (id) => useCustomers().getCustomerById(id)
+
+export const updateCustomer = (id, payloadOrField, value = null) =>
+  useCustomers().updateCustomer(id, payloadOrField, value)

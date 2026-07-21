@@ -150,3 +150,17 @@ export const useTasks = () => {
 
   return Object.assign(tasks, api)
 }
+
+// Sayfaların doğrudan isimli import ile kullanabilmesi için composable'a
+// delege eden modül-seviyesi yardımcılar.
+export const createTask = (payload = {}) => useTasks().createTask(payload)
+
+export const updateTask = (id, fieldOrPayload, value = null) =>
+  useTasks().updateTask(id, fieldOrPayload, value)
+
+export const deleteTask = (id) => useTasks().deleteTask(id)
+
+export const getTaskById = (id) => {
+  const store = useTasks()
+  return store.tasks.value.find(item => String(item.id) === String(id)) || null
+}
