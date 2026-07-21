@@ -6,6 +6,7 @@ const props = withDefaults(
   defineProps<{
     label?: string
     hint?: string
+    error?: string
     variant?: Variant
     size?: Size
     shadow?: boolean
@@ -14,6 +15,7 @@ const props = withDefaults(
   {
     label: '',
     hint: '',
+    error: '',
     variant: 'default',
     size: 'md',
     shadow: false,
@@ -28,9 +30,15 @@ defineOptions({ inheritAttrs: false })
 const attrs = useAttrs()
 const wrapperClass = computed(() => attrs.class)
 const controlAttrs = computed(() => {
-  const { class: _ignored, ...rest } = attrs
+  const { class: _class, id: _id, ...rest } = attrs
   return rest
 })
+
+const generatedId = useId()
+const controlId = computed(() => (attrs.id as string | undefined) ?? generatedId)
+const describedById = computed(() =>
+  props.error || props.hint ? `${controlId.value}-desc` : undefined,
+)
 
 const sizeClasses: Record<Size, string> = {
   md: 'px-4 py-3',
@@ -46,20 +54,32 @@ const variantClasses: Record<Variant, string> = {
 const controlClasses = computed(() => [
   'w-full rounded-2xl border bg-white',
   sizeClasses[props.size],
-  variantClasses[props.variant],
+  props.error
+    ? 'text-slate-900 outline-none transition border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100'
+    : variantClasses[props.variant],
   props.shadow ? 'shadow-sm' : '',
+  'disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400',
 ])
 </script>
 
 <template>
   <div :class="wrapperClass">
-    <label v-if="label" class="mb-2 block text-sm font-semibold text-slate-700">
+    <label v-if="label" :for="controlId" class="mb-2 block text-sm font-semibold text-slate-700">
       {{ label }}
       <span v-if="required" class="text-red-500">*</span>
     </label>
-    <select v-model="model" :required="required" :class="controlClasses" v-bind="controlAttrs">
+    <select
+      :id="controlId"
+      v-model="model"
+      :required="required"
+      :aria-invalid="error ? 'true' : undefined"
+      :aria-describedby="describedById"
+      :class="controlClasses"
+      v-bind="controlAttrs"
+    >
       <slot />
     </select>
-    <p v-if="hint" class="mt-1 text-xs text-slate-500">{{ hint }}</p>
+    <p v-if="error" :id="describedById" class="mt-1 text-xs text-red-600">{{ error }}</p>
+    <p v-else-if="hint" :id="describedById" class="mt-1 text-xs text-slate-500">{{ hint }}</p>
   </div>
 </template>

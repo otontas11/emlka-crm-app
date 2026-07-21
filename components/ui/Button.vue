@@ -11,6 +11,7 @@ const props = withDefaults(
     icon?: string
     type?: 'button' | 'submit' | 'reset'
     block?: boolean
+    loading?: boolean
   }>(),
   {
     variant: 'primary',
@@ -19,7 +20,19 @@ const props = withDefaults(
     icon: '',
     type: 'button',
     block: false,
+    loading: false,
   },
+)
+
+defineOptions({ inheritAttrs: false })
+
+const attrs = useAttrs()
+const rootAttrs = computed(() => {
+  const { class: _class, disabled: _disabled, ...rest } = attrs
+  return rest
+})
+const isDisabled = computed(
+  () => props.loading || (attrs.disabled !== undefined && attrs.disabled !== false && attrs.disabled !== null),
 )
 
 const sizeClasses: Record<Size, string> = {
@@ -41,7 +54,7 @@ const variantClasses: Record<Variant, string> = {
 }
 
 const buttonClasses = computed(() => [
-  'inline-flex items-center justify-center font-semibold transition',
+  'inline-flex items-center justify-center font-semibold transition disabled:cursor-not-allowed disabled:opacity-60',
   props.block ? 'w-full' : '',
   sizeClasses[props.size],
   shapeClasses[props.shape],
@@ -50,8 +63,18 @@ const buttonClasses = computed(() => [
 </script>
 
 <template>
-  <button :type="type" :class="buttonClasses">
-    <i v-if="icon" :class="['bi', icon, 'mr-2']"></i>
+  <button
+    :type="type"
+    :disabled="isDisabled"
+    :class="[buttonClasses, attrs.class]"
+    v-bind="rootAttrs"
+  >
+    <span
+      v-if="loading"
+      class="mr-2 inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"
+      aria-hidden="true"
+    ></span>
+    <i v-else-if="icon" :class="['bi', icon, 'mr-2']"></i>
     <slot />
   </button>
 </template>
