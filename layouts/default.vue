@@ -3,10 +3,15 @@ const route = useRoute()
 const router = useRouter()
 
 const {
-  currentUser,
+  user,
   initAuth,
   logout,
-} = useCrmAuth()
+  displayName,
+  displayTitle,
+  avatarText,
+  isCompanyAdmin,
+  isConsultant,
+} = useAuth()
 
 onMounted(() => {
   initAuth()
@@ -50,13 +55,9 @@ const consultantMenu = [
   { label: 'Nöbetlerim', to: '/consultant/duties', icon: 'bi-calendar-check-fill' },
 ]
 
-const isBrokerUser = computed(() => {
-  return currentUser.value?.role === 'broker'
-})
+const isBrokerUser = computed(() => isCompanyAdmin.value)
 
-const isConsultantUser = computed(() => {
-  return currentUser.value?.role === 'consultant'
-})
+const isConsultantUser = computed(() => isConsultant.value)
 
 const menuGroups = computed(() => {
   if (isConsultantUser.value) {
@@ -122,17 +123,11 @@ const pageTitle = computed(() => {
   return activeItem?.label || 'Emlak CRM'
 })
 
-const userName = computed(() => {
-  return currentUser.value?.name || 'Sinan'
-})
+const userName = displayName
 
-const userTitle = computed(() => {
-  return currentUser.value?.title || 'Ticari Gayrimenkul'
-})
+const userTitle = displayTitle
 
-const avatarText = computed(() => {
-  return currentUser.value?.avatarText || userName.value?.charAt(0) || 'S'
-})
+
 
 const logoutUser = async () => {
   logout()

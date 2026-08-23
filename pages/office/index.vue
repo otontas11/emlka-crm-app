@@ -15,6 +15,11 @@ const {
   behindTargetConsultants,
 } = useOffice()
 
+const { label: enumLbl } = useEnums()
+
+const consultantName = (consultantId) =>
+  consultants.value.find(item => String(item.id) === String(consultantId))?.fullName || '-'
+
 const selectedPeriod = ref('Aylık')
 
 const periods = [
@@ -562,7 +567,7 @@ const officeModules = [
               <div>
                 <div class="flex flex-wrap items-center gap-2">
                   <span class="rounded-full bg-slate-900 px-3 py-1 text-xs font-semibold text-white">
-                    {{ item.transactionType }}
+                    {{ enumLbl('DealType', item.transactionType) }}
                   </span>
                   <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-slate-700">
                     {{ item.stage }}
@@ -571,7 +576,7 @@ const officeModules = [
 
                 <h3 class="mt-3 font-bold text-slate-900">{{ item.property }}</h3>
                 <p class="mt-1 text-sm text-slate-500">
-                  {{ item.consultant }} · Ortak: {{ item.partnerConsultant }} · {{ item.customer }}
+                  {{ consultantName(item.consultantId) }}<template v-if="item.partnerConsultantId"> · Ortak: {{ consultantName(item.partnerConsultantId) }}</template> · {{ item.customer }}
                 </p>
               </div>
 

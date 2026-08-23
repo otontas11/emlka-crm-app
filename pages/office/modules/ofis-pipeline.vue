@@ -1,4 +1,5 @@
 <script setup>
+const { options: enumOpts, label: enumLbl } = useEnums()
 import { useOffice } from '~/composables/useOffice'
 import { useOfficePipeline } from '~/composables/useOfficePipeline'
 
@@ -19,9 +20,9 @@ hydrateProcesses()
 
 const search = ref('')
 const consultantFilter = ref('Tümü')
-const statusFilter = ref('Tümü')
-const typeFilter = ref('Tümü')
-const stageFilter = ref('Tümü')
+const statusFilter = ref('')
+const typeFilter = ref('')
+const stageFilter = ref('')
 const showForm = ref(false)
 const successMessage = ref('')
 
@@ -29,60 +30,29 @@ const form = reactive({
   consultantId: '',
   customerName: '',
   customerPhone: '',
-  processType: 'Satış',
+  dealType: 'Sale',
   propertyTitle: '',
   location: '',
   budget: '',
   offerAmount: '',
   commissionPotential: '',
-  stage: 'Yeni Talep',
-  status: 'Aktif',
+  stage: 'NewRequest',
+  status: 'Active',
   probability: 25,
   expectedCloseDate: '',
-  source: 'Ofis Kaydı',
+  source: 'OfficeRecord',
   nextAction: '',
   nextActionDate: '',
   note: '',
 })
 
-const processTypes = [
-  'Satış',
-  'Kiralama',
-  'Portföy Alma',
-  'Yer Gösterme',
-  'Değerleme',
-]
+const processTypes = enumOpts('DealType')
 
-const stageOptions = [
-  'Yeni Talep',
-  'İlk Görüşme',
-  'Portföy Eşleştirme',
-  'Sunum Yapıldı',
-  'Yer Gösterildi',
-  'Teklif Alındı',
-  'Fiyat Pazarlığı',
-  'Sözleşme Aşaması',
-  'Kapandı',
-  'Kaybedildi',
-]
+const stageOptions = enumOpts('DealStage')
 
-const statusOptions = [
-  'Aktif',
-  'Aksiyon Bekliyor',
-  'Beklemede',
-  'Kapandı',
-  'Kaybedildi',
-]
+const statusOptions = enumOpts('DealStatus')
 
-const sourceOptions = [
-  'Ofis Kaydı',
-  'Saha Çalışması',
-  'Referans',
-  'Sosyal Medya',
-  'Web Formu',
-  'Telefon Araması',
-  'Mevcut Müşteri',
-]
+const sourceOptions = enumOpts('DealSource')
 
 const consultantOptions = computed(() => {
   return consultants.value.filter(item => item.status !== 'Ayrıldı')
@@ -105,7 +75,7 @@ const filteredProcesses = computed(() => {
         item.consultantName,
         item.propertyTitle,
         item.location,
-        item.processType,
+        enumLbl('DealType', item.dealType),
         item.stage,
         item.status,
         item.source,
@@ -117,15 +87,15 @@ const filteredProcesses = computed(() => {
     list = list.filter(item => String(item.consultantId) === String(consultantFilter.value))
   }
 
-  if (statusFilter.value !== 'Tümü') {
+  if (statusFilter.value) {
     list = list.filter(item => item.status === statusFilter.value)
   }
 
-  if (typeFilter.value !== 'Tümü') {
-    list = list.filter(item => item.processType === typeFilter.value)
+  if (typeFilter.value) {
+    list = list.filter(item => item.dealType === typeFilter.value)
   }
 
-  if (stageFilter.value !== 'Tümü') {
+  if (stageFilter.value) {
     list = list.filter(item => item.stage === stageFilter.value)
   }
 
@@ -133,13 +103,14 @@ const filteredProcesses = computed(() => {
 })
 
 const stageSummary = computed(() => {
-  return stageOptions.map(stage => {
-    const items = processes.value.filter(item => item.stage === stage)
+  return stageOptions.map((option) => {
+    const items = processes.value.filter(item => item.stage === option.value)
 
     return {
-      stage,
+      stage: option.value,
+      stageLabel: option.label,
       count: items.length,
-      commission: items.reduce((sum, item) => sum + Number(item.commissionPotential || 0), 0),
+      commission: items.reduce((sum, item) => sum + Number(item.grossCommission || 0), 0),
     }
   }).filter(item => item.count > 0)
 })
@@ -148,17 +119,17 @@ const resetForm = () => {
   form.consultantId = ''
   form.customerName = ''
   form.customerPhone = ''
-  form.processType = 'Satış'
+  form.dealType = 'Sale'
   form.propertyTitle = ''
   form.location = ''
   form.budget = ''
   form.offerAmount = ''
   form.commissionPotential = ''
-  form.stage = 'Yeni Talep'
-  form.status = 'Aktif'
+  form.stage = 'NewRequest'
+  form.status = 'Active'
   form.probability = 25
   form.expectedCloseDate = ''
-  form.source = 'Ofis Kaydı'
+  form.source = 'OfficeRecord'
   form.nextAction = ''
   form.nextActionDate = ''
   form.note = ''
@@ -192,19 +163,21 @@ const saveProcess = () => {
 const clearFilters = () => {
   search.value = ''
   consultantFilter.value = 'Tümü'
-  statusFilter.value = 'Tümü'
-  typeFilter.value = 'Tümü'
-  stageFilter.value = 'Tümü'
+  statusFilter.value = ''
+  typeFilter.value = ''
+  stageFilter.value = ''
 }
 
-const statusClass = (status) => {
-  if (status === 'Aktif') return 'bg-slate-900 text-white'
-  if (status === 'Aksiyon Bekliyor') return 'bg-slate-200 text-slate-800'
-  if (status === 'Beklemede') return 'bg-slate-100 text-slate-700'
-  if (status === 'Kapandı') return 'bg-slate-950 text-white'
-  if (status === 'Kaybedildi') return 'bg-white text-slate-600 border border-slate-200'
-  return 'bg-slate-100 text-slate-700'
+const STATUS_CLASSES = {
+  Active: 'bg-slate-900 text-white',
+  ActionRequired: 'bg-slate-200 text-slate-800',
+  OnHold: 'bg-slate-100 text-slate-700',
+  Won: 'bg-slate-950 text-white',
+  Lost: 'bg-white text-slate-600 border border-slate-200',
+  Cancelled: 'bg-white text-slate-500 border border-slate-300',
 }
+
+const statusClass = status => STATUS_CLASSES[status] || 'bg-slate-100 text-slate-700'
 
 const probabilityClass = (value) => {
   const number = Number(value || 0)
@@ -311,7 +284,7 @@ const confirmDelete = (item) => {
           :key="item.stage"
           class="rounded-3xl bg-slate-50 p-5"
         >
-          <p class="text-sm font-semibold text-slate-900">{{ item.stage }}</p>
+          <p class="text-sm font-semibold text-slate-900">{{ item.stageLabel }}</p>
           <p class="mt-3 text-3xl font-bold text-slate-900">{{ item.count }}</p>
           <p class="mt-1 text-xs text-slate-500">
             {{ formatPrice(item.commission) }} potansiyel
@@ -363,12 +336,13 @@ const confirmDelete = (item) => {
           placeholder="05xx xxx xx xx"
         />
 
-        <UiSelect v-model="form.processType" label="Süreç Türü" variant="outline" size="sm">
+        <UiSelect v-model="form.dealType" label="Süreç Türü" variant="outline" size="sm">
           <option
             v-for="item in processTypes"
-            :key="item"
-          >
-            {{ item }}
+            :key="item.value"
+            :value="item.value"
+            >
+              {{ item.label }}
           </option>
         </UiSelect>
 
@@ -429,18 +403,20 @@ const confirmDelete = (item) => {
         <UiSelect v-model="form.stage" label="Aşama" variant="outline" size="sm">
           <option
             v-for="item in stageOptions"
-            :key="item"
-          >
-            {{ item }}
+            :key="item.value"
+            :value="item.value"
+            >
+              {{ item.label }}
           </option>
         </UiSelect>
 
         <UiSelect v-model="form.status" label="Durum" variant="outline" size="sm">
           <option
             v-for="item in statusOptions"
-            :key="item"
-          >
-            {{ item }}
+            :key="item.value"
+            :value="item.value"
+            >
+              {{ item.label }}
           </option>
         </UiSelect>
 
@@ -455,9 +431,10 @@ const confirmDelete = (item) => {
         <UiSelect v-model="form.source" label="Kaynak" variant="outline" size="sm">
           <option
             v-for="item in sourceOptions"
-            :key="item"
-          >
-            {{ item }}
+            :key="item.value"
+            :value="item.value"
+            >
+              {{ item.label }}
           </option>
         </UiSelect>
       </div>
@@ -514,7 +491,7 @@ const confirmDelete = (item) => {
         />
 
         <UiSelect v-model="consultantFilter" label="Danışman" variant="outline" size="sm">
-          <option>Tümü</option>
+          <option value="">Tümü</option>
           <option
             v-for="consultant in consultantOptions"
             :key="consultant.id"
@@ -525,32 +502,35 @@ const confirmDelete = (item) => {
         </UiSelect>
 
         <UiSelect v-model="statusFilter" label="Durum" variant="outline" size="sm">
-          <option>Tümü</option>
+          <option value="">Tümü</option>
           <option
             v-for="item in statusOptions"
-            :key="item"
-          >
-            {{ item }}
+            :key="item.value"
+            :value="item.value"
+            >
+              {{ item.label }}
           </option>
         </UiSelect>
 
         <UiSelect v-model="typeFilter" label="Tür" variant="outline" size="sm">
-          <option>Tümü</option>
+          <option value="">Tümü</option>
           <option
             v-for="item in processTypes"
-            :key="item"
-          >
-            {{ item }}
+            :key="item.value"
+            :value="item.value"
+            >
+              {{ item.label }}
           </option>
         </UiSelect>
 
         <UiSelect v-model="stageFilter" label="Aşama" variant="outline" size="sm">
-          <option>Tümü</option>
+          <option value="">Tümü</option>
           <option
             v-for="item in stageOptions"
-            :key="item"
-          >
-            {{ item }}
+            :key="item.value"
+            :value="item.value"
+            >
+              {{ item.label }}
           </option>
         </UiSelect>
 
@@ -601,13 +581,13 @@ const confirmDelete = (item) => {
                 <p class="mt-3 font-semibold text-slate-800">{{ item.propertyTitle }}</p>
                 <p class="mt-1 text-xs text-slate-500">{{ item.location }}</p>
                 <p class="mt-2 inline-flex rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                  {{ item.processType }}
+                  {{ enumLbl('DealType', item.dealType) }}
                 </p>
               </td>
 
               <td class="px-6 py-5">
                 <p class="font-semibold text-slate-900">{{ item.consultantName }}</p>
-                <p class="mt-1 text-xs text-slate-500">{{ item.source }}</p>
+                <p class="mt-1 text-xs text-slate-500">{{ enumLbl('DealSource', item.source) }}</p>
               </td>
 
               <td class="px-6 py-5">
@@ -643,9 +623,10 @@ const confirmDelete = (item) => {
                 >
                   <option
                     v-for="stage in stageOptions"
-                    :key="stage"
-                  >
-                    {{ stage }}
+                    :key="stage.value"
+                    :value="stage.value"
+                    >
+                      {{ stage.label }}
                   </option>
                 </select>
 
@@ -663,9 +644,10 @@ const confirmDelete = (item) => {
                 >
                   <option
                     v-for="status in statusOptions"
-                    :key="status"
-                  >
-                    {{ status }}
+                    :key="status.value"
+                    :value="status.value"
+                    >
+                      {{ status.label }}
                   </option>
                 </select>
               </td>

@@ -3,9 +3,7 @@ definePageMeta({
   layout: false,
 })
 
-const {
-  loginBroker,
-} = useCrmAuth()
+const { loginAsBroker } = useDemoLogin()
 
 const form = ref({
   email: 'broker@emlakcrm.com',
@@ -13,9 +11,9 @@ const form = ref({
 })
 
 const login = async () => {
-  loginBroker({
+  loginAsBroker({
     email: form.value.email,
-    name: 'Ofis Brokeri',
+    fullName: 'Ofis Brokeri',
   })
 
   await navigateTo('/office', { replace: true })

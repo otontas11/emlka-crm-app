@@ -9,10 +9,11 @@ import { useOfficeDuties } from '~/composables/useOfficeDuties'
 const { consultants } = useOffice()
 
 const {
-  currentUser,
+  user,
   initAuth,
+  consultantId,
   logout,
-} = useCrmAuth()
+} = useAuth()
 
 const {
   getConsultantNotifications,
@@ -52,7 +53,7 @@ ensureDocumentsForConsultants()
 ensureOrientationForConsultants()
 
 const currentConsultantId = computed(() => {
-  return currentUser.value?.consultantId || null
+  return consultantId.value
 })
 
 const currentConsultant = computed(() => {
@@ -210,7 +211,7 @@ const statusClass = (status) => {
             Danışman Paneli
           </p>
           <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">
-            Hoş geldiniz, {{ currentConsultant?.fullName || currentUser?.name || 'Danışman' }}
+            Hoş geldiniz, {{ currentConsultant?.fullName || user?.fullName || 'Danışman' }}
           </h1>
           <p class="mt-2 max-w-4xl text-sm leading-6 text-slate-500">
             Size atanmış duyuruları, evrakları, oryantasyon adımlarını, eğitimleri ve nöbetleri tek ekrandan takip edin.
@@ -235,7 +236,7 @@ const statusClass = (status) => {
             Giriş Yapan Danışman
           </p>
           <h2 class="mt-2 text-2xl font-bold text-slate-900">
-            {{ currentConsultant?.fullName || currentUser?.name || 'Danışman' }}
+            {{ currentConsultant?.fullName || user?.fullName || 'Danışman' }}
           </h2>
           <p class="mt-1 text-sm text-slate-500">
             {{ currentConsultant?.code }} · {{ currentConsultant?.workType }} · {{ currentConsultant?.expertiseRegion }}

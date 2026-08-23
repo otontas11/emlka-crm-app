@@ -1,23 +1,14 @@
-export default defineNuxtRouteMiddleware((to, from) => {
-  const authCookie = useCookie('auth')
+/**
+ * Global auth.global.js zaten panel bazlı yetki kontrolü yapıyor. Bu middleware
+ * yalnızca "giriş yapılmış olmalı" diyen sayfalar için sade bir kapı.
+ */
+export default defineNuxtRouteMiddleware(() => {
+  if (import.meta.server) return
 
-  if (!authCookie.value) {
-    return navigateTo('/')
-  }
+  const { user, initAuth } = useAuth()
+  initAuth()
 
-  const user = authCookie.value
-
-  // Admin/Broker route'ları - sadece company admin erişebilir
-  if (to.path.startsWith('/admin')) {
-    if (!user.is_company_admin) {
-      return navigateTo('/danisman')
-    }
-  }
-
-  // Danışman route'ları - consultant yetkisi olanlar erişebilir
-  if (to.path.startsWith('/danisman')) {
-    if (!user.is_consultant) {
-      return navigateTo('/')
-    }
+  if (!user.value) {
+    return navigateTo('/login', { replace: true })
   }
 })

@@ -82,7 +82,7 @@ const filterOptions = [
 ]
 
 const customerOptions = computed(() => {
-  return customers.value.map(item => item.fullName || item.name || item.phone).filter(Boolean)
+  return customers.value.map(item => item.fullName || item.phone).filter(Boolean)
 })
 
 const today = () => new Date().toISOString().slice(0, 10)

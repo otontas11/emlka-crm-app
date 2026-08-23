@@ -71,13 +71,13 @@ const loadCustomer = () => {
     phone: customer.phone || '',
     whatsapp: customer.whatsapp || '',
     email: customer.email || '',
-    profession: customer.profession || '',
+    mainProfession: customer.mainProfession || '',
     oldProfession: customer.oldProfession || '',
     birthDate: customer.birthDate || '',
-    customerType: customer.customerType || 'Alıcı',
+    customerType: customer.customerType || 'Prospect',
     customerStatus: customer.customerStatus || 'Aktif',
     nextFollowUpDate: customer.nextFollowUpDate || '',
-    city: customer.city || '',
+    livingCity: customer.livingCity || '',
     hometown: customer.hometown || '',
 
     spouseName: customer.spouseName || '',
@@ -120,7 +120,7 @@ const loadCustomer = () => {
     linkedin: customer.linkedin || '',
     twitter: customer.twitter || '',
 
-    notes: customer.notes || '',
+    note: customer.note || '',
   }
 
   isLoading.value = false
@@ -201,7 +201,7 @@ onMounted(() => {
                 </div>
 
                 <div class="col-md-4">
-                  <UiInput v-model="form.profession" label="Meslek" type="text" variant="ring" />
+                  <UiInput v-model="form.mainProfession" label="Meslek" type="text" variant="ring" />
                 </div>
 
                 <div class="col-md-4">

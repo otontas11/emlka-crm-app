@@ -1,4 +1,5 @@
 <script setup>
+const { options: enumOpts, label: enumLbl } = useEnums()
 import { useOffice } from '~/composables/useOffice'
 import { useOfficeAuthorizedListings } from '~/composables/useOfficeAuthorizedListings'
 
@@ -19,72 +20,36 @@ hydrateListings()
 
 const search = ref('')
 const consultantFilter = ref('Tümü')
-const statusFilter = ref('Tümü')
-const typeFilter = ref('Tümü')
-const authorityFilter = ref('Tümü')
+const statusFilter = ref('')
+const typeFilter = ref('')
+const authorityFilter = ref('')
 const showForm = ref(false)
 const successMessage = ref('')
 
 const form = reactive({
   consultantId: '',
   title: '',
-  propertyType: 'Ticari Dükkan',
+  propertyType: 'Shop',
   location: '',
   ownerName: '',
   ownerPhone: '',
-  authorizationType: 'Tek Yetki',
+  authorizationType: 'Exclusive',
   startDate: new Date().toISOString().slice(0, 10),
   endDate: '',
   price: '',
-  status: 'Aktif Pazarlamada',
-  stage: 'Portföy Alındı',
-  source: 'Ofis Kaydı',
+  status: 'Active',
+  stage: 'PortfolioAcquired',
+  source: 'OfficeRecord',
   brokerNote: '',
 })
 
-const propertyTypes = [
-  'Ticari Dükkan',
-  'Ofis',
-  'Depo',
-  'Fabrika',
-  'Arsa',
-  'Konut',
-  'Plaza Katı',
-  'Mağaza',
-]
+const propertyTypes = enumOpts('PropertyType')
 
-const statusOptions = [
-  'Aktif Pazarlamada',
-  'Müşteri Görüşmede',
-  'Teklif Alındı',
-  'Sözleşme Aşamasında',
-  'İşlem Tamamlandı',
-  'Yetki Süresi Yaklaşıyor',
-  'Pasif',
-]
+const statusOptions = enumOpts('PropertyStatus')
 
-const stageOptions = [
-  'Portföy Alındı',
-  'Fotoğraf / Video Hazırlanıyor',
-  'İlan Yayında',
-  'Pazarlama',
-  'Talep Eşleşti',
-  'Sunum Yapıldı',
-  'Teklif Alındı',
-  'Fiyat Güncelleme',
-  'Sözleşme Aşaması',
-  'İşlem Tamamlandı',
-]
+const stageOptions = enumOpts('ListingStage')
 
-const sourceOptions = [
-  'Ofis Kaydı',
-  'Saha Çalışması',
-  'Referans',
-  'Sosyal Medya',
-  'Web Formu',
-  'Telefon Araması',
-  'Mevcut Müşteri',
-]
+const sourceOptions = enumOpts('DealSource')
 
 const consultantOptions = computed(() => {
   return consultants.value.filter(item => item.status !== 'Ayrıldı')
@@ -114,15 +79,15 @@ const filteredListings = computed(() => {
     list = list.filter(item => String(item.consultantId) === String(consultantFilter.value))
   }
 
-  if (statusFilter.value !== 'Tümü') {
+  if (statusFilter.value) {
     list = list.filter(item => item.status === statusFilter.value)
   }
 
-  if (typeFilter.value !== 'Tümü') {
+  if (typeFilter.value) {
     list = list.filter(item => item.propertyType === typeFilter.value)
   }
 
-  if (authorityFilter.value !== 'Tümü') {
+  if (authorityFilter.value) {
     list = list.filter(item => item.authorizationType === authorityFilter.value)
   }
 
@@ -184,25 +149,28 @@ const saveListing = () => {
 const clearFilters = () => {
   search.value = ''
   consultantFilter.value = 'Tümü'
-  statusFilter.value = 'Tümü'
-  typeFilter.value = 'Tümü'
-  authorityFilter.value = 'Tümü'
+  statusFilter.value = ''
+  typeFilter.value = ''
+  authorityFilter.value = ''
 }
 
-const authorityClass = (type) => {
-  if (type === 'Tek Yetki') return 'bg-slate-900 text-white'
-  return 'bg-slate-100 text-slate-700'
+const authorityClass = type =>
+  type === 'Exclusive' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-700'
+
+const STATUS_CLASSES = {
+  Active: 'bg-slate-900 text-white',
+  OfferStage: 'bg-slate-800 text-white',
+  OnHold: 'bg-slate-200 text-slate-800',
+  Optioned: 'bg-slate-900 text-white',
+  Sold: 'bg-slate-950 text-white',
+  Rented: 'bg-slate-950 text-white',
+  Expired: 'bg-slate-300 text-slate-900',
+  Passive: 'bg-slate-100 text-slate-600',
+  Cancelled: 'bg-white text-slate-500 border border-slate-300',
 }
 
-const statusClass = (status) => {
-  if (status === 'Aktif Pazarlamada') return 'bg-slate-900 text-white'
-  if (status === 'Müşteri Görüşmede') return 'bg-slate-200 text-slate-800'
-  if (status === 'Teklif Alındı') return 'bg-slate-800 text-white'
-  if (status === 'Sözleşme Aşamasında') return 'bg-slate-900 text-white'
-  if (status === 'İşlem Tamamlandı') return 'bg-slate-950 text-white'
-  if (status === 'Yetki Süresi Yaklaşıyor') return 'bg-slate-300 text-slate-900'
-  return 'bg-white text-slate-700 border border-slate-200'
-}
+const statusClass = status =>
+  STATUS_CLASSES[status] || 'bg-white text-slate-700 border border-slate-200'
 
 const expiryText = (endDate) => {
   const days = daysUntilEnd(endDate)
@@ -323,9 +291,10 @@ const confirmDelete = (item) => {
         <UiSelect v-model="form.propertyType" label="Portföy Türü" variant="outline" size="sm">
           <option
             v-for="item in propertyTypes"
-            :key="item"
-          >
-            {{ item }}
+            :key="item.value"
+            :value="item.value"
+            >
+              {{ item.label }}
           </option>
         </UiSelect>
 
@@ -387,18 +356,20 @@ const confirmDelete = (item) => {
         <UiSelect v-model="form.status" label="Durum" variant="outline" size="sm">
           <option
             v-for="item in statusOptions"
-            :key="item"
-          >
-            {{ item }}
+            :key="item.value"
+            :value="item.value"
+            >
+              {{ item.label }}
           </option>
         </UiSelect>
 
         <UiSelect v-model="form.stage" label="Aşama" variant="outline" size="sm">
           <option
             v-for="item in stageOptions"
-            :key="item"
-          >
-            {{ item }}
+            :key="item.value"
+            :value="item.value"
+            >
+              {{ item.label }}
           </option>
         </UiSelect>
       </div>
@@ -407,9 +378,10 @@ const confirmDelete = (item) => {
         <UiSelect v-model="form.source" label="Kaynak" variant="outline" size="sm">
           <option
             v-for="item in sourceOptions"
-            :key="item"
-          >
-            {{ item }}
+            :key="item.value"
+            :value="item.value"
+            >
+              {{ item.label }}
           </option>
         </UiSelect>
 
@@ -446,7 +418,7 @@ const confirmDelete = (item) => {
         />
 
         <UiSelect v-model="consultantFilter" label="Danışman" variant="outline" size="sm">
-          <option>Tümü</option>
+          <option value="">Tümü</option>
           <option
             v-for="consultant in consultantOptions"
             :key="consultant.id"
@@ -457,22 +429,24 @@ const confirmDelete = (item) => {
         </UiSelect>
 
         <UiSelect v-model="statusFilter" label="Durum" variant="outline" size="sm">
-          <option>Tümü</option>
+          <option value="">Tümü</option>
           <option
             v-for="item in statusOptions"
-            :key="item"
-          >
-            {{ item }}
+            :key="item.value"
+            :value="item.value"
+            >
+              {{ item.label }}
           </option>
         </UiSelect>
 
         <UiSelect v-model="typeFilter" label="Portföy Türü" variant="outline" size="sm">
-          <option>Tümü</option>
+          <option value="">Tümü</option>
           <option
             v-for="item in propertyTypes"
-            :key="item"
-          >
-            {{ item }}
+            :key="item.value"
+            :value="item.value"
+            >
+              {{ item.label }}
           </option>
         </UiSelect>
 
@@ -519,13 +493,13 @@ const confirmDelete = (item) => {
             >
               <td class="px-6 py-5">
                 <p class="font-bold text-slate-900">{{ item.title }}</p>
-                <p class="mt-1 text-xs text-slate-500">{{ item.propertyType }}</p>
+                <p class="mt-1 text-xs text-slate-500">{{ enumLbl('PropertyType', item.propertyType) }}</p>
                 <p class="mt-1 text-xs text-slate-500">{{ item.location }}</p>
               </td>
 
               <td class="px-6 py-5">
                 <p class="font-semibold text-slate-900">{{ item.consultantName }}</p>
-                <p class="mt-1 text-xs text-slate-500">{{ item.source }}</p>
+                <p class="mt-1 text-xs text-slate-500">{{ enumLbl('DealSource', item.source) }}</p>
               </td>
 
               <td class="px-6 py-5">
@@ -542,7 +516,7 @@ const confirmDelete = (item) => {
                   class="rounded-full px-3 py-1 text-xs font-semibold"
                   :class="authorityClass(item.authorizationType)"
                 >
-                  {{ item.authorizationType }}
+                  {{ enumLbl('AuthorityType', item.authorizationType) }}
                 </span>
               </td>
 
@@ -560,9 +534,10 @@ const confirmDelete = (item) => {
                 >
                   <option
                     v-for="status in statusOptions"
-                    :key="status"
-                  >
-                    {{ status }}
+                    :key="status.value"
+                    :value="status.value"
+                    >
+                      {{ status.label }}
                   </option>
                 </select>
               </td>
@@ -575,9 +550,10 @@ const confirmDelete = (item) => {
                 >
                   <option
                     v-for="stage in stageOptions"
-                    :key="stage"
-                  >
-                    {{ stage }}
+                    :key="stage.value"
+                    :value="stage.value"
+                    >
+                      {{ stage.label }}
                   </option>
                 </select>
               </td>

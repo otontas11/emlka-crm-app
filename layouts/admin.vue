@@ -1,8 +1,8 @@
 <script setup>
-const { user: authUser, logout, isCompanyAdmin } = useCrmAuth()
+const { logout, isCompanyAdmin, displayName, displayTitle, avatarText } = useAuth()
 
-if (!isCompanyAdmin.value) {
-  navigateTo('/danisman')
+if (import.meta.client && !isCompanyAdmin.value) {
+  navigateTo('/consultant', { replace: true })
 }
 
 const navigation = ref([
@@ -12,9 +12,9 @@ const navigation = ref([
 ])
 
 const user = computed(() => ({
-  name: authUser.value?.name || 'Admin',
-  role: authUser.value?.is_consultant ? 'Broker & Danışman' : 'Broker',
-  avatar: authUser.value?.name?.split(' ').map(n => n[0]).join('') || 'A',
+  name: displayName.value,
+  role: displayTitle.value,
+  avatar: avatarText.value,
   stats: { danismanlar: 5, bugunAranacak: 12, gecikenArama: 5 }
 }))
 

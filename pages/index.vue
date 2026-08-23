@@ -311,9 +311,9 @@ const goToTaskDetail = (id) => {
               </div>
 
               <div class="space-y-1 text-sm text-slate-500">
-                <p>{{ customer.customerType || '-' }}</p>
+                <p>{{ enumLabel('CustomerType', customer.customerType) || '-' }}</p>
                 <p>{{ customer.phone || '-' }}</p>
-                <p>{{ customer.city || '-' }}</p>
+                <p>{{ customer.livingCity || '-' }}</p>
               </div>
             </button>
           </div>

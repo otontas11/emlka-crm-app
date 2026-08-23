@@ -1,40 +1,57 @@
+import {
+  CustomerSource,
+  CustomerStatus,
+  CustomerType,
+} from '~/constants/enums'
+
+/**
+ * Müşteri deposu.
+ *
+ * Önceki sürümde her alanın 2-3 takma adı vardı (fullName/name, note/notes/additionalNotes,
+ * city/livingCity, customerType/type, profession/mainProfession) ve normalizeCustomer bunları
+ * her okumada `a || b || c` zinciriyle birbirine kopyalıyordu. Hangisinin doğru olduğu belirsizdi.
+ *
+ * Artık her alan için TEK kanonik ad var. Eski kayıtlar ve Excel/CSV içe aktarımındaki
+ * Türkçe başlıklar `migrateLegacyCustomer` ile bir kez kanonik ada çevrilir.
+ */
 export const useCustomers = () => {
   const storageKey = 'emlak-crm-customers'
   const phonebookStorageKey = 'emlak-crm-private-phonebook'
 
   const emptyCustomer = {
-    id: 1,
+    id: '',
+
+    // kimlik
     fullName: '',
-    name: '',
     phone: '',
     whatsapp: '',
     email: '',
+    birthDate: '',
+    age: '',
+
+    // sınıflandırma / sahiplik
+    customerType: 'Prospect',
+    status: 'Active',
+    source: 'Manual',
+    visibility: 'Personal',
+    officeShared: false,
+    sharedAt: '',
+    consultantId: '',
+    isFromPhonebook: false,
+    phonebookContactId: null,
+
+    // takip
+    lastContactDate: '',
+    nextFollowDate: '',
+    followIntervalDays: '',
+
+    // memleket
     hometown: '',
     hometownLiberationDate: '',
     hometownLiberationTitle: '',
-    birthDate: '',
-    age: '',
-    mainProfession: '',
-    sideProfession: '',
-    oldProfession: '',
-    profession: '',
-    relationToMe: '',
-    metThrough: '',
-    mutualFriend1: '',
-    mutualFriend2: '',
     hometownNotes: '',
 
-    mainProfessionInstitution: '',
-    mainProfessionSubInstitution: '',
-    mainProfessionNotes: '',
-    sideProfessionInstitution: '',
-    sideProfessionSubInstitution: '',
-    sideProfessionNotes: '',
-    oldProfessionInstitution: '',
-    oldProfessionSubInstitution: '',
-    oldProfessionNotes: '',
-
-    city: '',
+    // yaşadığı yer
     livingCity: '',
     livingDistrict: '',
     livingNeighborhood: '',
@@ -43,6 +60,58 @@ export const useCustomers = () => {
     livingApartment: '',
     livingPlaceNotes: '',
 
+    // meslek
+    mainProfession: '',
+    mainProfessionInstitution: '',
+    mainProfessionSubInstitution: '',
+    mainProfessionNotes: '',
+    sideProfession: '',
+    sideProfessionInstitution: '',
+    sideProfessionSubInstitution: '',
+    sideProfessionNotes: '',
+    oldProfession: '',
+    oldProfessionInstitution: '',
+    oldProfessionSubInstitution: '',
+    oldProfessionNotes: '',
+
+    // ilişki
+    relationToMe: '',
+    metThrough: '',
+    mutualFriend1: '',
+    mutualFriend2: '',
+
+    // aile
+    maritalStatus: '',
+    spouseName: '',
+    spousePhone: '',
+    spouseBirthDate: '',
+    weddingAnniversary: '',
+    spouseProfession: '',
+    spouseWorkplace: '',
+    spouseHometown: '',
+    spouseNotes: '',
+    children: [],
+
+    motherName: '',
+    motherProfession: '',
+    motherBirthDate: '',
+    motherDeathDate: '',
+    motherNotes: '',
+    fatherName: '',
+    fatherProfession: '',
+    fatherBirthDate: '',
+    fatherDeathDate: '',
+    fatherNotes: '',
+
+    // mülk durumu
+    houseOwnership: '',
+    landlordHouseRent: '',
+    shopOwnership: '',
+    shopName: '',
+    landlordShopRent: '',
+    propertyNotes: '',
+
+    // sosyal medya (flat) — jsonb listeye geçiş plan §14/5'te karar bekliyor
     facebookName: '',
     facebookMutualFollow: '',
     facebookPageName: '',
@@ -58,31 +127,12 @@ export const useCustomers = () => {
     twitterName: '',
     twitterMutualFollow: '',
 
-    maritalStatus: '',
-    spouseName: '',
-    spousePhone: '',
-    spouseBirthDate: '',
-    weddingAnniversary: '',
-    spouseProfession: '',
-    spouseWorkplace: '',
-    spouseHometown: '',
-    spouseNotes: '',
-
-    children: [],
-
-    propertyNotes: '',
-    houseOwnership: '',
-    landlordHouseRent: '',
-    shopOwnership: '',
-    shopName: '',
-    landlordShopRent: '',
-
+    // ilgi alanları (flat) — aynı şekilde §14/5
     favoriteTeam: '',
     teamFanLevel: '',
     teamSpecialDate: '',
     politicalView: '',
     politicalFanLevel: '',
-
     carBrand: '',
     carModel: '',
     carFanLevel: '',
@@ -97,73 +147,31 @@ export const useCustomers = () => {
     mainHobby: '',
     mainHobbyNotes: '',
     hobbies: '',
-    additionalNotes: '',
 
-    motherName: '',
-    motherProfession: '',
-    motherBirthDate: '',
-    motherDeathDate: '',
-    motherNotes: '',
-    fatherName: '',
-    fatherProfession: '',
-    fatherBirthDate: '',
-    fatherDeathDate: '',
-    fatherNotes: '',
-
-    customerType: 'Aday Müşteri',
-    type: 'Aday Müşteri',
-    source: 'Manuel Kayıt',
-    status: 'Aktif',
-    visibility: 'Kişisel',
-    dataOwner: 'Danışman',
-    consultantId: 1,
-    consultantName: '',
-    officeShared: false,
-    isFromPhonebook: false,
-    phonebookContactId: null,
-    sharedAt: '',
-    lastContactDate: '',
-    nextFollowDate: '',
+    // serbest
     specialDaysNote: '',
     note: '',
-    notes: '',
     createdAt: '',
   }
 
-  const defaultCustomers = [
-    {
-      ...emptyCustomer,
-      id: 1,
-      fullName: 'Mehmet Kaya',
-      name: 'Mehmet Kaya',
-      phone: '0533 111 22 33',
-      whatsapp: '0533 111 22 33',
-      email: '',
-      hometown: 'İzmir',
-      birthDate: '',
-      customerType: 'Mal Sahibi',
-      type: 'Mal Sahibi',
-      consultantName: 'Sinan Tontaş',
-      source: 'Telefon Rehberi',
-      isFromPhonebook: true,
-      note: 'Danışman tarafından sisteme eklenmiş örnek müşteri.',
-      notes: 'Danışman tarafından sisteme eklenmiş örnek müşteri.',
-      createdAt: '2026-06-20',
-      lastContactDate: '2026-06-19',
-      nextFollowDate: '2026-07-09',
-    },
-  ]
+  const customers = useState('customers', () => [])
 
-  const customers = useState('customers', () => defaultCustomers)
+  const newId = () => (import.meta.client && crypto?.randomUUID ? crypto.randomUUID() : `tmp-${Date.now()}-${customers.value.length}`)
 
-  const cleanPhone = (value = '') => {
-    return String(value).replace(/\s+/g, '').trim()
+  const cleanPhone = (value = '') => String(value).replace(/\s+/g, '').trim()
+
+  /** Türkçe etiket -> enum değeri (eski kayıtlar ve Excel başlıkları için). */
+  const valueFromLabel = (enumMap, label, fallback) => {
+    if (!label) return fallback
+    if (enumMap[label]) return label
+    const hit = Object.entries(enumMap).find(([, l]) => l === label)
+    return hit ? hit[0] : fallback
   }
 
-  const normalizeChildren = (customer = {}) => {
-    if (Array.isArray(customer.children)) {
-      return customer.children.map((child, index) => ({
-        id: child.id || Date.now() + index,
+  const normalizeChildren = (input) => {
+    if (Array.isArray(input?.children)) {
+      return input.children.map((child, index) => ({
+        id: child.id || `${Date.now()}-${index}`,
         name: child.name || child.childName || '',
         birthDate: child.birthDate || '',
         profession: child.profession || '',
@@ -171,87 +179,67 @@ export const useCustomers = () => {
       }))
     }
 
-    const legacyChildren = []
-
-    if (customer.child1Name || customer.child1BirthDate) {
-      legacyChildren.push({
-        id: Date.now() + 1,
-        name: customer.child1Name || '',
-        birthDate: customer.child1BirthDate || '',
+    // child1Name / child2BirthDate ... biçimindeki eski alanlar
+    return [1, 2, 3]
+      .filter(i => input?.[`child${i}Name`] || input?.[`child${i}BirthDate`])
+      .map(i => ({
+        id: `${Date.now()}-${i}`,
+        name: input[`child${i}Name`] || '',
+        birthDate: input[`child${i}BirthDate`] || '',
         profession: '',
         note: '',
-      })
-    }
-
-    if (customer.child2Name || customer.child2BirthDate) {
-      legacyChildren.push({
-        id: Date.now() + 2,
-        name: customer.child2Name || '',
-        birthDate: customer.child2BirthDate || '',
-        profession: '',
-        note: '',
-      })
-    }
-
-    if (customer.child3Name || customer.child3BirthDate) {
-      legacyChildren.push({
-        id: Date.now() + 3,
-        name: customer.child3Name || '',
-        birthDate: customer.child3BirthDate || '',
-        profession: '',
-        note: '',
-      })
-    }
-
-    return legacyChildren
+      }))
   }
 
-  const normalizeCustomer = (customer = {}) => {
-    const normalized = {
-      ...emptyCustomer,
-      ...customer,
-      id: customer.id || Date.now(),
-      fullName: customer.fullName || customer.name || customer['İsim Soyisim'] || '',
-      name: customer.name || customer.fullName || customer['İsim Soyisim'] || '',
-      phone: customer.phone || customer.telefon || customer['Telefon'] || '',
-      whatsapp: customer.whatsapp || customer.phone || customer.telefon || customer['Telefon'] || '',
-      email: customer.email || customer['E-Posta'] || '',
-      hometown: customer.hometown || customer['Memleket'] || '',
-      birthDate: customer.birthDate || customer['Doğum Tarihi'] || '',
-      age: customer.age || customer['Yaş'] || '',
-      city: customer.city || customer.livingCity || customer['Yaşadığı Şehir'] || '',
-      livingCity: customer.livingCity || customer.city || customer['Yaşadığı Şehir'] || '',
-      profession: customer.profession || customer.mainProfession || customer['Ana Mesleği'] || '',
-      mainProfession: customer.mainProfession || customer.profession || customer['Ana Mesleği'] || '',
-      customerType: customer.customerType || customer.type || 'Aday Müşteri',
-      type: customer.type || customer.customerType || 'Aday Müşteri',
-      visibility: customer.officeShared ? 'Ofisle Paylaşıldı' : (customer.visibility || 'Kişisel'),
-      officeShared: Boolean(customer.officeShared),
-      isFromPhonebook: Boolean(customer.isFromPhonebook),
-      children: normalizeChildren(customer),
-      note: customer.note || customer.notes || customer.additionalNotes || '',
-      notes: customer.notes || customer.note || customer.additionalNotes || '',
-      createdAt: customer.createdAt || new Date().toISOString().slice(0, 10),
+  /**
+   * Eski/harici bir kaydı kanonik alan adlarına çevirir. Yalnızca burada `a || b`
+   * zinciri vardır; sistemin geri kalanı tek isim görür.
+   */
+  const migrateLegacyCustomer = (raw = {}) => ({
+    ...raw,
+    fullName: raw.fullName || raw.name || raw['İsim Soyisim'] || '',
+    phone: raw.phone || raw.telefon || raw['Telefon'] || '',
+    whatsapp: raw.whatsapp || raw.phone || raw.telefon || raw['Telefon'] || '',
+    email: raw.email || raw['E-Posta'] || '',
+    birthDate: raw.birthDate || raw['Doğum Tarihi'] || '',
+    age: raw.age || raw['Yaş'] || '',
+    hometown: raw.hometown || raw['Memleket'] || '',
+    livingCity: raw.livingCity || raw.city || raw['Yaşadığı Şehir'] || '',
+    mainProfession: raw.mainProfession || raw.profession || raw['Ana Mesleği'] || '',
+    note: raw.note || raw.notes || raw.additionalNotes || '',
+    customerType: valueFromLabel(CustomerType, raw.customerType || raw.type, 'Prospect'),
+    status: valueFromLabel(CustomerStatus, raw.status, 'Active'),
+    source: valueFromLabel(CustomerSource, raw.source, 'Manual'),
+    children: normalizeChildren(raw),
+  })
+
+  const normalizeCustomer = (raw = {}) => {
+    const migrated = migrateLegacyCustomer(raw)
+    const officeShared = Boolean(migrated.officeShared)
+
+    const normalized = {}
+    for (const key of Object.keys(emptyCustomer)) {
+      normalized[key] = migrated[key] !== undefined ? migrated[key] : emptyCustomer[key]
     }
+
+    normalized.id = migrated.id || newId()
+    normalized.officeShared = officeShared
+    normalized.visibility = officeShared ? 'OfficeShared' : 'Personal'
+    normalized.isFromPhonebook = Boolean(migrated.isFromPhonebook)
+    normalized.createdAt = migrated.createdAt || new Date().toISOString().slice(0, 10)
 
     return normalized
   }
 
   const persistCustomers = () => {
-    if (!process.client) return
+    if (!import.meta.client) return
     localStorage.setItem(storageKey, JSON.stringify(customers.value))
   }
 
   const createCustomer = (payload = {}) => {
-    const customer = normalizeCustomer({
-      id: payload.id || Date.now(),
-      ...payload,
-      createdAt: payload.createdAt || new Date().toISOString().slice(0, 10),
-    })
+    const customer = normalizeCustomer({ ...payload, id: payload.id || newId() })
 
-    const exists = customers.value.some(item => String(item.id) === String(customer.id))
-
-    if (!exists) {
+    if (!customers.value.some(item => String(item.id) === String(customer.id))) {
       customers.value.unshift(customer)
       persistCustomers()
     }
@@ -271,9 +259,7 @@ export const useCustomers = () => {
       Object.assign(customer, payloadOrField)
     }
 
-    const normalized = normalizeCustomer(customer)
-    Object.assign(customer, normalized)
-
+    Object.assign(customer, normalizeCustomer(customer))
     persistCustomers()
     return customer
   }
@@ -285,163 +271,111 @@ export const useCustomers = () => {
     persistCustomers()
   }
 
-  const getCustomerById = (id) => {
-    return customers.value.find(item => String(item.id) === String(id)) || null
-  }
+  const getCustomerById = id =>
+    customers.value.find(item => String(item.id) === String(id)) || null
 
   const getCustomer = getCustomerById
 
   const createCustomerFromPhonebook = (contact = {}) => {
-    const existing = customers.value.find(item => {
-      const samePhonebookId =
-        item.phonebookContactId &&
-        contact.id &&
+    const existing = customers.value.find((item) => {
+      const samePhonebookId = item.phonebookContactId && contact.id &&
         String(item.phonebookContactId) === String(contact.id)
-
-      const samePhone =
-        item.phone &&
-        contact.phone &&
+      const samePhone = item.phone && contact.phone &&
         cleanPhone(item.phone) === cleanPhone(contact.phone)
-
       return samePhonebookId || samePhone
     })
 
     const payload = normalizeCustomer({
+      id: existing?.id || newId(),
       fullName: contact.fullName || '',
-      name: contact.fullName || '',
       phone: contact.phone || '',
       whatsapp: contact.whatsapp || contact.phone || '',
       email: contact.email || '',
-      city: contact.city || '',
       livingCity: contact.city || '',
-      customerType: contact.relationType || 'Aday Müşteri',
-      type: contact.relationType || 'Aday Müşteri',
-      source: 'Telefon Rehberi',
-      status: 'Aktif',
-      visibility: contact.officeShared ? 'Ofisle Paylaşıldı' : 'Kişisel',
-      dataOwner: 'Danışman',
-      consultantId: contact.consultantId || 1,
-      consultantName: contact.consultantName || '',
+      customerType: contact.relationType || 'Prospect',
+      source: 'Phonebook',
+      status: 'Active',
+      consultantId: contact.consultantId || '',
       officeShared: Boolean(contact.officeShared),
+      sharedAt: contact.sharedAt || '',
       isFromPhonebook: true,
       phonebookContactId: contact.id || null,
-      sharedAt: contact.sharedAt || '',
       lastContactDate: contact.lastContactDate || '',
       nextFollowDate: contact.nextFollowDate || '',
       note: contact.note || 'Rehberden aktarıldı.',
-      notes: contact.note || 'Rehberden aktarıldı.',
       createdAt: contact.createdAt || new Date().toISOString().slice(0, 10),
     })
 
     if (existing) {
-      Object.assign(existing, {
-        ...existing,
-        ...payload,
-        id: existing.id,
-      })
-
+      Object.assign(existing, payload, { id: existing.id })
       persistCustomers()
       return existing
     }
 
-    const customer = {
-      ...payload,
-      id: Date.now() + Math.floor(Math.random() * 1000),
-    }
-
-    customers.value.unshift(customer)
+    customers.value.unshift(payload)
     persistCustomers()
-
-    return customer
+    return payload
   }
 
   const syncPhonebookContactsToCustomers = () => {
-    if (!process.client) return []
-
-    const savedPhonebook = localStorage.getItem(phonebookStorageKey)
-    if (!savedPhonebook) return []
+    if (!import.meta.client) return []
 
     let phonebookContacts = []
-
     try {
-      phonebookContacts = JSON.parse(savedPhonebook)
-    } catch (error) {
+      phonebookContacts = JSON.parse(localStorage.getItem(phonebookStorageKey) || '[]')
+    } catch {
       phonebookContacts = []
     }
 
-    const synced = []
+    if (!Array.isArray(phonebookContacts)) return []
 
-    phonebookContacts.forEach((contact) => {
-      synced.push(createCustomerFromPhonebook(contact))
-    })
-
+    const synced = phonebookContacts.map(contact => createCustomerFromPhonebook(contact))
     persistCustomers()
-
     return synced
   }
 
   const hydrateCustomers = () => {
-    if (!process.client) return
+    if (!import.meta.client) return
 
-    const saved = localStorage.getItem(storageKey)
-
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved)
-        customers.value = Array.isArray(parsed)
-          ? parsed.map(normalizeCustomer)
-          : defaultCustomers
-      } catch (error) {
-        customers.value = defaultCustomers
-      }
-    } else {
-      customers.value = defaultCustomers
-      persistCustomers()
+    try {
+      const parsed = JSON.parse(localStorage.getItem(storageKey) || '[]')
+      customers.value = Array.isArray(parsed) ? parsed.map(normalizeCustomer) : []
+    } catch {
+      customers.value = []
     }
 
     syncPhonebookContactsToCustomers()
-  }
-
-  const getConsultantCustomers = (consultantId) => {
-    return customers.value.filter(item => String(item.consultantId) === String(consultantId))
-  }
-
-  const getOfficeVisibleCustomers = () => {
-    return customers.value.filter(item => item.officeShared || item.visibility === 'Ofisle Paylaşıldı')
-  }
-
-  const shareCustomerWithOffice = (id) => {
-    const customer = getCustomerById(id)
-    if (!customer) return
-
-    customer.officeShared = true
-    customer.visibility = 'Ofisle Paylaşıldı'
-    customer.sharedAt = new Date().toISOString().slice(0, 10)
-
     persistCustomers()
   }
 
-  const unshareCustomerFromOffice = (id) => {
+  const getConsultantCustomers = consultantId =>
+    customers.value.filter(item => String(item.consultantId) === String(consultantId))
+
+  const getOfficeVisibleCustomers = () =>
+    customers.value.filter(item => item.visibility !== 'Personal')
+
+  const setOfficeSharing = (id, shared) => {
     const customer = getCustomerById(id)
     if (!customer) return
 
-    customer.officeShared = false
-    customer.visibility = 'Kişisel'
-    customer.sharedAt = ''
-
+    customer.officeShared = shared
+    customer.visibility = shared ? 'OfficeShared' : 'Personal'
+    customer.sharedAt = shared ? new Date().toISOString().slice(0, 10) : ''
     persistCustomers()
   }
+
+  const shareCustomerWithOffice = id => setOfficeSharing(id, true)
+  const unshareCustomerFromOffice = id => setOfficeSharing(id, false)
 
   const customerStats = computed(() => {
+    const today = new Date().toISOString().slice(0, 10)
+
     return {
       total: customers.value.length,
-      privateCount: customers.value.filter(item => !item.officeShared).length,
-      officeSharedCount: customers.value.filter(item => item.officeShared).length,
+      privateCount: customers.value.filter(item => item.visibility === 'Personal').length,
+      officeSharedCount: customers.value.filter(item => item.visibility !== 'Personal').length,
       fromPhonebookCount: customers.value.filter(item => item.isFromPhonebook).length,
-      followNeededCount: customers.value.filter(item => {
-        return item.nextFollowDate &&
-          item.nextFollowDate <= new Date().toISOString().slice(0, 10)
-      }).length,
+      followNeededCount: customers.value.filter(item => item.nextFollowDate && item.nextFollowDate <= today).length,
     }
   })
 
@@ -451,6 +385,7 @@ export const useCustomers = () => {
     hydrateCustomers,
     persistCustomers,
     normalizeCustomer,
+    migrateLegacyCustomer,
     createCustomer,
     addCustomer,
     updateCustomer,
@@ -470,9 +405,7 @@ export const useCustomers = () => {
   return Object.assign(customers, api)
 }
 
-// Sayfaların doğrudan isimli import ile kullanabilmesi için composable'a
-// delege eden modül-seviyesi yardımcılar.
-export const getCustomerById = (id) => useCustomers().getCustomerById(id)
+export const getCustomerById = id => useCustomers().getCustomerById(id)
 
 export const updateCustomer = (id, payloadOrField, value = null) =>
   useCustomers().updateCustomer(id, payloadOrField, value)

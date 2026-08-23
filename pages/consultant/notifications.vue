@@ -5,9 +5,10 @@ import { useOfficeNotifications } from '~/composables/useOfficeNotifications'
 const { consultants } = useOffice()
 
 const {
-  currentUser,
+  user,
   initAuth,
-} = useCrmAuth()
+  consultantId,
+} = useAuth()
 
 const {
   getConsultantNotifications,
@@ -20,7 +21,7 @@ initAuth()
 syncAnnouncementNotifications()
 
 const currentConsultantId = computed(() => {
-  return currentUser.value?.consultantId || null
+  return consultantId.value
 })
 
 const currentConsultant = computed(() => {
@@ -109,7 +110,7 @@ Danışman: ${item.consultantName}`
             Giriş Yapan Danışman
           </p>
           <h2 class="mt-2 text-2xl font-bold text-slate-900">
-            {{ currentConsultant?.fullName || currentUser?.name || 'Danışman' }}
+            {{ currentConsultant?.fullName || user?.fullName || 'Danışman' }}
           </h2>
           <p class="mt-1 text-sm text-slate-500">
             {{ currentConsultant?.code }} · {{ currentConsultant?.workType }} · {{ currentConsultant?.expertiseRegion }}

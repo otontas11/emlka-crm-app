@@ -1,5 +1,5 @@
 <script setup>
-const { user: authUser, logout, isCompanyAdmin } = useCrmAuth()
+const { logout, isCompanyAdmin, displayName, displayTitle, avatarText } = useAuth()
 
 const navigation = ref([
   { name: 'Dashboard', icon: '📊', path: '/danisman', badge: null },
@@ -11,9 +11,9 @@ const navigation = ref([
 
 const user = computed(() => {
   return {
-    name: authUser.value?.name || 'Kullanıcı',
-    role: authUser.value?.is_company_admin ? 'Broker & Danışman' : 'Gayrimenkul Danışmanı',
-    avatar: authUser.value?.name?.split(' ').map(n => n[0]).join('') || 'U',
+    name: displayName.value,
+    role: displayTitle.value,
+    avatar: avatarText.value,
     stats: {
       bugunAranacak: 12,
       gecikenArama: 5,

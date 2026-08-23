@@ -1,10 +1,7 @@
 export default defineNuxtRouteMiddleware((to) => {
-  if (process.server) return
+  if (import.meta.server) return
 
-  const {
-    currentUser,
-    initAuth,
-  } = useCrmAuth()
+  const { user, initAuth, isCompanyAdmin, isConsultant } = useAuth()
 
   initAuth()
 
@@ -14,34 +11,22 @@ export default defineNuxtRouteMiddleware((to) => {
     '/broker/login',
     '/consultant/login',
     '/office/login',
+    '/reset-auth',
   ]
 
-  const isPublicRoute = publicRoutes.includes(to.path)
-  const isPublicProfile = to.path.startsWith('/u/')
+  if (publicRoutes.includes(to.path)) return
+  if (to.path.startsWith('/u/')) return
 
-  if (isPublicRoute || isPublicProfile) {
+  // Ofis / broker paneli
+  if (to.path.startsWith('/office') || to.path.startsWith('/admin')) {
+    if (!user.value) return navigateTo('/broker/login', { replace: true })
+    if (!isCompanyAdmin.value) return navigateTo('/consultant', { replace: true })
     return
   }
 
-  if (to.path.startsWith('/office')) {
-    if (!currentUser.value) {
-      return navigateTo('/broker/login', { replace: true })
-    }
-
-    if (currentUser.value.role !== 'broker') {
-      return navigateTo('/consultant', { replace: true })
-    }
-  }
-
-  if (to.path.startsWith('/consultant')) {
-    if (!currentUser.value) {
-      return navigateTo('/consultant/login', { replace: true })
-    }
-
-    if (currentUser.value.role !== 'consultant') {
-      return navigateTo('/office', { replace: true })
-    }
+  // Danışman paneli
+  if (to.path.startsWith('/consultant') || to.path.startsWith('/danisman')) {
+    if (!user.value) return navigateTo('/consultant/login', { replace: true })
+    if (!isConsultant.value) return navigateTo('/office', { replace: true })
   }
 })
-
-

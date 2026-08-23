@@ -17,7 +17,7 @@ const { consultants } = useOffice()
 hydrateCustomers()
 
 const search = ref('')
-const typeFilter = ref('Tümü')
+const typeFilter = ref('')
 const visibilityFilter = ref('Tümü')
 const sourceFilter = ref('Tümü')
 const showImportPanel = ref(false)
@@ -42,20 +42,15 @@ const customerList = computed(() => {
   return Array.isArray(customers.value) ? customers.value : []
 })
 
-const typeOptions = computed(() => {
-  return [
-    'Tümü',
-    ...new Set(customerList.value.map(item => item.customerType || item.type || 'Aday Müşteri')),
-  ]
-})
+const { filterOptions: enumFilterOpts, label: enumLbl } = useEnums()
+
+const typeOptions = enumFilterOpts('CustomerType')
 
 const filteredCustomers = computed(() => {
   let list = customerList.value
 
-  if (typeFilter.value !== 'Tümü') {
-    list = list.filter(item => {
-      return (item.customerType || item.type || 'Aday Müşteri') === typeFilter.value
-    })
+  if (typeFilter.value) {
+    list = list.filter(item => item.customerType === typeFilter.value)
   }
 
   if (visibilityFilter.value === 'Kişisel') {
@@ -80,16 +75,15 @@ const filteredCustomers = computed(() => {
     list = list.filter(item => {
       return [
         item.fullName,
-        item.name,
+        item.fullName,
         item.phone,
         item.whatsapp,
         item.email,
-        item.city,
-        item.customerType,
-        item.type,
+        item.livingCity,
+        enumLbl('CustomerType', item.customerType),
         item.source,
         item.note,
-        item.notes,
+        item.note,
       ].join(' ').toLocaleLowerCase('tr-TR').includes(q)
     })
   }
@@ -240,8 +234,8 @@ const parseCsvText = (text = '') => {
       phone: parts[1] || '',
       whatsapp: parts[2] || parts[1] || '',
       email: parts[3] || '',
-      city: parts[4] || '',
-      customerType: parts[5] || 'Aday Müşteri',
+      livingCity: parts[4] || '',
+      customerType: parts[5] || 'Prospect',
       note: parts.slice(6).join(', ') || '',
     }
   }).filter(item => item.fullName || item.phone)
@@ -321,9 +315,8 @@ const runImport = () => {
       phone: row.phone,
       whatsapp: row.whatsapp || row.phone,
       email: row.email,
-      city: row.city,
-      customerType: row.customerType || 'Aday Müşteri',
-      type: row.customerType || 'Aday Müşteri',
+      livingCity: row.city,
+      customerType: row.customerType || 'Prospect',
       source: 'CSV / Excel Aktarımı',
       status: 'Aktif',
       visibility: 'Kişisel',
@@ -375,14 +368,14 @@ const toggleOfficeShare = (customer) => {
 }
 
 const confirmDelete = (customer) => {
-  if (confirm(`${customer.fullName || customer.name || customer.phone} kaydını silmek istiyor musunuz?`)) {
+  if (confirm(`${customer.fullName || customer.phone} kaydını silmek istiyor musunuz?`)) {
     deleteCustomer(customer.id)
   }
 }
 
 const clearFilters = () => {
   search.value = ''
-  typeFilter.value = 'Tümü'
+  typeFilter.value = ''
   visibilityFilter.value = 'Tümü'
   sourceFilter.value = 'Tümü'
 }
@@ -613,8 +606,8 @@ const sourceLabel = (customer) => {
                 <td class="px-5 py-3 text-slate-600">{{ item.phone }}</td>
                 <td class="px-5 py-3 text-slate-600">{{ item.whatsapp }}</td>
                 <td class="px-5 py-3 text-slate-600">{{ item.email }}</td>
-                <td class="px-5 py-3 text-slate-600">{{ item.city }}</td>
-                <td class="px-5 py-3 text-slate-600">{{ item.customerType }}</td>
+                <td class="px-5 py-3 text-slate-600">{{ item.livingCity }}</td>
+                <td class="px-5 py-3 text-slate-600">{{ enumLbl('CustomerType', item.customerType) }}</td>
                 <td class="px-5 py-3 text-slate-600">{{ item.note }}</td>
               </tr>
             </tbody>
@@ -658,10 +651,11 @@ const sourceLabel = (customer) => {
           size="sm"
         >
           <option
-            v-for="item in typeOptions"
-            :key="item"
+            v-for="option in typeOptions"
+            :key="option.value"
+            :value="option.value"
           >
-            {{ item }}
+            {{ option.label }}
           </option>
         </UiSelect>
 
@@ -733,11 +727,11 @@ const sourceLabel = (customer) => {
             >
               <td class="px-6 py-5">
                 <p class="font-bold text-slate-900">
-                  {{ customer.fullName || customer.name || '-' }}
+                  {{ customer.fullName || '-' }}
                 </p>
 
                 <p class="mt-1 text-xs text-slate-500">
-                  {{ customer.city || '-' }}
+                  {{ customer.livingCity || '-' }}
                 </p>
 
                 <p class="mt-1 text-xs text-slate-400">
@@ -761,7 +755,7 @@ const sourceLabel = (customer) => {
 
               <td class="px-6 py-5">
                 <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                  {{ customer.customerType || customer.type || 'Aday Müşteri' }}
+                  {{ enumLbl('CustomerType', customer.customerType) }}
                 </span>
 
                 <p class="mt-2 text-xs text-slate-500">
@@ -797,7 +791,7 @@ const sourceLabel = (customer) => {
 
               <td class="px-6 py-5">
                 <p class="max-w-xs text-xs leading-5 text-slate-600">
-                  {{ customer.note || customer.notes || '-' }}
+                  {{ customer.note || '-' }}
                 </p>
               </td>
 

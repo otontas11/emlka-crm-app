@@ -13,6 +13,11 @@ export default defineNuxtConfig({
   // Modules
   modules: ['@nuxtjs/tailwindcss'],
 
+  // constants/ altındaki enum kaydı da auto-import edilsin (composables/ ve utils/ gibi)
+  imports: {
+    dirs: ['constants'],
+  },
+
   // Directory structure
   dir: {
     pages: 'pages',

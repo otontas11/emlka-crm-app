@@ -278,50 +278,23 @@ export const useOffice = () => {
     },
   ])
 
-  const pipelines = useState('office-pipelines', () => [
-    {
-      id: 1,
-      transactionType: 'Satış',
-      consultant: 'Sinan Tontaş',
-      partnerConsultant: '-',
-      property: 'Gıda Çarşısı Ticari Portföy',
-      customer: 'Yatırımcı müşteri',
-      stage: 'Pazarlık Sürüyor',
-      amount: 12500000,
-      commission: 250000,
-      officeShare: 100000,
-      consultantShare: 150000,
-      priority: 'Yüksek',
-    },
-    {
-      id: 2,
-      transactionType: 'Kiralama',
-      consultant: 'Şems Bahar Çetin',
-      partnerConsultant: '-',
-      property: 'Bayraklı 3+1 Daire',
-      customer: 'Kiracı adayı',
-      stage: 'Sözleşme Hazırlanıyor',
-      amount: 35000,
-      commission: 35000,
-      officeShare: 14000,
-      consultantShare: 21000,
-      priority: 'Normal',
-    },
-    {
-      id: 3,
-      transactionType: 'Satış',
-      consultant: 'Gökhan Yüksel',
-      partnerConsultant: 'Sinan Tontaş',
-      property: 'Muğla Bölge Portföyü',
-      customer: 'Alıcı müşteri',
-      stage: 'Teklif Alındı',
-      amount: 7800000,
-      commission: 156000,
-      officeShare: 62400,
-      consultantShare: 93600,
-      priority: 'Normal',
-    },
-  ])
+  // Pipeline artık useDeals'in türetilmiş görünümü — ayrı statik dizi tutulmuyor.
+  const { deals } = useDeals()
+
+  const pipelines = computed(() => deals.value.map(deal => ({
+    id: deal.id,
+    transactionType: deal.dealType,
+    consultantId: deal.ownerConsultantId,
+    partnerConsultantId: participantByRole(deal, 'PortfolioTaker')?.consultantId || '',
+    property: deal.propertyTitle,
+    customer: deal.customerName,
+    stage: deal.stage,
+    amount: deal.agreedAmount,
+    commission: deal.grossCommission,
+    officeShare: officeShareOf(deal),
+    consultantShare: deal.participants.reduce((sum, p) => sum + Number(p.shareAmount || 0), 0),
+    priority: deal.priority,
+  })))
 
   const regionAssignments = useState('office-region-assignments', () => [
     {
@@ -361,7 +334,7 @@ export const useOffice = () => {
     const todayOwnerReports = officeTasks.value.filter(item => item.category === 'Malik Raporu' && item.due === 'Bugün').length
     const todayCalls = consultants.value.reduce((sum, item) => sum + Math.max(Number(item.callTarget || 0) - Number(item.callDone || 0), 0), 0)
     const overdueTasks = officeTasks.value.filter(item => item.status === 'Gecikti').length
-    const criticalProcesses = pipelines.value.filter(item => item.priority === 'Yüksek').length
+    const criticalProcesses = pipelines.value.filter(item => item.priority === 'High' || item.priority === 'Urgent').length
     const monthlyRevenue = consultants.value.reduce((sum, item) => sum + Number(item.revenue || 0), 0)
     const monthlyDeals = consultants.value.reduce((sum, item) => sum + Number(item.dealCount || 0), 0)
     const activeListings = consultants.value.reduce((sum, item) => sum + Number(item.activeListings || 0), 0)

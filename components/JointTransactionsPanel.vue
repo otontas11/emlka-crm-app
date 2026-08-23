@@ -1,4 +1,5 @@
 <script setup>
+const { options: enumOpts, label: enumLbl } = useEnums()
 import { useJointTransactions } from '~/composables/useJointTransactions'
 
 const {
@@ -13,38 +14,22 @@ const {
 hydrateJointTransactions()
 
 const search = ref('')
-const statusFilter = ref('Tümü')
-const paymentFilter = ref('Tümü')
+const statusFilter = ref('')
+const paymentFilter = ref('')
 const successMessage = ref('')
 
-const statusOptions = [
-  'Hazırlık',
-  'Danışman Görüşmesi',
-  'Müşteri Sunumu',
-  'Randevu',
-  'Teklif',
-  'Kapora',
-  'Sözleşme',
-  'Tapu / Devir',
-  'Tamamlandı',
-  'İptal',
-]
+const statusOptions = enumOpts('DealStatus')
 
-const paymentOptions = [
-  'Bekliyor',
-  'Kısmi Ödendi',
-  'Ödendi',
-  'İptal',
-]
+const paymentOptions = enumOpts('PaymentStatus')
 
 const filteredTransactions = computed(() => {
   let list = transactions.value
 
-  if (statusFilter.value !== 'Tümü') {
+  if (statusFilter.value) {
     list = list.filter(item => item.status === statusFilter.value)
   }
 
-  if (paymentFilter.value !== 'Tümü') {
+  if (paymentFilter.value) {
     list = list.filter(item => item.paymentStatus === paymentFilter.value)
   }
 
@@ -86,19 +71,23 @@ const removeTransaction = (transaction) => {
   }
 }
 
-const statusClass = (status) => {
-  if (status === 'Tamamlandı') return 'bg-slate-900 text-white'
-  if (status === 'İptal') return 'bg-white text-slate-500 border border-slate-300'
-  if (['Kapora', 'Sözleşme', 'Tapu / Devir'].includes(status)) return 'bg-slate-200 text-slate-800'
-  return 'bg-slate-100 text-slate-700'
+const STATUS_CLASSES = {
+  Won: 'bg-slate-900 text-white',
+  Cancelled: 'bg-white text-slate-500 border border-slate-300',
+  Lost: 'bg-white text-slate-600 border border-slate-200',
+  ActionRequired: 'bg-slate-200 text-slate-800',
 }
 
-const paymentClass = (status) => {
-  if (status === 'Ödendi') return 'bg-slate-900 text-white'
-  if (status === 'Kısmi Ödendi') return 'bg-slate-200 text-slate-800'
-  if (status === 'İptal') return 'bg-white text-slate-500 border border-slate-300'
-  return 'bg-slate-100 text-slate-700'
+const statusClass = status => STATUS_CLASSES[status] || 'bg-slate-100 text-slate-700'
+
+const PAYMENT_CLASSES = {
+  Paid: 'bg-slate-900 text-white',
+  PartiallyPaid: 'bg-slate-200 text-slate-800',
+  Overdue: 'bg-slate-300 text-slate-900',
+  Cancelled: 'bg-white text-slate-500 border border-slate-300',
 }
+
+const paymentClass = status => PAYMENT_CLASSES[status] || 'bg-slate-100 text-slate-700'
 </script>
 
 <template>
@@ -160,8 +149,8 @@ const paymentClass = (status) => {
           variant="outline"
           size="sm"
         >
-          <option>Tümü</option>
-          <option v-for="item in statusOptions" :key="item">{{ item }}</option>
+          <option value="">Tümü</option>
+          <option v-for="item in statusOptions" :key="item.value" :value="item.value">{{ item.label }}</option>
         </UiSelect>
 
         <UiSelect
@@ -170,8 +159,8 @@ const paymentClass = (status) => {
           variant="outline"
           size="sm"
         >
-          <option>Tümü</option>
-          <option v-for="item in paymentOptions" :key="item">{{ item }}</option>
+          <option value="">Tümü</option>
+          <option v-for="item in paymentOptions" :key="item.value" :value="item.value">{{ item.label }}</option>
         </UiSelect>
       </div>
     </section>
@@ -210,8 +199,8 @@ const paymentClass = (status) => {
             >
               <td class="px-6 py-5">
                 <p class="text-xs font-semibold text-slate-400">{{ transaction.transactionNo }}</p>
-                <p class="mt-1 font-bold text-slate-900">{{ transaction.transactionType }} / {{ transaction.propertyType }}</p>
-                <p class="mt-2 text-xs text-slate-500">Kaynak: {{ transaction.source }}</p>
+                <p class="mt-1 font-bold text-slate-900">{{ enumLbl('DealType', transaction.transactionType) }}</p>
+                <p class="mt-2 text-xs text-slate-500">Kaynak: {{ enumLbl('DealSource', transaction.source) }}</p>
                 <p class="mt-1 text-xs text-slate-500">Oluşturma: {{ transaction.createdAt }}</p>
               </td>
 
@@ -289,12 +278,12 @@ const paymentClass = (status) => {
                   class="w-44 rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm outline-none focus:border-slate-500"
                   @change="updateField(transaction, 'status', $event.target.value)"
                 >
-                  <option v-for="item in statusOptions" :key="item">{{ item }}</option>
+                  <option v-for="item in statusOptions" :key="item.value" :value="item.value">{{ item.label }}</option>
                 </select>
 
                 <div class="mt-3">
                   <span class="rounded-full px-3 py-1 text-xs font-semibold" :class="statusClass(transaction.status)">
-                    {{ transaction.status }}
+                    {{ enumLbl('DealStatus', transaction.status) }}
                   </span>
                 </div>
 
@@ -303,12 +292,12 @@ const paymentClass = (status) => {
                   class="mt-4 w-44 rounded-2xl border border-slate-300 bg-white px-4 py-2 text-sm outline-none focus:border-slate-500"
                   @change="updateField(transaction, 'paymentStatus', $event.target.value)"
                 >
-                  <option v-for="item in paymentOptions" :key="item">{{ item }}</option>
+                  <option v-for="item in paymentOptions" :key="item.value" :value="item.value">{{ item.label }}</option>
                 </select>
 
                 <div class="mt-3">
                   <span class="rounded-full px-3 py-1 text-xs font-semibold" :class="paymentClass(transaction.paymentStatus)">
-                    {{ transaction.paymentStatus }}
+                    {{ enumLbl('PaymentStatus', transaction.paymentStatus) }}
                   </span>
                 </div>
               </td>

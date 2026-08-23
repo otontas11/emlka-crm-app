@@ -58,37 +58,6 @@ export const useRequests = () => {
     },
   ]
 
-  const defaultProperties = [
-    {
-      id: 1,
-      title: 'Yenişehir Gıda Çarşısı Satılık Dükkan',
-      transactionType: 'Satılık',
-      propertyType: 'Dükkan',
-      city: 'İzmir',
-      district: 'Konak',
-      neighborhood: 'Yenişehir',
-      price: 9500000,
-      m2: 180,
-      consultantName: 'Sinan Tontaş',
-      consultantPhone: '0 545 441 41 18',
-      status: 'Aktif',
-    },
-    {
-      id: 2,
-      title: 'Torbalı Ayrancılar Kiralık Ticari Alan',
-      transactionType: 'Kiralık',
-      propertyType: 'Mağaza',
-      city: 'İzmir',
-      district: 'Torbalı',
-      neighborhood: 'Ayrancılar',
-      price: 125000,
-      m2: 296,
-      consultantName: 'Ofis Brokeri',
-      consultantPhone: '',
-      status: 'Aktif',
-    },
-  ]
-
   const requests = useState('shared-requests', () => defaultRequests)
 
   const normalizeInteraction = (interaction = {}) => {
@@ -143,23 +112,6 @@ export const useRequests = () => {
     }
   }
 
-  const normalizeProperty = (property = {}) => {
-    return {
-      id: property.id || property.propertyId || Date.now(),
-      title: property.title || property.name || property.propertyTitle || property.listingTitle || 'Portföy',
-      transactionType: property.transactionType || property.saleType || property.type || property.statusType || '',
-      propertyType: property.propertyType || property.type || property.category || '',
-      city: property.city || property.province || '',
-      district: property.district || '',
-      neighborhood: property.neighborhood || property.quarter || '',
-      price: Number(property.price || property.amount || property.rent || 0),
-      m2: Number(property.m2 || property.squareMeter || property.netM2 || property.grossM2 || 0),
-      consultantName: property.consultantName || property.advisorName || property.ownerConsultantName || '',
-      consultantPhone: property.consultantPhone || property.advisorPhone || '',
-      status: property.status || 'Aktif',
-    }
-  }
-
   const hydrateRequests = () => {
     if (!process.client) return
 
@@ -182,45 +134,29 @@ export const useRequests = () => {
     localStorage.setItem(storageKey, JSON.stringify(requests.value))
   }
 
-  const readStorageArray = (key) => {
-    if (!process.client) return []
-
-    try {
-      const raw = localStorage.getItem(key)
-      if (!raw) return []
-
-      const parsed = JSON.parse(raw)
-      return Array.isArray(parsed) ? parsed : []
-    } catch (error) {
-      return []
-    }
-  }
-
+  /**
+   * Eşleştirme havuzu. Önceden beş ayrı localStorage anahtarını okuyup
+   * title-city-district-price anahtarıyla dedupe ediyordu; portföy artık tek
+   * store'da (useProperties) durduğu için o birleştirmeye gerek kalmadı.
+   */
   const getPropertyPool = () => {
-    const storageLists = [
-      ...readStorageArray('properties'),
-      ...readStorageArray('emlak-crm-properties'),
-      ...readStorageArray('office-authorized-listings'),
-      ...readStorageArray('emlak-crm-office-authorized-listings'),
-      ...readStorageArray('authorized-listings'),
-    ]
+    const CLOSED = ['Sold', 'Rented', 'Cancelled', 'Passive', 'Expired']
 
-    const merged = [...defaultProperties, ...storageLists.map(normalizeProperty)]
-
-    const uniqueMap = new Map()
-
-    merged.forEach((item) => {
-      const property = normalizeProperty(item)
-      const key = `${property.title}-${property.city}-${property.district}-${property.neighborhood}-${property.price}`
-
-      if (!uniqueMap.has(key)) {
-        uniqueMap.set(key, property)
-      }
-    })
-
-    return [...uniqueMap.values()].filter(item => {
-      return !['Kapandı', 'Satıldı', 'Kiralandı', 'Pasif', 'İptal'].includes(item.status)
-    })
+    return useProperties().value
+      .filter(item => !CLOSED.includes(item.status))
+      .map(item => ({
+        id: item.id,
+        title: item.title,
+        transactionType: item.listingType,
+        propertyType: item.propertyType,
+        city: item.city,
+        district: item.district,
+        neighborhood: item.neighborhood,
+        price: Number(item.price || 0),
+        m2: Number(item.netArea || item.grossArea || 0),
+        consultantId: item.consultantId,
+        status: item.status,
+      }))
   }
 
   const textMatch = (a = '', b = '') => {

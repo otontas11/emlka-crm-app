@@ -6,31 +6,23 @@ const props = defineProps({
   },
 })
 
-const yesNoOptions = ['', 'Evet', 'Hayır']
-const fanOptions = ['', '1', '2', '3', '4', '5']
-
-const customerTypeOptions = [
-  'Alıcı',
-  'Satıcı',
-  'Kiracı',
-  'Mal Sahibi',
-  'Yatırımcı',
-  'Referans',
-  'Eski Müşteri',
-  'Sıcak Müşteri',
-  'Aday Müşteri',
-  'Kişisel Rehber',
+const yesNoOptions = [
+  { value: '', label: 'Seçiniz' },
+  { value: 'Yes', label: 'Evet' },
+  { value: 'No', label: 'Hayır' },
 ]
 
-const statusOptions = [
-  'Aktif',
-  'Pasif',
-  'Takipte',
-  'Sıcak',
-  'Soğuk',
-  'İşlemde',
-  'Kapandı',
+const fanOptions = [
+  { value: '', label: 'Seçiniz' },
+  ...['1', '2', '3', '4', '5'].map(n => ({ value: n, label: n })),
 ]
+
+const { options: enumOpts } = useEnums()
+
+// Enum listeleri artık constants/enums.ts'ten gelir (tek kaynak).
+const customerTypeOptions = enumOpts('CustomerType')
+const statusOptions = enumOpts('CustomerStatus')
+const maritalStatusOptions = enumOpts('MaritalStatus')
 
 const fieldGroups = [
   {
@@ -110,7 +102,7 @@ const fieldGroups = [
     title: 'Eş ve Aile Bilgileri',
     description: 'Eş bilgileri ve özel gün hatırlatmaları.',
     fields: [
-      { key: 'maritalStatus', label: 'Medeni Durumu' },
+      { key: 'maritalStatus', label: 'Medeni Durumu', type: 'select', options: maritalStatusOptions },
       { key: 'spouseName', label: 'Eşinin Adı' },
       { key: 'spouseBirthDate', label: 'Eşinin Doğum Tarihi', type: 'date' },
       { key: 'weddingAnniversary', label: 'Evlilik Yıldönümü', type: 'date' },
@@ -243,10 +235,10 @@ const removeChild = (index) => {
           >
             <option
               v-for="option in field.options"
-              :key="option"
-              :value="option"
+              :key="option.value"
+              :value="option.value"
             >
-              {{ option || 'Seçiniz' }}
+              {{ option.label }}
             </option>
           </UiSelect>
 

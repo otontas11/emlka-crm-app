@@ -84,7 +84,7 @@ const toggleOfficeShare = () => {
 const removeCustomer = () => {
   if (!customer.value) return
 
-  const label = customer.value.fullName || customer.value.name || customer.value.phone || 'Bu müşteri'
+  const label = customer.value.fullName || customer.value.phone || 'Bu müşteri'
 
   if (confirm(`${label} kaydını silmek istiyor musunuz?`)) {
     deleteCustomer(customer.value.id)
@@ -115,7 +115,7 @@ const visibilityClass = computed(() => {
           </p>
 
           <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-900">
-            {{ customer?.fullName || customer?.name || 'Müşteri Detayı' }}
+            {{ customer?.fullName || 'Müşteri Detayı' }}
           </h1>
 
           <div v-if="customer" class="mt-3 flex flex-wrap gap-2">
@@ -127,7 +127,7 @@ const visibilityClass = computed(() => {
             </span>
 
             <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-              {{ customer.customerType || customer.type || 'Aday Müşteri' }}
+              {{ enumLabel('CustomerType', customer.customerType) }}
             </span>
           </div>
         </div>

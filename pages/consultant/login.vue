@@ -7,9 +7,7 @@ definePageMeta({
 
 const { consultants } = useOffice()
 
-const {
-  loginConsultant,
-} = useCrmAuth()
+const { loginAsConsultant } = useDemoLogin()
 
 const errorMessage = ref('')
 const isLoading = ref(false)
@@ -61,7 +59,7 @@ const login = async () => {
     return
   }
 
-  loginConsultant(consultant)
+  loginAsConsultant(consultant)
 
   await navigateTo('/consultant', { replace: true })
 }

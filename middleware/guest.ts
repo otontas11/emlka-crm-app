@@ -1,13 +1,11 @@
-export default defineNuxtRouteMiddleware((to, from) => {
-  // Eğer giriş yapmışsa, yetkisine göre dashboard'a yönlendir
-  const authCookie = useCookie('auth')
+/** Giriş yapmış kullanıcıyı login ekranlarından uygun panele yönlendirir. */
+export default defineNuxtRouteMiddleware(() => {
+  if (import.meta.server) return
 
-  if (authCookie.value) {
-    const user = authCookie.value
-    if (user.is_company_admin) {
-      return navigateTo('/admin')
-    } else if (user.is_consultant) {
-      return navigateTo('/danisman')
-    }
-  }
+  const { user, initAuth, canUseOfficePanel } = useAuth()
+  initAuth()
+
+  if (!user.value) return
+
+  return navigateTo(canUseOfficePanel.value ? '/office' : '/consultant', { replace: true })
 })
